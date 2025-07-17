@@ -16,7 +16,7 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-md bg-black rounded-2xl shadow-lg p-6 pb-9">
+      <div className="w-full max-w-md bg-black rounded-2xl shadow-lg p-6 pb-9 sm:p-8 mx-4 sm:mx-auto">
         <div className="flex flex-col items-center">
           <img
             src="/images/logoMotoRenting.png"
