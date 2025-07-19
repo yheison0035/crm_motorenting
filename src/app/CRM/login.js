@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Login() {
@@ -72,13 +73,14 @@ export default function Login() {
               Recordar Contraseña
             </label>
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-orange-600 text-white font-semibold py-2 mt-4 rounded-lg hover:bg-orange-700 transition duration-200"
-          >
-            Iniciar Sesión
-          </button>
+          <p className="py-3 text-white">
+            !! Solo dar click al boton aun no se valida!!
+          </p>
+          <Link href="/CRM/dashboard/customers" passHref>
+            <span className="block w-full bg-orange-600 text-white font-semibold text-center py-2 mt-4 rounded-lg hover:bg-orange-700 transition duration-200">
+              Iniciar Sesión
+            </span>
+          </Link>
         </form>
       </div>
     </div>
