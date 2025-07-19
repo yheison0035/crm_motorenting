@@ -16,12 +16,8 @@ export default function ViewModal({ customer, onClose }) {
         </button>
 
         <div className="text-center mb-6">
-          <h2 className="text-xl font-bold text-gray-800">
-            Detalles del Cliente
-          </h2>
-          <p className="text-sm text-gray-500">
-            Información completa del cliente
-          </p>
+          <h2 className="text-xl font-bold text-gray-800">Detalles</h2>
+          <p className="text-sm text-gray-500">Información completa</p>
         </div>
 
         <div className="space-y-4 text-gray-700">

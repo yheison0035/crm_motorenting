@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 
 const customers = [
   {
@@ -96,6 +97,12 @@ export default function EditCustomer() {
         ))}
 
         <div className="flex justify-end mt-4">
+          <Link
+            href="/CRM/dashboard/customers"
+            className={`px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition mr-3`}
+          >
+            <span>Volver</span>
+          </Link>
           <button
             type="submit"
             disabled={loading}

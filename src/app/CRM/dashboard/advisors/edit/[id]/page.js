@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
 
-const advisor = [
+const advisors = [
   {
     id: 1,
     nombre: 'Laura Pérez',
@@ -38,16 +39,16 @@ export default function EditAdvisor() {
   const params = useParams();
   const { id } = params;
 
-  const [customer, setCustomer] = useState(null);
+  const [advisor, setAdvisor] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
-      const clienteEncontrado = advisor.find((c) => c.id === parseInt(id));
-      if (clienteEncontrado) {
-        setCustomer(clienteEncontrado);
+      const advisorSuccefull = advisors.find((c) => c.id === parseInt(id));
+      if (advisorSuccefull) {
+        setAdvisor(advisorSuccefull);
       } else {
-        alert('Cliente no encontrado');
+        alert('Asesor no encontrado');
         router.push('/CRM/dashboard/advisors');
       }
     }
@@ -55,29 +56,28 @@ export default function EditAdvisor() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCustomer((prev) => ({ ...prev, [name]: value }));
+    setAdvisor((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log('Datos actualizados:', customer);
+    console.log('Datos actualizados:', advisor);
 
     setTimeout(() => {
       setLoading(false);
-      alert('Cliente actualizado correctamente');
-      router.push('/CRM/dashboard/customers');
+      alert('Asesor actualizado correctamente');
+      router.push('/CRM/dashboard/advisors');
     }, 1000);
   };
 
-  if (!customer)
-    return <p className="text-center mt-10">Cargando cliente...</p>;
+  if (!advisor) return <p className="text-center mt-10">Cargando asesor...</p>;
 
   return (
     <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6 mt-6">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-        Editar Cliente
+        Editar Asesor
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -96,7 +96,7 @@ export default function EditAdvisor() {
             <input
               type={type}
               name={name}
-              value={customer[name] || ''}
+              value={advisor[name] || ''}
               onChange={handleChange}
               className="mt-1 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               required={name === 'nombre' || name === 'correo'}
@@ -105,6 +105,12 @@ export default function EditAdvisor() {
         ))}
 
         <div className="flex justify-end mt-4">
+          <Link
+            href="/CRM/dashboard/advisors"
+            className={`px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition mr-3`}
+          >
+            <span>Volver</span>
+          </Link>
           <button
             type="submit"
             disabled={loading}
