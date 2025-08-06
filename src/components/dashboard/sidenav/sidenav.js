@@ -4,9 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import NavLinks from './nav-links';
+import { useAuth } from '@/context/authContext';
 
 export default function SideNavigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { usuario } = useAuth();
 
   return (
     <>
@@ -44,7 +46,7 @@ export default function SideNavigation() {
           Editar perfil
         </Link>
         <h6 className="text-sm text-orange-400 font-semibold text-center">
-          Bienvenid@ a MotoRenting
+          {usuario?.rol} - {usuario?.name}
         </h6>
         <div className="w-full border-t border-gray-700 my-4"></div>
         <NavLinks />

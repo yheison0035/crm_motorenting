@@ -9,10 +9,12 @@ import {
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import Link from 'next/link';
+import { useAuth } from '@/context/authContext';
 
 export default function Clientes() {
   const [archivo, setArchivo] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const { usuario } = useAuth();
 
   const customers = [
     {
@@ -23,6 +25,7 @@ export default function Clientes() {
       direccion: 'Calle 123',
       ciudad: 'Bogotá',
       documento: '123456789',
+      asesor: 'maria_manrrique',
     },
     {
       id: 2,
@@ -32,6 +35,7 @@ export default function Clientes() {
       direccion: 'Carrera 456',
       ciudad: 'Medellín',
       documento: '987654321',
+      asesor: 'maria_manrrique',
     },
     {
       id: 3,
@@ -41,6 +45,7 @@ export default function Clientes() {
       direccion: 'Carrera 456',
       ciudad: 'Medellín',
       documento: '987654321',
+      asesor: null,
     },
     {
       id: 4,
@@ -50,6 +55,7 @@ export default function Clientes() {
       direccion: 'Carrera 456',
       ciudad: 'Medellín',
       documento: '987654321',
+      asesor: null,
     },
     {
       id: 5,
@@ -59,6 +65,47 @@ export default function Clientes() {
       direccion: 'Carrera 456',
       ciudad: 'Medellín',
       documento: '987654321',
+      asesor: null,
+    },
+    {
+      id: 6,
+      nombre: 'Manuel Quiara',
+      correo: 'jorgelopez@correo.com',
+      telefono: '3129876543',
+      direccion: 'Carrera 456',
+      ciudad: 'Medellín',
+      documento: '987654321',
+      asesor: 'maria_manrrique',
+    },
+    {
+      id: 7,
+      nombre: 'Yeison Montalve',
+      correo: 'sofiamontalve@correo.com',
+      telefono: '3129876543',
+      direccion: 'Carrera 456',
+      ciudad: 'Medellín',
+      documento: '987654321',
+      asesor: null,
+    },
+    {
+      id: 8,
+      nombre: 'Cristina lopez',
+      correo: 'jorgelopez@correo.com',
+      telefono: '3129876543',
+      direccion: 'Carrera 456',
+      ciudad: 'Medellín',
+      documento: '987654321',
+      asesor: null,
+    },
+    {
+      id: 9,
+      nombre: 'Oscar Montalve',
+      correo: 'sofiamontalve@correo.com',
+      telefono: '3129876543',
+      direccion: 'Carrera 456',
+      ciudad: 'Medellín',
+      documento: '987654321',
+      asesor: 'maria_manrrique',
     },
   ];
 
@@ -79,37 +126,41 @@ export default function Clientes() {
         </h1>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          <Link
-            href="/CRM/dashboard/customers/new"
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"
-          >
-            <PlusIcon className="w-4 h-4" />
-            <span>Agregar cliente</span>
-          </Link>
-
-          {!archivo ? (
-            <label className="flex items-center gap-2 cursor-pointer bg-orange-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-700 transition">
-              <DocumentArrowUpIcon className="w-4 h-4" />
-              Importar Excel
-              <input
-                type="file"
-                accept=".xlsx,.xls"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </label>
-          ) : (
-            <div className="flex items-center bg-green-100 border border-green-400 px-4 py-2 rounded-lg">
-              <span className="text-green-800 text-sm font-medium truncate max-w-[200px]">
-                {archivo.name}
-              </span>
-              <button
-                onClick={handleRemoveFile}
-                className="ml-2 text-red-500 hover:text-red-700"
-                title="Eliminar archivo"
+          {usuario?.rol === 'Administrador' && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+              <Link
+                href="/CRM/dashboard/customers/new"
+                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"
               >
-                <XMarkIcon className="w-5 h-5" />
-              </button>
+                <PlusIcon className="w-4 h-4" />
+                <span>Agregar cliente</span>
+              </Link>
+
+              {!archivo ? (
+                <label className="flex items-center gap-2 cursor-pointer bg-orange-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-700 transition">
+                  <DocumentArrowUpIcon className="w-4 h-4" />
+                  Importar Excel
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </label>
+              ) : (
+                <div className="flex items-center bg-green-100 border border-green-400 px-4 py-2 rounded-lg">
+                  <span className="text-green-800 text-sm font-medium truncate max-w-[200px]">
+                    {archivo.name}
+                  </span>
+                  <button
+                    onClick={handleRemoveFile}
+                    className="ml-2 text-red-500 hover:text-red-700"
+                    title="Eliminar archivo"
+                  >
+                    <XMarkIcon className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -120,6 +171,7 @@ export default function Clientes() {
           info={customers}
           view="customers"
           setSelected={setSelectedCustomer}
+          rol={usuario?.rol}
         />
         {selectedCustomer && (
           <ViewModal

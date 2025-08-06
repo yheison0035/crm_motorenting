@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/context/authContext';
 import { monserrat } from '@/styles/fonts';
 import '@/styles/globals.css';
 
@@ -8,8 +9,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
-      <body className={`${monserrat.className} antialiased`}>{children}</body>
-    </html>
+    <AuthProvider>
+      <html lang="es">
+        <body className={`${monserrat.className} antialiased`}>{children}</body>
+      </html>
+    </AuthProvider>
   );
 }
