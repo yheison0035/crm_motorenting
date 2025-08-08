@@ -15,21 +15,26 @@ const Table = ({ info = [], view, setSelected, rol }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedAdvisor, setSelectedAdvisor] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [filters, setFilters] = useState({
     nombre: '',
     correo: '',
     telefono: '',
+    asesor: '',
   });
 
   useEffect(() => {
     const result = info.filter(
       (a) =>
-        a.nombre.toLowerCase().includes(filters.nombre.toLowerCase()) &&
-        a.correo.toLowerCase().includes(filters.correo.toLowerCase()) &&
-        a.telefono.toLowerCase().includes(filters.telefono.toLowerCase())
+        a.nombre?.toLowerCase().includes(filters.nombre.toLowerCase()) &&
+        a.correo?.toLowerCase().includes(filters.correo.toLowerCase()) &&
+        a.telefono?.toLowerCase().includes(filters.telefono.toLowerCase()) &&
+        (a.asesor?.toLowerCase() || '').includes(filters.asesor.toLowerCase())
     );
     setFiltered(result);
+    setCurrentPage(1);
   }, [filters, info]);
 
   const handleFilterChange = (e) => {
@@ -60,6 +65,27 @@ const Table = ({ info = [], view, setSelected, rol }) => {
     setSelectedIds([]);
   };
 
+  const totalPages = Math.ceil(filtered.length / rowsPerPage);
+  const paginatedData = filtered.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  const handlePageChange = (direction) => {
+    setCurrentPage((prev) => {
+      if (direction === 'prev') return Math.max(prev - 1, 1);
+      if (direction === 'next') return Math.min(prev + 1, totalPages);
+      return prev;
+    });
+  };
+
+  const handleRowsPerPageChange = (e) => {
+    const value =
+      e.target.value === 'all' ? filtered.length : Number(e.target.value);
+    setRowsPerPage(value);
+    setCurrentPage(1);
+  };
+
   return (
     <div>
       {rol === 'Administrador' &&
@@ -78,7 +104,10 @@ const Table = ({ info = [], view, setSelected, rol }) => {
         <thead className="bg-gray-100 border-b border-gray-200">
           <tr>
             {rol === 'Administrador' && view === 'customers' && (
-              <th className="px-4 py-3 text-center">Asignar</th>
+              <>
+                <th className="px-4 py-3 text-center">Asignar</th>
+                <th className="px-4 py-3 text-center">Asesor</th>
+              </>
             )}
             <th className="px-4 py-3">Nombre</th>
             <th className="px-4 py-3">Correo</th>
@@ -90,6 +119,18 @@ const Table = ({ info = [], view, setSelected, rol }) => {
         <tbody>
           <tr>
             <th></th>
+            {rol === 'Administrador' && view === 'customers' && (
+              <th className="px-4 py-2">
+                <input
+                  type="text"
+                  name="asesor"
+                  value={filters.asesor}
+                  onChange={handleFilterChange}
+                  placeholder="Filtrar por asesor"
+                  className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                />
+              </th>
+            )}
             <th className="px-4 py-2">
               <input
                 type="text"
@@ -122,11 +163,11 @@ const Table = ({ info = [], view, setSelected, rol }) => {
             </th>
             <th className="px-4 py-2"></th>
           </tr>
-          {filtered.map((info) => (
+          {paginatedData.map((info) => (
             <tr key={info.id} className="border-b hover:bg-gray-50">
               {rol === 'Administrador' && view === 'customers' && (
                 <td className="px-4 py-3 text-center">
-                  {info.asesor ? (
+                  {info.asesor !== 'Sin Asignar' ? (
                     <CheckIcon
                       className="w-5 h-5 text-green-600 mx-auto"
                       title="Cliente con asesor asignado"
@@ -141,6 +182,9 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                     />
                   )}
                 </td>
+              )}
+              {rol === 'Administrador' && view === 'customers' && (
+                <td className="px-4 py-3">{info.asesor}</td>
               )}
               <td className="px-4 py-3">{info.nombre}</td>
               <td className="px-4 py-3">{info.correo}</td>
@@ -195,6 +239,47 @@ const Table = ({ info = [], view, setSelected, rol }) => {
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className="mt-4 flex flex-col md:flex-row justify-end items-center gap-4">
+        <div>
+          <label htmlFor="rowsPerPage" className="mr-2 text-sm text-gray-700">
+            Filas por página:
+          </label>
+          <select
+            id="rowsPerPage"
+            value={rowsPerPage === filtered.length ? 'all' : rowsPerPage}
+            onChange={handleRowsPerPageChange}
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+            <option value="all">Todos</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => handlePageChange('prev')}
+            disabled={currentPage === 1}
+            className="px-2 py-1 border rounded disabled:opacity-50 cursor-pointer"
+          >
+            Anterior
+          </button>
+          <span className="text-sm text-gray-700">
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange('next')}
+            disabled={currentPage === totalPages}
+            className="px-2 py-1 border rounded disabled:opacity-50 cursor-pointer"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
