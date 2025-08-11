@@ -28,7 +28,7 @@ export default function NavLinks() {
       name: 'Clientes',
       href: '/CRM/dashboard/customers',
       icon: UsersIcon,
-      roles: ['Administrador', 'Asesor'],
+      roles: ['Administrador', 'Advisor'],
     },
     {
       name: 'Asesores',

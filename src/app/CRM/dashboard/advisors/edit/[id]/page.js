@@ -2,57 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import Link from 'next/link';
 import BtnReturn from '@/components/dashboard/buttons/return';
 import BtnSave from '@/components/dashboard/buttons/save';
-
-const advisors = [
-  {
-    id: 1,
-    nombre: 'Laura Pérez',
-    correo: 'laura.perez@empresa.com',
-    telefono: '3101234567',
-    direccion: 'Calle 123',
-    ciudad: 'Bogotá',
-    documento: '123456789',
-  },
-  {
-    id: 2,
-    nombre: 'Carlos Gómez',
-    correo: 'carlos.gomez@empresa.com',
-    telefono: '3129876543',
-    direccion: 'Calle 123',
-    ciudad: 'Bogotá',
-    documento: '123456789',
-  },
-  {
-    id: 3,
-    nombre: 'Ana Torres',
-    correo: 'ana.torres@empresa.com',
-    telefono: '3006543210',
-    direccion: 'Calle 123',
-    ciudad: 'Bogotá',
-    documento: '123456789',
-  },
-  {
-    id: 4,
-    nombre: 'Vanesa Manrique',
-    correo: 'vane.manrrique@empresa.com',
-    telefono: '3006543210',
-    direccion: 'Calle 123',
-    ciudad: 'Bogotá',
-    documento: '123456789',
-  },
-  {
-    id: 5,
-    nombre: 'Gustavo Diaz',
-    correo: 'gus.diaz@empresa.com',
-    telefono: '3006543210',
-    direccion: 'Calle 123',
-    ciudad: 'Bogotá',
-    documento: '123456789',
-  },
-];
+import { advisors } from '@/api/advisors';
 
 export default function EditAdvisor() {
   const router = useRouter();
@@ -102,12 +54,12 @@ export default function EditAdvisor() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {[
-          ['nombre', 'Nombre'],
-          ['correo', 'Correo', 'email'],
-          ['telefono', 'Teléfono'],
-          ['direccion', 'Dirección'],
-          ['ciudad', 'Ciudad'],
-          ['documento', 'Documento'],
+          ['name', 'Nombre'],
+          ['email', 'Correo', 'email'],
+          ['phone', 'Teléfono'],
+          ['address', 'Dirección'],
+          ['city', 'Ciudad'],
+          ['document', 'Documento'],
         ].map(([name, label, type = 'text']) => (
           <div key={name}>
             <label className="block text-sm font-medium text-gray-700">

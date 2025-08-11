@@ -7,21 +7,21 @@ import { useAuth } from '@/context/authContext';
 
 const users = [
   {
-    correo: 'administrador@gmail.com',
+    email: 'administrador@gmail.com',
     name: 'Yordi',
     contrasena: '12345',
     rol: 'Administrador',
   },
   {
-    correo: 'asesor@gmail.com',
-    name: 'Mariana',
+    email: 'asesor@gmail.com',
+    name: 'Maria Manrrique',
     contrasena: '12345',
-    rol: 'Asesor',
+    rol: 'Advisor',
   },
 ];
 
 export default function Login() {
-  const [correo, setCorreo] = useState('');
+  const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [error, setError] = useState('');
@@ -31,7 +31,7 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const usuario = users.find(
-      (u) => u.correo === correo && u.contrasena === contrasena
+      (u) => u.email === email && u.contrasena === contrasena
     );
 
     if (usuario) {
@@ -66,16 +66,16 @@ export default function Login() {
               htmlFor="email"
               className="block text-xs text-gray-700 font-semibold py-2"
             >
-              Correo
+              email
             </label>
             <input
               id="email"
               type="email"
               name="email"
               autoComplete="email"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              placeholder="Ingrese su correo"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingrese su email"
               required
               className="w-full px-4 py-2 border text-gray-600 text-xs rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-transparent placeholder-gray-500"
             />

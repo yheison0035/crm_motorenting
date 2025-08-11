@@ -6,57 +6,10 @@ import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import Link from 'next/link';
 import RoleGuard from '@/components/auth/roleGuard';
+import { advisors } from '@/api/advisors';
 
 export default function Advisors() {
   const [selectedAdvisors, setSelectedAdvisors] = useState(null);
-
-  const advisors = [
-    {
-      id: 1,
-      nombre: 'Laura Pérez',
-      correo: 'laura.perez@empresa.com',
-      telefono: '3101234567',
-      direccion: 'Calle 123',
-      ciudad: 'Bogotá',
-      documento: '123456789',
-    },
-    {
-      id: 2,
-      nombre: 'Carlos Gómez',
-      correo: 'carlos.gomez@empresa.com',
-      telefono: '3129876543',
-      direccion: 'Calle 123',
-      ciudad: 'Bogotá',
-      documento: '123456789',
-    },
-    {
-      id: 3,
-      nombre: 'Ana Torres',
-      correo: 'ana.torres@empresa.com',
-      telefono: '3006543210',
-      direccion: 'Calle 123',
-      ciudad: 'Bogotá',
-      documento: '123456789',
-    },
-    {
-      id: 4,
-      nombre: 'Vanesa Manrique',
-      correo: 'vane.manrrique@empresa.com',
-      telefono: '3006543210',
-      direccion: 'Calle 123',
-      ciudad: 'Bogotá',
-      documento: '123456789',
-    },
-    {
-      id: 5,
-      nombre: 'Gustavo Diaz',
-      correo: 'gus.diaz@empresa.com',
-      telefono: '3006543210',
-      direccion: 'Calle 123',
-      ciudad: 'Bogotá',
-      documento: '123456789',
-    },
-  ];
 
   return (
     <RoleGuard allowedRoles={['Administrador']}>
@@ -83,7 +36,8 @@ export default function Advisors() {
           />
           {selectedAdvisors && (
             <ViewModal
-              customer={selectedAdvisors}
+              data={selectedAdvisors}
+              type="advisor"
               onClose={() => setSelectedAdvisors(null)}
             />
           )}

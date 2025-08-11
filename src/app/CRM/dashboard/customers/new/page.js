@@ -97,7 +97,7 @@ export default function NewCostumer() {
           >
             <option value="">Selecciona un rol</option>
             <option value="Administrador">Administrador</option>
-            <option value="Asesor">Asesor</option>
+            <option value="Advisor">Asesor</option>
           </select>
           <select
             name="estado"

@@ -19,23 +19,34 @@ const Table = ({ info = [], view, setSelected, rol }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [filters, setFilters] = useState({
-    nombre: '',
-    correo: '',
-    telefono: '',
-    asesor: '',
+    name: '',
+    email: '',
+    phone: '',
+    advisor: '',
+    state: '',
   });
 
   useEffect(() => {
-    const result = info.filter(
+    let result = info.filter(
       (a) =>
-        a.nombre?.toLowerCase().includes(filters.nombre.toLowerCase()) &&
-        a.correo?.toLowerCase().includes(filters.correo.toLowerCase()) &&
-        a.telefono?.toLowerCase().includes(filters.telefono.toLowerCase()) &&
-        (a.asesor?.toLowerCase() || '').includes(filters.asesor.toLowerCase())
+        a.name?.toLowerCase().includes(filters.name.toLowerCase()) &&
+        a.email?.toLowerCase().includes(filters.email.toLowerCase()) &&
+        a.phone?.toLowerCase().includes(filters.phone.toLowerCase()) &&
+        (a.advisor?.toLowerCase() || '').includes(
+          filters.advisor.toLowerCase()
+        ) &&
+        (a.state?.toLowerCase() || '').includes(filters.state.toLowerCase())
     );
+
+    if (rol === 'Advisor' && view === 'customers') {
+      result = result.filter(
+        (a) => a.advisor?.toLowerCase() === 'maria manrrique'
+      );
+    }
+
     setFiltered(result);
     setCurrentPage(1);
-  }, [filters, info]);
+  }, [filters, info, view]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -109,65 +120,82 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                 <th className="px-4 py-3 text-center">Asesor</th>
               </>
             )}
-            <th className="px-4 py-3">Nombre</th>
-            <th className="px-4 py-3">Correo</th>
+            <th className="px-4 py-3">name</th>
+            <th className="px-4 py-3">email</th>
             <th className="px-4 py-3">Teléfono</th>
+            {view === 'customers' && (
+              <th className="px-4 py-3">Estado Actual</th>
+            )}
             <th className="px-4 py-3 text-center">Acciones</th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <th></th>
             {rol === 'Administrador' && view === 'customers' && (
-              <th className="px-4 py-2">
-                <input
-                  type="text"
-                  name="asesor"
-                  value={filters.asesor}
-                  onChange={handleFilterChange}
-                  placeholder="Filtrar por asesor"
-                  className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
-                />
-              </th>
+              <>
+                <th></th>
+                <th className="px-4 py-2">
+                  <input
+                    type="text"
+                    name="advisor"
+                    value={filters.advisor}
+                    onChange={handleFilterChange}
+                    placeholder="Filtrar por asesor"
+                    className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                  />
+                </th>
+              </>
             )}
             <th className="px-4 py-2">
               <input
                 type="text"
-                name="nombre"
-                value={filters.nombre}
+                name="name"
+                value={filters.name}
                 onChange={handleFilterChange}
-                placeholder="Filtrar por nombre"
+                placeholder="Filtrar por name"
                 className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
               />
             </th>
             <th className="px-4 py-2">
               <input
                 type="text"
-                name="correo"
-                value={filters.correo}
+                name="email"
+                value={filters.email}
                 onChange={handleFilterChange}
-                placeholder="Filtrar por correo"
+                placeholder="Filtrar por email"
                 className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
               />
             </th>
             <th className="px-4 py-2">
               <input
                 type="text"
-                name="telefono"
-                value={filters.telefono}
+                name="phone"
+                value={filters.phone}
                 onChange={handleFilterChange}
                 placeholder="Filtrar por teléfono"
                 className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
               />
             </th>
+            {view === 'customers' && (
+              <th className="px-4 py-2">
+                <input
+                  type="text"
+                  name="state"
+                  value={filters.state}
+                  onChange={handleFilterChange}
+                  placeholder="Filtrar por estado"
+                  className="w-full px-2 py-1 border border-gray-300 rounded text-sm"
+                />
+              </th>
+            )}
             <th className="px-4 py-2"></th>
           </tr>
           {paginatedData.map((info) => (
             <tr key={info.id} className="border-b hover:bg-gray-50">
               {rol === 'Administrador' && view === 'customers' && (
                 <td className="px-4 py-3 text-center">
-                  {info.asesor !== 'Sin Asignar' ? (
+                  {info.advisor !== 'Sin Asignar' ? (
                     <CheckIcon
                       className="w-5 h-5 text-green-600 mx-auto"
                       title="Cliente con asesor asignado"
@@ -184,14 +212,14 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                 </td>
               )}
               {rol === 'Administrador' && view === 'customers' && (
-                <td className="px-4 py-3">{info.asesor}</td>
+                <td className="px-4 py-3">{info.advisor}</td>
               )}
-              <td className="px-4 py-3">{info.nombre}</td>
-              <td className="px-4 py-3">{info.correo}</td>
+              <td className="px-4 py-3">{info.name}</td>
+              <td className="px-4 py-3">{info.email}</td>
               {view === 'customers' ? (
                 <td className="px-4 py-3">
                   <a
-                    href={`https://wa.me/${info.telefono}`}
+                    href={`https://wa.me/${info.phone}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-green-600 hover:underline"
@@ -205,11 +233,14 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                     >
                       <path d="M20.52 3.48A11.93 11.93 0 0 0 12 0a11.94 11.94 0 0 0-10.18 18L0 24l6.29-1.64A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.2-3.48-8.52ZM12 22a9.93 9.93 0 0 1-5.07-1.38l-.36-.21-3.73.97.99-3.63-.24-.37A9.94 9.94 0 1 1 12 22Zm5.29-7.71c-.29-.14-1.7-.84-1.96-.94s-.46-.14-.66.15c-.19.29-.76.93-.93 1.12s-.34.21-.63.07a8.08 8.08 0 0 1-2.38-1.46 8.8 8.8 0 0 1-1.63-2.03c-.17-.29 0-.44.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.51s-.66-1.58-.91-2.17c-.24-.58-.48-.5-.66-.51l-.56-.01a1.08 1.08 0 0 0-.77.36c-.26.29-1.01.99-1.01 2.41 0 1.41 1.03 2.78 1.17 2.97.14.19 2.03 3.1 4.94 4.35.69.3 1.23.47 1.65.6.7.22 1.34.19 1.85.12.57-.08 1.7-.7 1.94-1.38.24-.68.24-1.27.17-1.38-.08-.11-.26-.18-.55-.32Z" />
                     </svg>
-                    {info.telefono}
+                    {info.phone}
                   </a>
                 </td>
               ) : (
-                <td className="px-4 py-3">{info.telefono}</td>
+                <td className="px-4 py-3">{info.phone}</td>
+              )}
+              {view === 'customers' && (
+                <td className="px-4 py-3">{info.state}</td>
               )}
               <td className="px-4 py-3 text-center">
                 <div className="flex justify-center space-x-3">
@@ -240,7 +271,6 @@ const Table = ({ info = [], view, setSelected, rol }) => {
         </tbody>
       </table>
 
-      {/* Pagination Controls */}
       <div className="mt-4 flex flex-col md:flex-row justify-end items-center gap-4">
         <div>
           <label htmlFor="rowsPerPage" className="mr-2 text-sm text-gray-700">
