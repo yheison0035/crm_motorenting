@@ -16,4 +16,5 @@ export const stateCustomer = [
   'BANCO BOGOTÁ',
   'VEHIGRUPO',
   'APROBADO OTROS',
+  'VENTA',
 ];

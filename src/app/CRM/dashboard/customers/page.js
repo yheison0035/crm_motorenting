@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import { customers } from '@/api/customers';
 
-export default function Clientes() {
+export default function Customers() {
   const [archivo, setArchivo] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const { usuario } = useAuth();
@@ -28,22 +28,22 @@ export default function Clientes() {
 
   return (
     <div className="w-full p-4">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-xl md:text-2xl font-semibold text-gray-800">
           Listado de Clientes
         </h1>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          {usuario?.rol === 'Administrador' && (
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <Link
-                href="/CRM/dashboard/customers/new"
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"
-              >
-                <PlusIcon className="w-4 h-4" />
-                <span>Agregar cliente</span>
-              </Link>
+          <Link
+            href="/CRM/dashboard/customers/new"
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition cursor-pointer"
+          >
+            <PlusIcon className="w-4 h-4" />
+            <span>Agregar cliente</span>
+          </Link>
 
+          {usuario?.rol === 'Administrador' && (
+            <>
               {!archivo ? (
                 <label className="flex items-center gap-2 cursor-pointer bg-orange-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-700 transition">
                   <DocumentArrowUpIcon className="w-4 h-4" />
@@ -69,7 +69,7 @@ export default function Clientes() {
                   </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
   UserGroupIcon,
   UsersIcon,
   ArrowLeftOnRectangleIcon,
+  ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
 
 import Link from 'next/link';
@@ -17,6 +18,7 @@ export default function NavLinks() {
 
   const handleLogout = () => {
     localStorage.removeItem('usuario');
+    localStorage.removeItem('hasSeenMotivation');
     router.push('/CRM');
   };
 
@@ -35,6 +37,12 @@ export default function NavLinks() {
       href: '/CRM/dashboard/advisors',
       icon: UserGroupIcon,
       roles: ['Administrador'],
+    },
+    {
+      name: 'Entregados',
+      href: '/CRM/dashboard/delivered',
+      icon: ClipboardDocumentCheckIcon,
+      roles: ['Administrador', 'Advisor'],
     },
   ];
 

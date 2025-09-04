@@ -5,6 +5,7 @@ export default function InputFilters({
   view,
   filters,
   handleFilterChange,
+  delivered,
 }) {
   const allFilters = [
     {
@@ -20,7 +21,9 @@ export default function InputFilters({
 
   return (
     <tr>
-      {rol === 'Administrador' && view === 'customers' && <th></th>}
+      {rol === 'Administrador' && view === 'customers' && !delivered && (
+        <th></th>
+      )}
 
       {allFilters
         .filter((f) => f.show)

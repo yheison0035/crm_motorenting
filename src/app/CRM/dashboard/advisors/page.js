@@ -8,9 +8,13 @@ import Link from 'next/link';
 import RoleGuard from '@/components/auth/roleGuard';
 import { advisors } from '@/api/advisors';
 import { useAuth } from '@/context/authContext';
+import MessageEditorModal from '@/components/dashboard/modals/messageEditorModal';
+import { dataMotivation } from '@/api/messageMotivation';
 
 export default function Advisors() {
   const [selectedAdvisors, setSelectedAdvisors] = useState(null);
+  const [showEditor, setShowEditor] = useState(false);
+  const [motivationMessage, setMotivationMessage] = useState(dataMotivation);
   const { usuario } = useAuth();
 
   return (
@@ -21,13 +25,22 @@ export default function Advisors() {
             Listado de Asesores
           </h1>
 
-          <Link
-            href="/CRM/dashboard/advisors/new"
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"
-          >
-            <PlusIcon className="w-4 h-4" />
-            Agregar asesor
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href="/CRM/dashboard/advisors/new"
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"
+            >
+              <PlusIcon className="w-4 h-4" />
+              Agregar asesor
+            </Link>
+
+            <button
+              onClick={() => setShowEditor(true)}
+              className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm transition"
+            >
+              Contenedor mensaje
+            </button>
+          </div>
         </div>
 
         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -46,6 +59,14 @@ export default function Advisors() {
           )}
         </div>
       </div>
+
+      {showEditor && (
+        <MessageEditorModal
+          initialMessage={motivationMessage}
+          onSave={setMotivationMessage}
+          onClose={() => setShowEditor(false)}
+        />
+      )}
     </RoleGuard>
   );
 }

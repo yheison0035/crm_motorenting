@@ -1,10 +1,15 @@
-export default function Thead({ rol, view }) {
+export default function Thead({ rol, view, delivered }) {
   return (
     <thead className="bg-gray-100 border-b border-gray-200">
       <tr>
-        {rol === 'Administrador' && view === 'customers' && (
+        {rol === 'Administrador' && view === 'customers' && !delivered && (
           <>
             <th className="px-4 py-3 text-center">Asignar</th>
+            <th className="px-4 py-3">Asesor</th>
+          </>
+        )}
+        {delivered && rol !== 'Advisor' && (
+          <>
             <th className="px-4 py-3">Asesor</th>
           </>
         )}

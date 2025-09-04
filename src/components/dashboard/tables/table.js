@@ -9,12 +9,14 @@ import ModalAdvisor from './segments/modalAdvisor';
 import Pagination from './segments/pagination';
 import Actions from './segments/actions';
 import ConfirmDeleteModal from './segments/confirmDeleteModal';
+import ChangeAdvisorModal from '../modals/changeAdvisorModal';
 
-const Table = ({ info = [], view, setSelected, rol }) => {
+const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
   const [filtered, setFiltered] = useState(info);
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedAdvisor, setSelectedAdvisor] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showModalChangeAdvisor, setShowModalChangeAdvisor] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -40,6 +42,12 @@ const Table = ({ info = [], view, setSelected, rol }) => {
         (a.state?.toLowerCase() || '').includes(filters.state.toLowerCase())
     );
 
+    if (delivered) {
+      result = result.filter((a) => a.delivered?.toUpperCase() === 'ENTREGADO');
+    } else {
+      result = result.filter((a) => a.delivered?.toUpperCase() !== 'ENTREGADO');
+    }
+
     if (rol === 'Advisor' && view === 'customers') {
       result = result.filter(
         (a) => a.advisor?.toLowerCase() === 'maria manrrique'
@@ -48,7 +56,7 @@ const Table = ({ info = [], view, setSelected, rol }) => {
 
     setFiltered(result);
     setCurrentPage(1);
-  }, [filters, info, view]);
+  }, [filters, info, view, delivered]);
 
   const totalPages = Math.ceil(filtered.length / rowsPerPage);
   const paginatedData = filtered.slice(
@@ -116,7 +124,7 @@ const Table = ({ info = [], view, setSelected, rol }) => {
         )}
 
       <table className="min-w-full text-sm text-left text-gray-700">
-        <Thead rol={rol} view={view} />
+        <Thead rol={rol} view={view} delivered={delivered} />
 
         <tbody>
           <InputFilters
@@ -124,6 +132,7 @@ const Table = ({ info = [], view, setSelected, rol }) => {
             view={view}
             filters={filters}
             handleFilterChange={handleFilterChange}
+            delivered={delivered}
           />
 
           {paginatedData.map((info, index) => {
@@ -137,20 +146,22 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                     : 'hover:bg-gray-50'
                 }`}
               >
-                {rol === 'Administrador' && view === 'customers' && (
-                  <td className="px-4 py-3 text-center">
-                    {info.advisor !== 'Sin Asignar' ? (
-                      <CheckIcon className="w-5 h-5 text-green-600 mx-auto" />
-                    ) : (
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.includes(info.id)}
-                        onChange={() => toggleCheckbox(info)}
-                        className="w-4 h-4 cursor-pointer"
-                      />
-                    )}
-                  </td>
-                )}
+                {rol === 'Administrador' &&
+                  view === 'customers' &&
+                  !delivered && (
+                    <td className="px-4 py-3 text-center">
+                      {info.advisor !== 'Sin Asignar' ? (
+                        <CheckIcon className="w-5 h-5 text-green-600 mx-auto" />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(info.id)}
+                          onChange={() => toggleCheckbox(info)}
+                          className="w-4 h-4 cursor-pointer"
+                        />
+                      )}
+                    </td>
+                  )}
 
                 {rol === 'Administrador' && view === 'customers' && (
                   <td className="px-4 py-3">{info.advisor}</td>
@@ -196,11 +207,15 @@ const Table = ({ info = [], view, setSelected, rol }) => {
                     info={info}
                     view={view}
                     setSelected={setSelected}
+                    delivered={delivered}
                     handleDelete={() =>
                       handleDeleteClick(
                         info.id,
                         view === 'customers' ? 'cliente' : 'asesor'
                       )
+                    }
+                    setShowModalChangeAdvisor={(e) =>
+                      setShowModalChangeAdvisor(e)
                     }
                   />
 
@@ -235,6 +250,24 @@ const Table = ({ info = [], view, setSelected, rol }) => {
           setShowModal={setShowModal}
           setSelectedAdvisor={setSelectedAdvisor}
           assignAdvisor={assignAdvisor}
+        />
+      )}
+
+      {showModalChangeAdvisor && (
+        <ChangeAdvisorModal
+          isOpen={!!showModalChangeAdvisor}
+          onClose={() => setShowModalChangeAdvisor(null)}
+          onSave={(newAdvisorId) => {
+            console.log('Cliente:', showModalChangeAdvisor.id);
+            console.log('Nuevo asesor asignado:', newAdvisorId);
+            setShowModalChangeAdvisor(null);
+          }}
+          currentAdvisor={showModalChangeAdvisor.advisor || 'No asignado'}
+          advisors={[
+            { id: '1', name: 'María López' },
+            { id: '2', name: 'Carlos Gómez' },
+            { id: '3', name: 'Ana Torres' },
+          ]}
         />
       )}
     </div>

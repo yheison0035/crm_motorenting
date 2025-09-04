@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 const data = [
   {
     id: 0,
-    departamento: 'Amazonas',
-    ciudades: ['Leticia', 'Puerto Nari\u00f1o'],
+    departament: 'Amazonas',
+    citys: ['Leticia', 'Puerto Nari\u00f1o'],
   },
   {
     id: 1,
-    departamento: 'Antioquia',
-    ciudades: [
+    departament: 'Antioquia',
+    citys: [
       'Abejorral',
       'Abriaqu\u00ed',
       'Alejandr\u00eda',
@@ -139,8 +139,8 @@ const data = [
   },
   {
     id: 2,
-    departamento: 'Arauca',
-    ciudades: [
+    departament: 'Arauca',
+    citys: [
       'Arauca',
       'Arauquita',
       'Cravo Norte',
@@ -152,8 +152,8 @@ const data = [
   },
   {
     id: 3,
-    departamento: 'Atl\u00e1ntico',
-    ciudades: [
+    departament: 'Atl\u00e1ntico',
+    citys: [
       'Baranoa',
       'Barranquilla',
       'Campo de la Cruz',
@@ -181,8 +181,8 @@ const data = [
   },
   {
     id: 4,
-    departamento: 'Bol\u00edvar',
-    ciudades: [
+    departament: 'Bol\u00edvar',
+    citys: [
       'Ach\u00ed',
       'Altos del Rosario',
       'Arenal',
@@ -234,8 +234,8 @@ const data = [
   },
   {
     id: 5,
-    departamento: 'Boyac\u00e1',
-    ciudades: [
+    departament: 'Boyac\u00e1',
+    citys: [
       'Almeida',
       'Aquitania',
       'Arcabuco',
@@ -363,8 +363,8 @@ const data = [
   },
   {
     id: 6,
-    departamento: 'Caldas',
-    ciudades: [
+    departament: 'Caldas',
+    citys: [
       'Aguadas',
       'Anserma',
       'Aranzazu',
@@ -396,8 +396,8 @@ const data = [
   },
   {
     id: 7,
-    departamento: 'Caquet\u00e1',
-    ciudades: [
+    departament: 'Caquet\u00e1',
+    citys: [
       'Albania',
       'Bel\u00e9n de los Andaqu\u00edes',
       'Cartagena del Chair\u00e1',
@@ -418,8 +418,8 @@ const data = [
   },
   {
     id: 8,
-    departamento: 'Casanare',
-    ciudades: [
+    departament: 'Casanare',
+    citys: [
       'Aguazul',
       'Ch\u00e1meza',
       'Hato Corozal',
@@ -443,8 +443,8 @@ const data = [
   },
   {
     id: 9,
-    departamento: 'Cauca',
-    ciudades: [
+    departament: 'Cauca',
+    citys: [
       'Almaguer',
       'Argelia',
       'Balboa',
@@ -491,8 +491,8 @@ const data = [
   },
   {
     id: 10,
-    departamento: 'Cesar',
-    ciudades: [
+    departament: 'Cesar',
+    citys: [
       'Aguachica',
       'Agust\u00edn Codazzi',
       'Astrea',
@@ -522,8 +522,8 @@ const data = [
   },
   {
     id: 11,
-    departamento: 'Choc\u00f3',
-    ciudades: [
+    departament: 'Choc\u00f3',
+    citys: [
       'Acand\u00ed',
       'Alto Baud\u00f3',
       'Bagad\u00f3',
@@ -558,8 +558,8 @@ const data = [
   },
   {
     id: 12,
-    departamento: 'Cundinamarca',
-    ciudades: [
+    departament: 'Cundinamarca',
+    citys: [
       'Agua de Dios',
       'Alb\u00e1n',
       'Anapoima',
@@ -681,8 +681,8 @@ const data = [
   },
   {
     id: 13,
-    departamento: 'C\u00f3rdoba',
-    ciudades: [
+    departament: 'C\u00f3rdoba',
+    citys: [
       'Ayapel',
       'Buenavista',
       'Canalete',
@@ -717,13 +717,13 @@ const data = [
   },
   {
     id: 14,
-    departamento: 'Guain\u00eda',
-    ciudades: ['In\u00edrida'],
+    departament: 'Guain\u00eda',
+    citys: ['In\u00edrida'],
   },
   {
     id: 15,
-    departamento: 'Guaviare',
-    ciudades: [
+    departament: 'Guaviare',
+    citys: [
       'Calamar',
       'El Retorno',
       'Miraflores',
@@ -732,8 +732,8 @@ const data = [
   },
   {
     id: 16,
-    departamento: 'Huila',
-    ciudades: [
+    departament: 'Huila',
+    citys: [
       'Acevedo',
       'Agrado',
       'Aipe',
@@ -775,8 +775,8 @@ const data = [
   },
   {
     id: 17,
-    departamento: 'La Guajira',
-    ciudades: [
+    departament: 'La Guajira',
+    citys: [
       'Albania',
       'Barrancas',
       'Dibulla',
@@ -796,8 +796,8 @@ const data = [
   },
   {
     id: 18,
-    departamento: 'Magdalena',
-    ciudades: [
+    departament: 'Magdalena',
+    citys: [
       'Algarrobo',
       'Aracataca',
       'Ariguan\u00ed',
@@ -833,8 +833,8 @@ const data = [
   },
   {
     id: 19,
-    departamento: 'Meta',
-    ciudades: [
+    departament: 'Meta',
+    citys: [
       'Acac\u00edas',
       'Barranca de Up\u00eda',
       'Cabuyaro',
@@ -868,8 +868,8 @@ const data = [
   },
   {
     id: 20,
-    departamento: 'Nari\u00f1o',
-    ciudades: [
+    departament: 'Nari\u00f1o',
+    citys: [
       'Aldana',
       'Ancuy\u00e1',
       'Arboleda',
@@ -938,8 +938,8 @@ const data = [
   },
   {
     id: 21,
-    departamento: 'Norte de Santander',
-    ciudades: [
+    departament: 'Norte de Santander',
+    citys: [
       '\u00c1brego',
       'Arboledas',
       'Bochalema',
@@ -984,8 +984,8 @@ const data = [
   },
   {
     id: 22,
-    departamento: 'Putumayo',
-    ciudades: [
+    departament: 'Putumayo',
+    citys: [
       'Col\u00f3n',
       'Mocoa',
       'Orito',
@@ -1003,8 +1003,8 @@ const data = [
   },
   {
     id: 23,
-    departamento: 'Quind\u00edo',
-    ciudades: [
+    departament: 'Quind\u00edo',
+    citys: [
       'Armenia',
       'Buenavista',
       'Calarc\u00e1',
@@ -1021,8 +1021,8 @@ const data = [
   },
   {
     id: 24,
-    departamento: 'Risaralda',
-    ciudades: [
+    departament: 'Risaralda',
+    citys: [
       'Ap\u00eda',
       'Balboa',
       'Bel\u00e9n de Umbr\u00eda',
@@ -1041,13 +1041,13 @@ const data = [
   },
   {
     id: 25,
-    departamento: 'San Andr\u00e9s y Providencia',
-    ciudades: ['Providencia y Santa Catalina Islas', 'San Andr\u00e9s'],
+    departament: 'San Andr\u00e9s y Providencia',
+    citys: ['Providencia y Santa Catalina Islas', 'San Andr\u00e9s'],
   },
   {
     id: 26,
-    departamento: 'Santander',
-    ciudades: [
+    departament: 'Santander',
+    citys: [
       'Aguada',
       'Albania',
       'Aratoca',
@@ -1139,8 +1139,8 @@ const data = [
   },
   {
     id: 27,
-    departamento: 'Sucre',
-    ciudades: [
+    departament: 'Sucre',
+    citys: [
       'Buenavista',
       'Caimito',
       'Chal\u00e1n',
@@ -1171,8 +1171,8 @@ const data = [
   },
   {
     id: 28,
-    departamento: 'Tolima',
-    ciudades: [
+    departament: 'Tolima',
+    citys: [
       'Alpujarra',
       'Alvarado',
       'Ambalema',
@@ -1224,8 +1224,8 @@ const data = [
   },
   {
     id: 29,
-    departamento: 'Valle del Cauca',
-    ciudades: [
+    departament: 'Valle del Cauca',
+    citys: [
       'Alcal\u00e1',
       'Andaluc\u00eda',
       'Ansermanuevo',
@@ -1272,13 +1272,13 @@ const data = [
   },
   {
     id: 30,
-    departamento: 'Vaup\u00e9s',
-    ciudades: ['Carur\u00fa', 'Mit\u00fa', 'Taraira'],
+    departament: 'Vaup\u00e9s',
+    citys: ['Carur\u00fa', 'Mit\u00fa', 'Taraira'],
   },
   {
     id: 31,
-    departamento: 'Vichada',
-    ciudades: [
+    departament: 'Vichada',
+    citys: [
       'Cumaribo',
       'La Primavera',
       'Puerto Carre\u00f1o',
@@ -1288,52 +1288,83 @@ const data = [
 ];
 
 export default function DepartaCiudad({ formData, setFormData }) {
-  const departamentos = data;
+  const [citysDisponibles, setcitysDisponibles] = useState([]);
+
+  useEffect(() => {
+    if (formData.departament) {
+      const dep = data.find((d) => d.departament === formData.departament);
+      setcitysDisponibles(dep ? dep.citys : []);
+    } else {
+      setcitysDisponibles([]);
+    }
+  }, [formData.departament]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === 'departamento' ? { ciudad: '' } : {}),
+      ...(name === 'departament' ? { city: '' } : {}),
     }));
   };
 
-  const ciudadesDisponibles =
-    departamentos.find((d) => d.departamento === formData.departamento)
-      ?.ciudades || [];
-
   return (
     <>
-      <select
-        name="departamento"
-        value={formData.departamento}
-        onChange={handleChange}
-        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-        required
-      >
-        <option value="">Selecciona un departamento</option>
-        {data.map((d) => (
-          <option key={d.id} value={d.departamento}>
-            {d.departamento}
+      <div className="flex flex-col">
+        <label
+          htmlFor="departament"
+          className="mb-1 text-sm font-medium text-gray-700"
+        >
+          Departamento
+        </label>
+        <select
+          id="departament"
+          name="departament"
+          value={formData.departament}
+          onChange={handleChange}
+          className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
+                     focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
+          required
+        >
+          <option value="">Seleccione un departament</option>
+          {data.map((d) => (
+            <option key={d.id} value={d.departament}>
+              {d.departament}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col">
+        <label
+          htmlFor="city"
+          className="mb-1 text-sm font-medium text-gray-700"
+        >
+          Ciudad
+        </label>
+        <select
+          id="city"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+          disabled={!formData.departament}
+          className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
+                     focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition
+                     disabled:bg-gray-100 disabled:cursor-not-allowed"
+          required
+        >
+          <option value="">
+            {formData.departament
+              ? 'Seleccione una ciudad'
+              : 'Seleccione un departament primero'}
           </option>
-        ))}
-      </select>
-      <select
-        name="ciudad"
-        value={formData.ciudad}
-        onChange={handleChange}
-        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-        disabled={!formData.departamento}
-        required
-      >
-        <option value="">Selecciona una ciudad</option>
-        {ciudadesDisponibles.map((ciudad) => (
-          <option key={ciudad} value={ciudad}>
-            {ciudad}
-          </option>
-        ))}
-      </select>
+          {citysDisponibles.map((c, idx) => (
+            <option key={idx} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+      </div>
     </>
   );
 }
