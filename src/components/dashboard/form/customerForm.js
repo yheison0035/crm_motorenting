@@ -2,7 +2,7 @@
 
 import BtnReturn from '../buttons/return';
 import BtnSave from '../buttons/save';
-import CommentsHistory from '../comments/history';
+import CommentsHistory from '../comments/CommentsHistory';
 import AddComment from '../comments/addComment';
 import { stateCustomer } from '@/lib/api/stateCustomer';
 import { advisors } from '@/lib/api/advisors';

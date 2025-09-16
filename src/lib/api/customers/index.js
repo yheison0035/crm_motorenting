@@ -62,6 +62,14 @@ export async function assignAdvisor(customerId, advisorId) {
   });
 }
 
+export async function assignMultipleCustomers(customerIds, advisorId) {
+  const body = { customerIds, advisorId };
+  return apiFetch('/customers/assign-multiple', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
 export async function importCustomers(file) {
   const fd = new FormData();
   fd.append('file', file);

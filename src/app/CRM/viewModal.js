@@ -1,7 +1,7 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import CommentsHistory from '@/components/dashboard/comments/history';
+import CommentsHistory from '@/components/dashboard/comments/CommentsHistory';
 
 export default function ViewModal({ data, type, onClose }) {
   if (!data) return null;
@@ -89,7 +89,7 @@ export default function ViewModal({ data, type, onClose }) {
             <h3 className="text-lg font-semibold text-gray-800 mb-3">
               Historial de comentarios
             </h3>
-            <CommentsHistory customer={data} />
+            <CommentsHistory formData={data} />
           </div>
         )}
       </div>

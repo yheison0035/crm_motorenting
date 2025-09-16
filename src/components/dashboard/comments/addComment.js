@@ -19,7 +19,9 @@ export default function AddComment({
         <button
           type="button"
           onClick={handleAddComment}
-          className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl shadow-md hover:opacity-90 transition cursor-pointer"
+          disabled={!newComment.trim()}
+          className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl shadow-md 
+             hover:opacity-90 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Agregar
         </button>

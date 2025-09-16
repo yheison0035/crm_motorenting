@@ -13,7 +13,8 @@ export default function EditCustomer() {
   const { id } = params;
   const { usuario } = useAuth();
 
-  const { getCustomerById, updateCustomer, loading } = useCustomers();
+  const { getCustomerById, updateCustomer, addComment, loading } =
+    useCustomers();
 
   const [formData, setFormData] = useState({});
   const [newComment, setNewComment] = useState('');
@@ -36,21 +37,24 @@ export default function EditCustomer() {
     }
   }, [id, router]);
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (!newComment.trim()) return;
-    const date = new Date().toLocaleString();
-    setFormData((prev) => ({
-      ...prev,
-      comments: [
-        ...(prev.comments || []),
-        {
-          date,
-          description: newComment.trim(),
-          advisor: usuario.name,
-        },
-      ],
-    }));
-    setNewComment('');
+    try {
+      await addComment(Number(id), newComment.trim());
+      const res = await getCustomerById(Number(id));
+      setFormData(res.data || res);
+
+      setNewComment('');
+      setAlert({
+        type: 'success',
+        message: 'Comentario agregado correctamente.',
+      });
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: err.message || 'Error al agregar comentario',
+      });
+    }
   };
 
   const handleSubmit = async (e) => {

@@ -9,6 +9,7 @@ import {
   deleteCustomer,
   addComment,
   assignAdvisor,
+  assignMultipleCustomers,
   importCustomers,
 } from '../customers/index';
 
@@ -37,6 +38,8 @@ export default function useCustomers() {
     deleteCustomer: (id) => wrap(deleteCustomer, id),
     addComment: (id, desc) => wrap(addComment, id, desc),
     assignAdvisor: (cid, aid) => wrap(assignAdvisor, cid, aid),
+    assignMultipleCustomers: (customerIds, advisorId) =>
+      wrap(assignMultipleCustomers, { customerIds, advisorId }),
     importCustomers: (file) => wrap(importCustomers, file),
     loading,
     error,
