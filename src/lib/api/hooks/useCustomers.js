@@ -38,8 +38,8 @@ export default function useCustomers() {
     deleteCustomer: (id) => wrap(deleteCustomer, id),
     addComment: (id, desc) => wrap(addComment, id, desc),
     assignAdvisor: (cid, aid) => wrap(assignAdvisor, cid, aid),
-    assignMultipleCustomers: (customerIds, advisorId) =>
-      wrap(assignMultipleCustomers, { customerIds, advisorId }),
+    assignMultipleCustomers: (customerIds, selectedAdvisor) =>
+      wrap(assignMultipleCustomers, { customerIds, selectedAdvisor }),
     importCustomers: (file) => wrap(importCustomers, file),
     loading,
     error,

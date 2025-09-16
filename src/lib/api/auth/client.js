@@ -21,7 +21,7 @@ async function apiFetch(path, opts = {}) {
   if (!(opts.body instanceof FormData)) {
     headers['Content-Type'] = headers['Content-Type'] ?? 'application/json';
   }
-  console.log('API Fetch:', full, opts);
+
   const res = await fetch(full, { ...opts, headers });
 
   const text = await res.text();

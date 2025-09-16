@@ -77,6 +77,7 @@ export default function Customers() {
           view="customers"
           setSelected={setSelectedCustomer}
           rol={usuario?.role}
+          fetchCustomers={fetchCustomers}
         />
 
         {selectedCustomer && (

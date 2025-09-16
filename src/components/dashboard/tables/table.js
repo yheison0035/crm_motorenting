@@ -10,8 +10,17 @@ import Pagination from './segments/pagination';
 import Actions from './segments/actions';
 import ConfirmDeleteModal from './segments/confirmDeleteModal';
 import ChangeAdvisorModal from '../modals/changeAdvisorModal';
+import useCustomers from '@/lib/api/hooks/useCustomers';
+import AlertModal from '../modals/alertModal';
 
-const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
+const Table = ({
+  info = [],
+  view,
+  setSelected,
+  rol,
+  delivered = false,
+  fetchCustomers,
+}) => {
   const [filtered, setFiltered] = useState(info);
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedAdvisor, setSelectedAdvisor] = useState('');
@@ -21,6 +30,10 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [alert, setAlert] = useState({ type: '', message: '', url: '' });
+
+  const { assignMultipleCustomers, loading } = useCustomers();
+  const { deleteCustomer, loading: deleting, error } = useCustomers();
 
   const [filters, setFilters] = useState({
     name: '',
@@ -75,10 +88,23 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (deleteTarget) {
-      console.log(`Eliminado ${deleteTarget.type} con ID:`, deleteTarget.id);
-      // Aquí va tu lógica real de eliminación
+      try {
+        await deleteCustomer(deleteTarget.id);
+        setShowDeleteModal(false);
+        setDeleteTarget(null);
+        setAlert({
+          type: 'success',
+          message: `Cliente eliminado correctamente.`,
+        });
+        await fetchCustomers();
+      } catch (err) {
+        setAlert({
+          type: 'error',
+          message: err.message || 'Error al eliminar cliente',
+        });
+      }
     }
   };
 
@@ -90,11 +116,24 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
     );
   };
 
-  const assignAdvisor = () => {
-    console.log('Assigning advisor:', selectedAdvisor, selectedIds);
-    setShowModal(false);
-    setSelectedAdvisor('');
-    setSelectedIds([]);
+  const handleAssignMultiple = async () => {
+    if (!selectedAdvisor || selectedIds.length === 0) return;
+    try {
+      await assignMultipleCustomers(selectedIds, selectedAdvisor);
+      setAlert({
+        type: 'success',
+        message: `Se asignaron ${selectedIds.length} clientes al asesor.`,
+      });
+      setSelectedIds([]);
+      setSelectedAdvisor('');
+      setShowModal(false);
+      await fetchCustomers();
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: err.message || 'Error al asignar clientes',
+      });
+    }
   };
 
   const getCustomerLockState = (index, customer) => {
@@ -223,8 +262,13 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
                       show={showDeleteModal}
                       setShow={setShowDeleteModal}
                       type={deleteTarget?.type}
-                      name={info.name}
+                      name={
+                        deleteTarget?.type === 'cliente'
+                          ? deleteTarget?.name
+                          : ''
+                      }
                       onConfirm={confirmDelete}
+                      loading={deleting}
                     />
                   )}
                 </td>
@@ -248,7 +292,8 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
           selectedAdvisor={selectedAdvisor}
           setShowModal={setShowModal}
           setSelectedAdvisor={setSelectedAdvisor}
-          assignAdvisor={assignAdvisor}
+          handleAssignMultiple={handleAssignMultiple}
+          loading={loading}
         />
       )}
 
@@ -269,6 +314,12 @@ const Table = ({ info = [], view, setSelected, rol, delivered = false }) => {
           ]}
         />
       )}
+      <AlertModal
+        type={alert.type}
+        message={alert.message}
+        onClose={() => setAlert({ type: '', message: '', url: '' })}
+        url={alert.url}
+      />
     </div>
   );
 };

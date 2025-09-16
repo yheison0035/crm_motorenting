@@ -37,8 +37,6 @@ export async function updateCustomer(id, dto) {
     birthdate: cleanDto.birthdate ? toFullISO(cleanDto.birthdate) : undefined,
   };
 
-  console.log('Updating customer:', id, body);
-
   return apiFetch(`/customers/${id}`, {
     method: 'PUT',
     body: JSON.stringify(body),
@@ -62,8 +60,11 @@ export async function assignAdvisor(customerId, advisorId) {
   });
 }
 
-export async function assignMultipleCustomers(customerIds, advisorId) {
-  const body = { customerIds, advisorId };
+export async function assignMultipleCustomers({
+  customerIds,
+  selectedAdvisor,
+}) {
+  const body = { customerIds, advisorId: Number(selectedAdvisor) };
   return apiFetch('/customers/assign-multiple', {
     method: 'POST',
     body: JSON.stringify(body),
