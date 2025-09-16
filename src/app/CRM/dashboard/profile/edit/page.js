@@ -69,7 +69,7 @@ export default function EditProfile() {
               <button
                 type="button"
                 onClick={handleRemoveAvatar}
-                className="absolute top-0 right-0 bg-white p-1 rounded-full text-red-500 hover:text-red-700 shadow"
+                className="absolute top-0 right-0 bg-white p-1 rounded-full text-red-500 hover:text-red-700 shadow cursor-pointer"
               >
                 <TrashIcon className="w-4 h-4" />
               </button>
@@ -132,7 +132,7 @@ export default function EditProfile() {
           <button
             type="button"
             onClick={() => setMostrarCambioClave(!mostrarCambioClave)}
-            className="text-orange-600 hover:underline text-sm font-medium"
+            className="text-orange-600 hover:underline text-sm font-medium cursor-pointer"
           >
             {mostrarCambioClave
               ? 'Ocultar cambio de contraseña'
@@ -153,7 +153,7 @@ export default function EditProfile() {
                 />
                 <button
                   type="button"
-                  className="absolute top-9 right-3 text-gray-500"
+                  className="absolute top-9 right-3 text-gray-500 cursor-pointer"
                   onClick={() => setVerPassword(!verPassword)}
                 >
                   {verPassword ? (
@@ -176,7 +176,7 @@ export default function EditProfile() {
                 />
                 <button
                   type="button"
-                  className="absolute top-9 right-3 text-gray-500"
+                  className="absolute top-9 right-3 text-gray-500 cursor-pointer"
                   onClick={() => setVerConfirmar(!verConfirmar)}
                 >
                   {verConfirmar ? (
@@ -193,7 +193,7 @@ export default function EditProfile() {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             Guardar cambios
           </button>

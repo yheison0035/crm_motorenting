@@ -31,7 +31,7 @@ export default function ChangeAdvisorModal({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition"
+            className="text-gray-400 hover:text-gray-600 transition cursor-pointer"
           >
             <XMarkIcon className="w-6 h-6" />
           </button>
@@ -69,7 +69,7 @@ export default function ChangeAdvisorModal({
         <div className="flex justify-end mt-6 gap-3">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+            className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
           >
             Volver
           </button>

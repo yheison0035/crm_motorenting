@@ -2,8 +2,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login as apiLogin, logout as apiLogout } from '@/lib/api/auth';
-import apiFetch from '@/lib/api/client';
+import { login as apiLogin, logout as apiLogout } from '@/lib/api/auth/auth';
+import apiFetch from '@/lib/api/auth/client';
 
 const AuthContext = createContext();
 
@@ -14,7 +14,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('usuario');
-    if (storedUser) {
+    const token = localStorage.getItem('token');
+    if (storedUser && token) {
       setUsuario(JSON.parse(storedUser));
     }
     setLoading(false);

@@ -14,7 +14,7 @@ export default function SideNavigation() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden p-2 m-2 text-white bg-gray-900 rounded"
+        className="md:hidden p-2 m-2 text-white bg-gray-900 rounded cursor-pointer"
       >
         <Bars3Icon className="w-6 h-6" />
       </button>
@@ -26,7 +26,7 @@ export default function SideNavigation() {
         <div className="w-full flex justify-end px-4 md:hidden">
           <button
             onClick={() => setIsOpen(false)}
-            className="text-white hover:text-red-400"
+            className="text-white hover:text-red-400 cursor-pointer"
           >
             <XMarkIcon className="w-6 h-6" />
           </button>

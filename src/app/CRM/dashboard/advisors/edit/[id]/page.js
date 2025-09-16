@@ -40,8 +40,6 @@ export default function EditAdvisor() {
     e.preventDefault();
     setLoading(true);
 
-    console.log('Datos actualizados:', advisor);
-
     setTimeout(() => {
       setLoading(false);
       setAlert({

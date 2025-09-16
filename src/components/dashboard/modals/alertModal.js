@@ -64,7 +64,7 @@ export default function AlertModal({
           ) : (
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-orange-500 text-white font-medium rounded-lg shadow hover:bg-orange-600 transition"
+              className="px-6 py-2 bg-orange-500 text-white font-medium rounded-lg shadow hover:bg-orange-600 transition cursor-pointer"
             >
               {buttonText || defaultButtonText}
             </button>

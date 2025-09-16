@@ -32,8 +32,6 @@ export default function NewAdvisor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos del asesor:', formData);
-
     setTimeout(() => {
       setAlert({
         type: 'success',
@@ -68,7 +66,6 @@ export default function NewAdvisor() {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Nombre */}
           <div className="flex flex-col">
             <label
               htmlFor="nombre"
@@ -108,7 +105,6 @@ export default function NewAdvisor() {
             />
           </div>
 
-          {/* Teléfono */}
           <div className="flex flex-col">
             <label
               htmlFor="telefono"
@@ -148,7 +144,6 @@ export default function NewAdvisor() {
             />
           </div>
 
-          {/* Rol */}
           <div className="flex flex-col">
             <label
               htmlFor="rol"
@@ -194,11 +189,9 @@ export default function NewAdvisor() {
             </select>
           </div>
 
-          {/* Departamento / Ciudad */}
           <DepartaCiudad formData={formData} setFormData={setFormData} />
         </div>
 
-        {/* Botones */}
         <div className="flex justify-end mt-6 gap-3">
           <BtnReturn route="/CRM/dashboard/advisors" />
           <BtnClean handleReset={handleReset} />
@@ -206,7 +199,6 @@ export default function NewAdvisor() {
         </div>
       </form>
 
-      {/* Alerta */}
       <AlertModal
         type={alert.type}
         message={alert.message}

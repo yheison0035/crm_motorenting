@@ -1287,7 +1287,7 @@ const data = [
   },
 ];
 
-export default function DepartaCiudad({ formData, setFormData }) {
+export default function DepartaCiudad({ formData, handleChange }) {
   const [citysDisponibles, setcitysDisponibles] = useState([]);
 
   useEffect(() => {
@@ -1299,15 +1299,6 @@ export default function DepartaCiudad({ formData, setFormData }) {
     }
   }, [formData.department]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === 'department' ? { city: '' } : {}),
-    }));
-  };
-
   return (
     <>
       <div className="flex flex-col">
@@ -1315,7 +1306,7 @@ export default function DepartaCiudad({ formData, setFormData }) {
           htmlFor="department"
           className="mb-1 text-sm font-medium text-gray-700"
         >
-          departmento
+          Departmento
         </label>
         <select
           id="department"

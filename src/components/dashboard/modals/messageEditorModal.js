@@ -77,7 +77,7 @@ export default function MessageEditorModal({
                 <button
                   type="button"
                   onClick={() => removeItem(index)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 cursor-pointer"
                 >
                   ✖
                 </button>
@@ -86,7 +86,7 @@ export default function MessageEditorModal({
             <button
               type="button"
               onClick={addItem}
-              className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600"
+              className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 cursor-pointer"
             >
               + Agregar ítem
             </button>
@@ -96,7 +96,7 @@ export default function MessageEditorModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+              className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 cursor-pointer"
             >
               Cancelar
             </button>
