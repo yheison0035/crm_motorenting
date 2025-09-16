@@ -4,13 +4,7 @@ import { useState } from 'react';
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import { useAuth } from '@/context/authContext';
-import useApi from '@/lib/api/useApi';
 export default function Delivered() {
-  const {
-    data: customers,
-    loading,
-    error,
-  } = useApi('/customers?delivered=true');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const { usuario } = useAuth();
 
