@@ -1,12 +1,14 @@
 'use client';
 
-import BtnReturn from '../buttons/return';
-import BtnSave from '../buttons/save';
+import { useEffect, useState } from 'react';
+import useUsers from '@/lib/api/hooks/useUsers';
+
+import DepartaCiudad from '@/components/dashboard/select/depart_ciud';
 import CommentsHistory from '../comments/CommentsHistory';
 import AddComment from '../comments/addComment';
-import { stateCustomer } from '@/lib/api/stateCustomer';
-import { advisors } from '@/lib/api/advisors';
-import DepartaCiudad from '@/components/dashboard/select/depart_ciud';
+import BtnReturn from '../buttons/return';
+import BtnSave from '../buttons/save';
+import useStates from '@/lib/api/hooks/useStates';
 
 export default function CustomerForm({
   formData,
@@ -21,6 +23,17 @@ export default function CustomerForm({
   mode = 'edit',
   usuario,
 }) {
+  const [advisors, setAdvisors] = useState([]);
+  const [states, setStates] = useState([]);
+
+  const { getUsers } = useUsers();
+  const { getStates } = useStates();
+
+  useEffect(() => {
+    fetchUsers();
+    fetchStates();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -30,6 +43,24 @@ export default function CustomerForm({
     }));
   };
 
+  const fetchUsers = async () => {
+    try {
+      const { data } = await getUsers();
+      setAdvisors(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchStates = async () => {
+    try {
+      const data = await getStates();
+      setStates(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -37,9 +68,9 @@ export default function CustomerForm({
           ['name', 'Nombres y Apellidos', '', true],
           ['email', 'Correo Electronico', 'email', true],
           ['birthdate', 'Fecha de Nacimiento', 'date', true],
-          ['phone', 'Teléfono', '', true],
+          ['phone', 'Teléfono', 'number', true],
           ['address', 'Dirección', 'text', true],
-          ['document', 'Documento', 'text', true],
+          ['document', 'Documento', 'number', true],
         ].map(([name, label, type = 'text', required = true]) => (
           <div key={name} className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">
@@ -75,7 +106,7 @@ export default function CustomerForm({
                 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition"
             >
               <option value="">Seleccione un asesor</option>
-              {advisors.map((a) => (
+              {advisors?.map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name}
                 </option>
@@ -99,9 +130,9 @@ export default function CustomerForm({
             required
           >
             <option value="">Seleccione un estado</option>
-            {stateCustomer.map((state, i) => (
-              <option key={i} value={i + 1}>
-                {state}
+            {states.map((state, i) => (
+              <option key={i} value={state.id}>
+                {state.name}
               </option>
             ))}
           </select>

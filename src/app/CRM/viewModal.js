@@ -69,12 +69,13 @@ export default function ViewModal({ data, type, onClose }) {
               <p className="font-semibold text-gray-700">Estado:</p>
               <span
                 className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                  data.state?.name === 'Sin Contactar'
+                  data.state?.name === 'Sin Contactar' ||
+                  data.status === 'INACTIVE'
                     ? 'bg-yellow-100 text-yellow-800'
                     : 'bg-green-100 text-green-800'
                 }`}
               >
-                {data.state?.name || 'No disponible'}
+                {data?.state?.name || data?.status}
               </span>
             </div>
             <div>

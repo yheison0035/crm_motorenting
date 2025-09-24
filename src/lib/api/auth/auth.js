@@ -7,7 +7,9 @@ export async function login(email, password) {
     auth: false,
   });
 
-  const token = res?.access_token;
+  const { data } = res;
+
+  const token = data?.access_token;
   if (!token) throw new Error('No se recibió token del servidor');
 
   if (typeof window !== 'undefined') {

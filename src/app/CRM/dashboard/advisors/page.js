@@ -1,21 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import Link from 'next/link';
 import RoleGuard from '@/components/auth/roleGuard';
-import { advisors } from '@/lib/api/advisors';
 import { useAuth } from '@/context/authContext';
 import MessageEditorModal from '@/components/dashboard/modals/messageEditorModal';
 import { dataMotivation } from '@/lib/api/messageMotivation';
+import { getUsers } from '@/lib/api/users';
 
 export default function Advisors() {
+  const [advisors, setAdvisors] = useState([]);
   const [selectedAdvisors, setSelectedAdvisors] = useState(null);
   const [showEditor, setShowEditor] = useState(false);
   const [motivationMessage, setMotivationMessage] = useState(dataMotivation);
   const { usuario } = useAuth();
+
+  const fetchAdvisors = async () => {
+    try {
+      const { data } = await getUsers();
+      setAdvisors(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdvisors();
+  }, []);
 
   return (
     <RoleGuard allowedRoles={['ADMIN']}>
@@ -49,6 +63,10 @@ export default function Advisors() {
             view="advisors"
             setSelected={setSelectedAdvisors}
             rol={usuario?.role}
+            fetchData={fetchAdvisors}
+            loading={false}
+            error={null}
+            delivered={false}
           />
           {selectedAdvisors && (
             <ViewModal

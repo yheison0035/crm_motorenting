@@ -14,7 +14,7 @@ export async function createUser(dto) {
   const body = {
     ...dto,
     birthdate: dto.birthdate ? toFullISO(dto.birthdate) : undefined,
-    role: dto.role || 'ASESOR', // Valor por defecto
+    role: dto.role || 'ASESOR',
     status: dto.status || 'ACTIVE',
   };
   return apiFetch('/users', { method: 'POST', body: JSON.stringify(body) });
@@ -26,7 +26,7 @@ export async function updateUser(id, dto) {
   const body = {
     ...cleanDto,
     birthdate: cleanDto.birthdate ? toFullISO(cleanDto.birthdate) : undefined,
-    ...(password ? { password } : {}), // solo si viene
+    ...(password ? { password } : {}),
   };
 
   return apiFetch(`/users/${id}`, {

@@ -75,7 +75,7 @@ export default function Actions({
       {rol === 'ADMIN' && (
         <div className="relative group flex items-center">
           <button
-            onClick={() => handleDelete(info.id)}
+            onClick={() => handleDelete(info.id, info.name, view)}
             disabled={isLocked}
             className="text-red-500 hover:text-red-700 cursor-pointer"
           >

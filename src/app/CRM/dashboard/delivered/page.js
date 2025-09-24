@@ -1,12 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import { useAuth } from '@/context/authContext';
+import useCustomers from '@/lib/api/hooks/useCustomers';
+
 export default function Delivered() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const { usuario } = useAuth();
+  const [customers, setCustomers] = useState([]);
+
+  const { getCustomers, loading, error } = useCustomers();
+
+  const fetchCustomers = async () => {
+    try {
+      const { data } = await getCustomers();
+      setCustomers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomers();
+  }, [fetchCustomers]);
 
   return (
     <div className="w-full p-4">
@@ -22,7 +40,9 @@ export default function Delivered() {
           view="customers"
           setSelected={setSelectedCustomer}
           rol={usuario?.role}
-          delivered={true}
+          fetchCustomers={fetchCustomers}
+          loading={loading}
+          error={error}
         />
         {selectedCustomer && (
           <ViewModal

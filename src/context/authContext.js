@@ -24,15 +24,17 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const res = await apiLogin(email, password);
-      const token = res?.access_token;
+      const { data } = res;
+      const token = data?.access_token;
 
       if (!token) throw new Error('Token no recibido');
 
       localStorage.setItem('token', token);
 
       const profile = await apiFetch('/auth/me');
-      localStorage.setItem('usuario', JSON.stringify(profile));
-      setUsuario(profile);
+      const { data: userData } = profile;
+      localStorage.setItem('usuario', JSON.stringify(userData));
+      setUsuario(userData);
     } catch (err) {
       throw new Error(err.message || 'Credenciales inválidas');
     }

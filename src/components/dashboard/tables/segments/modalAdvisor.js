@@ -4,6 +4,7 @@ export default function ModalAdvisor({
   setShowModal,
   handleAssignMultiple,
   loading,
+  advisors = [],
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -16,7 +17,11 @@ export default function ModalAdvisor({
           disabled={loading}
         >
           <option value="">Selecciona un asesor</option>
-          <option value="1">Yordi</option>
+          {advisors.map((advisor) => (
+            <option key={advisor.id} value={advisor.id}>
+              {advisor.name}
+            </option>
+          ))}
         </select>
         <div className="flex justify-end gap-2">
           <button
