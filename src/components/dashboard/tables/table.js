@@ -31,16 +31,23 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   const { deleteCustomer, loading: deleting, error } = useCustomers();
 
   const [filters, setFilters] = useState({
+    role: '',
     name: '',
     email: '',
     phone: '',
     advisor: '',
     state: '',
+    deliveryDate: '',
+    plateNumber: '',
   });
 
   useEffect(() => {
     const arrayInfo = Array.isArray(info) ? info : [];
     let result = arrayInfo.filter((a) => {
+      const roleMatch = filters.role
+        ? a.role?.toLowerCase().includes(filters.role.toLowerCase())
+        : true;
+
       const nameMatch = filters.name
         ? a.name?.toLowerCase().includes(filters.name.toLowerCase())
         : true;
@@ -53,7 +60,19 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
         ? a.phone?.toLowerCase().includes(filters.phone.toLowerCase())
         : true;
 
-      if (view === 'customers') {
+      const deliveryDateMatch = filters.deliveryDate
+        ? a.deliveryDate
+            ?.toLowerCase()
+            .includes(filters.deliveryDate.toLowerCase())
+        : true;
+
+      const plateNumberMatch = filters.plateNumber
+        ? a.plateNumber
+            ?.toLowerCase()
+            .includes(filters.plateNumber.toLowerCase())
+        : true;
+
+      if (view === 'customers' || view === 'delivered') {
         const advisorMatch = filters.advisor
           ? (a.advisor?.name?.toLowerCase() || 'sin asignar').includes(
               filters.advisor.toLowerCase()
@@ -67,11 +86,17 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
           : true;
 
         return (
-          nameMatch && emailMatch && phoneMatch && advisorMatch && stateMatch
+          nameMatch &&
+          emailMatch &&
+          phoneMatch &&
+          advisorMatch &&
+          stateMatch &&
+          deliveryDateMatch &&
+          plateNumberMatch
         );
       }
 
-      return nameMatch && emailMatch && phoneMatch;
+      return roleMatch && nameMatch && emailMatch && phoneMatch;
     });
 
     setFiltered(result);
@@ -93,6 +118,7 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+    console.log();
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 

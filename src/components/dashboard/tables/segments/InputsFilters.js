@@ -12,16 +12,17 @@ export default function InputFilters({
       title: 'Asesor',
       show: (rol === 'ADMIN' && view === 'customers') || view === 'delivered',
     },
+    { name: 'role', title: 'Rol', show: view === 'advisors' },
     { name: 'name', title: 'Nombre', show: true },
+    {
+      name: 'deliveryDate',
+      title: 'Fecha de Entrega',
+      show: view === 'delivered',
+    },
+    { name: 'plateNumber', title: 'Placa', show: view === 'delivered' },
     { name: 'email', title: 'Correo', show: true },
     { name: 'phone', title: 'Teléfono', show: true },
     { name: 'state', title: 'Estado', show: view === 'customers' },
-    { name: 'plateNumber', title: 'Placa', show: view === 'delivered' },
-    {
-      name: 'deliveryDate',
-      title: 'Fecha Entrega',
-      show: view === 'delivered',
-    },
   ];
 
   return (
