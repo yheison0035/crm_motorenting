@@ -7,6 +7,7 @@ import BtnReturn from '@/components/dashboard/buttons/return';
 import DepartaCiudad from '@/components/dashboard/select/depart_ciud';
 import AlertModal from '@/components/dashboard/modals/alertModal';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { Roles } from '@/config/roles';
 
 export default function AdvisorForm({
   initialData,
@@ -126,8 +127,11 @@ export default function AdvisorForm({
               required
             >
               <option value="">Selecciona un rol</option>
-              <option value="ADMIN">Administrador</option>
-              <option value="ASESOR">Asesor</option>
+              {Object.values(Roles).map((rol, i) => (
+                <option key={i} value={rol}>
+                  {rol}
+                </option>
+              ))}
             </select>
           </div>
 

@@ -12,6 +12,7 @@ import AlertModal from '../modals/alertModal';
 import useUsers from '@/lib/api/hooks/useUsers';
 import AssignAdvisor from './segments/assignAdvisor';
 import ContentData from './segments/contentData';
+import usePermissions from '@/hooks/usePermissions';
 
 const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   const [filtered, setFiltered] = useState(info);
@@ -29,6 +30,8 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   const { getUsers } = useUsers();
   const { assignMultipleCustomers, loading, assignAdvisor } = useCustomers();
   const { deleteCustomer, loading: deleting, error } = useCustomers();
+
+  const { canViewAll } = usePermissions();
 
   const [filters, setFilters] = useState({
     role: '',
@@ -104,7 +107,7 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   }, [filters, info, view]);
 
   useEffect(() => {
-    fetchAdvisors();
+    canViewAll && fetchAdvisors();
   }, []);
 
   const fetchAdvisors = async () => {

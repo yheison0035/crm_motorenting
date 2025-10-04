@@ -5,10 +5,11 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
 import Link from 'next/link';
-import RoleGuard from '@/components/auth/roleGuard';
+import RoleGuard from '@/auth/roleGuard';
 import { useAuth } from '@/context/authContext';
 import MessageEditorModal from '@/components/dashboard/modals/messageEditorModal';
 import { getUsers } from '@/lib/api/users';
+import { Roles } from '@/config/roles';
 
 export default function Advisors() {
   const [advisors, setAdvisors] = useState([]);
@@ -30,7 +31,7 @@ export default function Advisors() {
   }, []);
 
   return (
-    <RoleGuard allowedRoles={['ADMIN']}>
+    <RoleGuard allowedRoles={Object.values(Roles)}>
       <div className="w-full p-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
           <h1 className="text-xl md:text-2xl font-semibold text-gray-800">

@@ -9,6 +9,7 @@ import AddComment from '../comments/addComment';
 import BtnReturn from '../buttons/return';
 import BtnSave from '../buttons/save';
 import useStates from '@/lib/api/hooks/useStates';
+import usePermissions from '@/hooks/usePermissions';
 
 export default function CustomerForm({
   formData,
@@ -21,7 +22,6 @@ export default function CustomerForm({
   handleAddComment,
   loading,
   mode = 'edit',
-  usuario,
 }) {
   const [advisors, setAdvisors] = useState([]);
   const [states, setStates] = useState([]);
@@ -29,8 +29,10 @@ export default function CustomerForm({
   const { getUsers } = useUsers();
   const { getStates } = useStates();
 
+  const { canViewAll, canAssign } = usePermissions();
+
   useEffect(() => {
-    fetchUsers();
+    canViewAll && fetchUsers();
     fetchStates();
   }, [formData]);
 
@@ -101,7 +103,7 @@ export default function CustomerForm({
           </div>
         ))}
 
-        {usuario?.role === 'ADMIN' && (
+        {canAssign && (
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-1">
               Asignar Asesor

@@ -23,19 +23,19 @@ export default function NavLinks() {
       name: 'Clientes',
       href: '/CRM/dashboard/customers',
       icon: UsersIcon,
-      roles: ['ADMIN', 'ASESOR'],
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
     },
     {
       name: 'Asesores',
       href: '/CRM/dashboard/advisors',
       icon: UserGroupIcon,
-      roles: ['ADMIN'],
+      roles: ['SUPER_ADMIN', 'ADMIN'],
     },
     {
       name: 'Entregados',
       href: '/CRM/dashboard/delivered',
       icon: ClipboardDocumentCheckIcon,
-      roles: ['ADMIN', 'ASESOR'],
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
     },
   ];
 

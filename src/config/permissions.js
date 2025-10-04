@@ -1,0 +1,38 @@
+export const ROLE_PERMISSIONS = {
+  SUPER_ADMIN: {
+    canViewAll: true,
+    canCreate: true,
+    canEdit: true,
+    canDelete: true,
+    canExport: true,
+    canImport: true,
+    canAssign: true,
+  },
+  ADMIN: {
+    canViewAll: true,
+    canCreate: true,
+    canEdit: true,
+    canDelete: false,
+    canExport: false,
+    canImport: true,
+    canAssign: true,
+  },
+  COORDINADOR: {
+    canViewAll: true,
+    canCreate: true,
+    canEdit: true,
+    canDelete: false,
+    canExport: false,
+    canImport: true,
+    canAssign: true,
+  },
+  ASESOR: {
+    canViewAll: false,
+    canCreate: true,
+    canEdit: true,
+    canDelete: false,
+    canExport: false,
+    canImport: false,
+    canAssign: false,
+  },
+};

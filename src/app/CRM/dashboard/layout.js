@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import SideNavigation from '@/components/dashboard/sidenav/sidenav';
-import RoleGuard from '@/components/auth/roleGuard';
+import RoleGuard from '@/auth/roleGuard';
 import AlertMotivation from '@/components/dashboard/modals/alertMotivation';
 import { useAuth } from '@/context/authContext';
+import { Roles } from '@/config/roles';
 
 export default function Layout({ children }) {
   const [showMotivation, setShowMotivation] = useState(false);
@@ -21,7 +22,7 @@ export default function Layout({ children }) {
   }, [usuario]);
 
   return (
-    <RoleGuard allowedRoles={['ADMIN', 'ASESOR']}>
+    <RoleGuard allowedRoles={Object.values(Roles)}>
       <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
         <div className="w-full flex-none md:w-64">
           <SideNavigation />

@@ -1,3 +1,4 @@
+import usePermissions from '@/hooks/usePermissions';
 import {
   DocumentArrowDownIcon,
   PlusIcon,
@@ -6,12 +7,12 @@ import {
 import Link from 'next/link';
 
 export default function Header({
-  usuario,
   archivo,
   handleFileChange,
   handleRemoveFile,
   handleUpload,
 }) {
+  const { canImport } = usePermissions();
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
       <Link
@@ -22,7 +23,7 @@ export default function Header({
         <span>Agregar cliente</span>
       </Link>
 
-      {usuario?.role === 'ADMIN' && (
+      {canImport && (
         <>
           {!archivo ? (
             <label className="flex items-center gap-2 cursor-pointer bg-orange-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-700 transition">

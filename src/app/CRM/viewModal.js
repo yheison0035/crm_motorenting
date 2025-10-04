@@ -76,15 +76,19 @@ export default function ViewModal({ data, type, onClose }) {
           <div className="space-y-3">
             <div>
               <p className="font-semibold text-gray-700">Ciudad</p>
-              <p className="text-gray-500">{data.city}</p>
+              <p className="text-gray-500">{data.city || 'No disponible'}</p>
             </div>
             <div>
               <p className="font-semibold text-gray-700">Departamento</p>
-              <p className="text-gray-500">{data.department}</p>
+              <p className="text-gray-500">
+                {data.department || 'No disponible'}
+              </p>
             </div>
             <div>
               <p className="font-semibold text-gray-700">Documento</p>
-              <p className="text-gray-500">{data.document}</p>
+              <p className="text-gray-500">
+                {data.document || 'No disponible'}
+              </p>
             </div>
             <div>
               <p className="font-semibold text-gray-700">Estado</p>
@@ -101,7 +105,9 @@ export default function ViewModal({ data, type, onClose }) {
             </div>
             <div>
               <p className="font-semibold text-gray-700">Fecha de Registro</p>
-              <p className="text-gray-500">{formatDate(data.createdAt)}</p>
+              <p className="text-gray-500">
+                {formatDate(data.createdAt) || 'No disponible'}
+              </p>
             </div>
           </div>
           {type !== 'advisor' && (

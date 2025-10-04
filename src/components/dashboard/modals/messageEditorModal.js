@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import BtnSave from '../buttons/save';
 import useMotivation from '@/lib/api/hooks/useMotivation';
+import AlertModal from './alertModal';
 
 export default function MessageEditorModal({ onClose }) {
   const {
@@ -12,7 +13,7 @@ export default function MessageEditorModal({ onClose }) {
     loading,
     error,
   } = useMotivation();
-
+  const [alert, setAlert] = useState({ type: '', message: '', url: '' });
   const [message, setMessage] = useState({
     title: '',
     subtitle: '',
@@ -20,16 +21,27 @@ export default function MessageEditorModal({ onClose }) {
   });
 
   useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        const { data } = await getMotivationMessage();
-        if (data) setMessage(data);
-      } catch (err) {
-        console.error('Error cargando motivación:', err);
-      }
-    };
     fetchMessage();
   }, []);
+
+  const fetchMessage = async () => {
+    try {
+      const { data } = await getMotivationMessage();
+      if (!data || !data[0]) return;
+      const { id = '', title = '', subtitle = '', items = [] } = data[0];
+      setMessage({
+        id,
+        title,
+        subtitle,
+        items,
+      });
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: err.message || 'Error cargando motivación.',
+      });
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,12 +73,22 @@ export default function MessageEditorModal({ onClose }) {
     try {
       if (message.id) {
         await updateMotivation(message.id, message);
+        setAlert({
+          type: 'success',
+          message: 'Se actualizo correctamente.',
+        });
       } else {
         await createMotivation(message);
+        setAlert({
+          type: 'success',
+          message: 'Se creo correctamente.',
+        });
       }
-      onClose();
     } catch (err) {
-      console.error('Error guardando motivación:', err);
+      setAlert({
+        type: 'error',
+        message: err.message || 'Error guardando datos.',
+      });
     }
   };
 
@@ -104,7 +126,7 @@ export default function MessageEditorModal({ onClose }) {
 
             <div className="space-y-2">
               <p className="font-medium text-gray-700">Lista de beneficios:</p>
-              {message.items.map((item, index) => (
+              {message?.items?.map((item, index) => (
                 <div key={index} className="flex gap-2">
                   <input
                     type="text"
@@ -141,13 +163,19 @@ export default function MessageEditorModal({ onClose }) {
                 onClick={onClose}
                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 cursor-pointer"
               >
-                Cancelar
+                Cerrar
               </button>
               <BtnSave disabled={loading} />
             </div>
           </form>
         )}
       </div>
+      <AlertModal
+        type={alert.type}
+        message={alert.message}
+        onClose={() => setAlert({ type: '', message: '', url: '' })}
+        url={alert.url}
+      />
     </div>
   );
 }

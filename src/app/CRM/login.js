@@ -48,7 +48,7 @@ export default function Login() {
               htmlFor="email"
               className="block text-xs text-gray-700 font-semibold py-2"
             >
-              email
+              Correo Electronico
             </label>
             <input
               id="email"
