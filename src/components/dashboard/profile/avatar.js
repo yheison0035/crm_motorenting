@@ -3,16 +3,26 @@
 import { useEffect, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import useUsers from '@/lib/api/hooks/useUsers';
-import AlertModal from '../modals/alertModal';
 
 export default function Avatar({ perfil = {}, setPerfil }) {
   const [alert, setAlert] = useState({ message: '' });
   const [avatarPreview, setAvatarPreview] = useState(perfil?.avatar || null);
-  const { uploadUserAvatar } = useUsers();
+  const { uploadUserAvatar, deleteUserAvatar } = useUsers();
 
   useEffect(() => {
-    setAvatarPreview(perfil?.avatar || null);
+    if (perfil?.avatar) {
+      setAvatarPreview(`${perfil.avatar}?t=${Date.now()}`);
+    } else {
+      setAvatarPreview(null);
+    }
   }, [perfil?.avatar]);
+
+  useEffect(() => {
+    if (alert.message) {
+      const timer = setTimeout(() => setAlert({ message: '' }), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert.message]);
 
   const getInitial = (name) => (name ? name.charAt(0).toUpperCase() : '?');
 
@@ -31,21 +41,35 @@ export default function Avatar({ perfil = {}, setPerfil }) {
 
   const getColor = (name) => {
     if (!name) return colors[0];
-
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
       hash = name.charCodeAt(i) + ((hash << 5) - hash);
-      hash = hash & hash;
+      hash &= hash;
     }
-    const index = Math.abs(hash) % colors.length;
-    return colors[index];
+    return colors[Math.abs(hash) % colors.length];
   };
 
   const handleRemoveAvatar = async () => {
-    const updated = { ...perfil, avatar: null };
-    setPerfil(updated);
-    setAvatarPreview(null);
-    localStorage.setItem('usuario', JSON.stringify(updated));
+    try {
+      await deleteUserAvatar();
+
+      if (avatarPreview?.startsWith('blob:')) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+
+      const updated = { ...perfil, avatar: null };
+      setPerfil(updated);
+      setAvatarPreview(null);
+
+      const input = document.getElementById('avatar-input');
+      if (input) input.value = '';
+
+      localStorage.setItem('usuario', JSON.stringify(updated));
+      setAlert({ message: 'Avatar eliminado correctamente.' });
+    } catch (error) {
+      console.error('Error eliminando avatar:', error);
+      setAlert({ message: 'No se pudo eliminar el avatar.' });
+    }
   };
 
   const handleAvatarChange = async (e) => {
@@ -53,39 +77,42 @@ export default function Avatar({ perfil = {}, setPerfil }) {
     if (!file) return;
 
     try {
-      setAvatarPreview(URL.createObjectURL(file));
+      const tempUrl = URL.createObjectURL(file);
+      setAvatarPreview(tempUrl);
+
       const resp = await uploadUserAvatar(file);
       const updatedUser = resp?.data ?? resp;
+
       if (updatedUser) {
         setPerfil(updatedUser);
-        setAvatarPreview(updatedUser.avatar ?? avatarPreview);
+        setAvatarPreview(`${updatedUser.avatar}?t=${Date.now()}`);
         localStorage.setItem('usuario', JSON.stringify(updatedUser));
-        setAlert({
-          message: 'Se actualizó el avatar.',
-        });
+        setAlert({ message: 'Se actualizó el avatar.' });
       }
     } catch (err) {
       console.error('Error subiendo avatar:', err);
-      setAlert({
-        message: 'Error al subir avatar',
-      });
+      setAlert({ message: 'Error al subir avatar' });
+    } finally {
+      e.target.value = '';
     }
   };
 
   return (
     <>
       <div className="relative w-24 h-24">
-        <label className="w-full h-full block rounded-full overflow-hidden group">
+        <label className="w-full h-full block rounded-full overflow-hidden group cursor-pointer">
           <input
             type="file"
             accept="image/*"
             onChange={handleAvatarChange}
             className="hidden"
+            id="avatar-input"
           />
 
-          {avatarPreview || perfil?.avatar ? (
+          {avatarPreview ? (
             <img
-              src={avatarPreview || perfil.avatar}
+              key={avatarPreview}
+              src={avatarPreview}
               alt="Avatar"
               className="w-full h-full object-cover"
             />
@@ -100,14 +127,14 @@ export default function Avatar({ perfil = {}, setPerfil }) {
           )}
 
           <div
-            className="absolute inset-0 font-semibold bg-black/40 opacity-0 group-hover:opacity-100 flex 
-      items-center justify-center text-white text-xs transition cursor-pointer rounded-full"
+            className="absolute inset-0 font-semibold bg-black/40 opacity-0 group-hover:opacity-100 
+            flex items-center justify-center text-white text-xs transition rounded-full"
           >
             Cambiar
           </div>
         </label>
 
-        {(avatarPreview || perfil?.avatar) && (
+        {avatarPreview && (
           <button
             type="button"
             onClick={handleRemoveAvatar}
@@ -117,7 +144,12 @@ export default function Avatar({ perfil = {}, setPerfil }) {
           </button>
         )}
       </div>
-      <span className="text-red-100 text-xs">{alert.message}</span>
+
+      {alert.message && (
+        <span className="text-green-500 text-xs block mt-1">
+          {alert.message}
+        </span>
+      )}
     </>
   );
 }

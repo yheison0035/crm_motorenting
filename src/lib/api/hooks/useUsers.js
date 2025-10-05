@@ -9,6 +9,7 @@ import {
   deleteUser,
   toggleUserRole,
   uploadUserAvatar,
+  deleteUserAvatar,
 } from '../users';
 
 export default function useUsers() {
@@ -36,6 +37,7 @@ export default function useUsers() {
     deleteUser: (id) => wrap(deleteUser, id),
     toggleUserRole: (id) => wrap(toggleUserRole, id),
     uploadUserAvatar: (file) => wrap(uploadUserAvatar, file),
+    deleteUserAvatar: () => wrap(deleteUserAvatar),
     loading,
     error,
   };
