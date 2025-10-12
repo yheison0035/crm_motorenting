@@ -82,7 +82,9 @@ export default function ContentData({
                       /\s+/g,
                       ''
                     )}?text=${encodeURIComponent(
-                      `Hola ${info.name}, te contacto desde MotoRenting ...`
+                      `Hola, somos MOTORENTING SAS,  Vi que estás interesado en una moto y estoy 
+                      aquí para ayudarte a encontrar la mejor opción. ¿Tienes ya algún modelo 
+                      en mente o te gustaría que te asesoremos?`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
