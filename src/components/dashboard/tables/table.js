@@ -31,7 +31,7 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   const { assignMultipleCustomers, loading, assignAdvisor } = useCustomers();
   const { deleteCustomer, loading: deleting, error } = useCustomers();
 
-  const { canViewAll, canCreate, canAssign } = usePermissions();
+  const { canAssign } = usePermissions();
 
   const [filters, setFilters] = useState({
     role: '',
@@ -107,7 +107,7 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
   }, [filters, info, view]);
 
   useEffect(() => {
-    (canViewAll && canCreate) || (canAssign && fetchAdvisors());
+    canAssign && fetchAdvisors();
   }, []);
 
   const fetchAdvisors = async () => {
