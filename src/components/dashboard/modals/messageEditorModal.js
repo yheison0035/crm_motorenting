@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import BtnSave from '../buttons/save';
 import useMotivation from '@/lib/api/hooks/useMotivation';
 import AlertModal from './alertModal';
@@ -22,9 +22,9 @@ export default function MessageEditorModal({ onClose }) {
 
   useEffect(() => {
     fetchMessage();
-  }, []);
+  }, [fetchMessage]);
 
-  const fetchMessage = async () => {
+  const fetchMessage = useCallback(async () => {
     try {
       const { data } = await getMotivationMessage();
       if (!data || !data[0]) return;
@@ -41,7 +41,7 @@ export default function MessageEditorModal({ onClose }) {
         message: err.message || 'Error cargando motivación.',
       });
     }
-  };
+  }, [getMotivationMessage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

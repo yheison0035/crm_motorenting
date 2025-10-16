@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Thead from './segments/thead';
 import InputFilters from './segments/InputsFilters';
@@ -108,16 +108,16 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
 
   useEffect(() => {
     canAssign && fetchAdvisors();
-  }, []);
+  }, [fetchAdvisors]);
 
-  const fetchAdvisors = async () => {
+  const fetchAdvisors = useCallback(async () => {
     try {
       const { data } = await getUsers();
       setAdvisors(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [getUsers]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;

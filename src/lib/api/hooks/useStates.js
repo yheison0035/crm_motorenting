@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { getStates, getStateById } from '../states/index';
+import { useCallback, useState } from 'react';
+import { getStates, getStateById } from '../states';
 
 export default function useStates() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const wrap = async (fn, ...args) => {
+  const wrap = useCallback(async (fn, ...args) => {
     setLoading(true);
     setError(null);
     try {
@@ -18,11 +18,14 @@ export default function useStates() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const getStatesFn = useCallback(() => wrap(getStates), [wrap]);
+  const getStateByIdFn = useCallback((id) => wrap(getStateById, id), [wrap]);
 
   return {
-    getStates: () => wrap(getStates),
-    getStateById: (id) => wrap(getStateById, id),
+    getStates: getStatesFn,
+    getStateById: getStateByIdFn,
     loading,
     error,
   };

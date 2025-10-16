@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { redirect, useParams } from 'next/navigation';
 import useUsers from '@/lib/api/hooks/useUsers';
 import AdvisorForm from '@/components/dashboard/form/advisorForm';
@@ -12,7 +12,7 @@ export default function EditAdvisor() {
   const [advisor, setAdvisor] = useState(null);
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
 
-  const fetchAdvisor = async () => {
+  const fetchAdvisor = useCallback(async () => {
     try {
       const { data } = await getUserById(Number(id));
       setAdvisor(data);
@@ -23,11 +23,11 @@ export default function EditAdvisor() {
         url: '/CRM/dashboard/advisors',
       });
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (id) fetchAdvisor();
-  }, [id]);
+  }, [id, fetchAdvisor]);
 
   if (!advisor)
     return (

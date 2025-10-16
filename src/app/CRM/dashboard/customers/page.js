@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/authContext';
 import useCustomers from '@/lib/api/hooks/useCustomers';
 import Table from '@/components/dashboard/tables/table';
@@ -17,18 +17,18 @@ export default function Customers() {
 
   const { getCustomers, importCustomers, loading, error } = useCustomers();
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = useCallback(async () => {
     try {
       const { data } = await getCustomers();
       setCustomers(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [getCustomers]);
 
   useEffect(() => {
     fetchCustomers();
-  }, []);
+  }, [fetchCustomers]);
 
   const handleFileChange = (e) => setArchivo(e.target.files?.[0] || null);
   const handleRemoveFile = () => setArchivo(null);

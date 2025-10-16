@@ -25,7 +25,7 @@ export default function Delivered() {
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  }, [getDeliveredCustomers]);
 
   useEffect(() => {
     fetchData();

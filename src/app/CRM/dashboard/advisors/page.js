@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import ViewModal from '../../viewModal';
 import Table from '@/components/dashboard/tables/table';
@@ -17,18 +17,18 @@ export default function Advisors() {
   const [showEditor, setShowEditor] = useState(false);
   const { usuario } = useAuth();
 
-  const fetchAdvisors = async () => {
+  const fetchAdvisors = useCallback(async () => {
     try {
       const { data } = await getUsers();
       setAdvisors(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [getUsers]);
 
   useEffect(() => {
     fetchAdvisors();
-  }, []);
+  }, [fetchAdvisors]);
 
   return (
     <RoleGuard allowedRoles={Object.values(Roles)}>

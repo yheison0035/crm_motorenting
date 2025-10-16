@@ -1,6 +1,5 @@
 'use client';
-
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   getCustomers,
   getDeliveredCustomers,
@@ -19,7 +18,7 @@ export default function useCustomers() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const wrap = async (fn, ...args) => {
+  const wrap = useCallback(async (fn, ...args) => {
     setLoading(true);
     setError(null);
     try {
@@ -30,21 +29,63 @@ export default function useCustomers() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const getCustomersFn = useCallback(() => wrap(getCustomers), [wrap]);
+  const getDeliveredCustomersFn = useCallback(
+    () => wrap(getDeliveredCustomers),
+    [wrap]
+  );
+  const getCustomerByIdFn = useCallback(
+    (id) => wrap(getCustomerById, id),
+    [wrap]
+  );
+  const createCustomerFn = useCallback(
+    (dto) => wrap(createCustomer, dto),
+    [wrap]
+  );
+  const updateCustomerFn = useCallback(
+    (id, dto) => wrap(updateCustomer, id, dto),
+    [wrap]
+  );
+  const deleteCustomerFn = useCallback(
+    (id) => wrap(deleteCustomer, id),
+    [wrap]
+  );
+  const addCommentFn = useCallback(
+    (id, desc) => wrap(addComment, id, desc),
+    [wrap]
+  );
+  const assignAdvisorFn = useCallback(
+    (cid, aid) => wrap(assignAdvisor, cid, aid),
+    [wrap]
+  );
+  const assignMultipleCustomersFn = useCallback(
+    (customerIds, selectedAdvisor) =>
+      wrap(assignMultipleCustomers, { customerIds, selectedAdvisor }),
+    [wrap]
+  );
+  const importCustomersFn = useCallback(
+    (file) => wrap(importCustomers, file),
+    [wrap]
+  );
+  const exportDeliveredCustomersFn = useCallback(
+    () => wrap(exportDeliveredCustomers),
+    [wrap]
+  );
 
   return {
-    getCustomers: () => wrap(getCustomers),
-    getDeliveredCustomers: () => wrap(getDeliveredCustomers),
-    getCustomerById: (id) => wrap(getCustomerById, id),
-    createCustomer: (dto) => wrap(createCustomer, dto),
-    updateCustomer: (id, dto) => wrap(updateCustomer, id, dto),
-    deleteCustomer: (id) => wrap(deleteCustomer, id),
-    addComment: (id, desc) => wrap(addComment, id, desc),
-    assignAdvisor: (cid, aid) => wrap(assignAdvisor, cid, aid),
-    assignMultipleCustomers: (customerIds, selectedAdvisor) =>
-      wrap(assignMultipleCustomers, { customerIds, selectedAdvisor }),
-    importCustomers: (file) => wrap(importCustomers, file),
-    exportDeliveredCustomers: () => wrap(exportDeliveredCustomers),
+    getCustomers: getCustomersFn,
+    getDeliveredCustomers: getDeliveredCustomersFn,
+    getCustomerById: getCustomerByIdFn,
+    createCustomer: createCustomerFn,
+    updateCustomer: updateCustomerFn,
+    deleteCustomer: deleteCustomerFn,
+    addComment: addCommentFn,
+    assignAdvisor: assignAdvisorFn,
+    assignMultipleCustomers: assignMultipleCustomersFn,
+    importCustomers: importCustomersFn,
+    exportDeliveredCustomers: exportDeliveredCustomersFn,
     loading,
     error,
   };

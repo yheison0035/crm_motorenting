@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useUsers from '@/lib/api/hooks/useUsers';
 
 import DepartaCiudad from '@/components/dashboard/select/depart_ciud';
@@ -34,7 +34,7 @@ export default function CustomerForm({
   useEffect(() => {
     canViewAll && fetchUsers();
     fetchStates();
-  }, [formData]);
+  }, [formData, canViewAll, fetchUsers, fetchStates]);
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -50,14 +50,14 @@ export default function CustomerForm({
     }));
   };
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const { data } = await getUsers();
       setAdvisors(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [getUsers]);
 
   const fetchStates = async () => {
     try {
