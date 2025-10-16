@@ -106,10 +106,6 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
     setCurrentPage(1);
   }, [filters, info, view]);
 
-  useEffect(() => {
-    canAssign && fetchAdvisors();
-  }, [fetchAdvisors]);
-
   const fetchAdvisors = useCallback(async () => {
     try {
       const { data } = await getUsers();
@@ -118,6 +114,10 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
       console.error(err);
     }
   }, [getUsers]);
+
+  useEffect(() => {
+    canAssign && fetchAdvisors();
+  }, [fetchAdvisors]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
