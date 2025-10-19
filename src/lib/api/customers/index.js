@@ -28,6 +28,7 @@ export async function updateCustomer(id, dto) {
     id: _id,
     createdAt,
     updatedAt,
+    assignedAt,
     advisor,
     comments,
     state,

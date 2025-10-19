@@ -183,14 +183,22 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
 
   const getCustomerLockState = (index, customer) => {
     if (rol !== 'ASESOR' || view !== 'customers') return false;
+
+    if (customer.state?.name !== 'Sin Contactar') return false;
+
     if (customer.comments?.length > 0) return false;
 
     for (let i = 0; i < index; i++) {
       const prevCustomer = paginatedData[i];
-      if (!prevCustomer.comments || prevCustomer.comments.length === 0) {
+
+      const isPrevSinContactar = prevCustomer.state?.name === 'Sin Contactar';
+      const hasPrevComment = prevCustomer.comments?.length > 0;
+
+      if (isPrevSinContactar && !hasPrevComment) {
         return true;
       }
     }
+
     return false;
   };
 
