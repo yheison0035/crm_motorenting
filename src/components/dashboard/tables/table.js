@@ -14,7 +14,14 @@ import AssignAdvisor from './segments/assignAdvisor';
 import ContentData from './segments/contentData';
 import usePermissions from '@/hooks/usePermissions';
 
-const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
+const Table = ({
+  info = [],
+  view,
+  setSelected,
+  setSelectedState,
+  rol,
+  fetchData,
+}) => {
   const [filtered, setFiltered] = useState(info);
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedAdvisor, setSelectedAdvisor] = useState('');
@@ -252,6 +259,7 @@ const Table = ({ info = [], view, setSelected, rol, fetchData }) => {
             rol={rol}
             view={view}
             setSelected={setSelected}
+            setSelectedState={setSelectedState}
             toggleCheckbox={toggleCheckbox}
             selectedIds={selectedIds}
             handleDeleteClick={handleDeleteClick}

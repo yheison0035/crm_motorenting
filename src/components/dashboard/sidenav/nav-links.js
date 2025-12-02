@@ -5,6 +5,12 @@ import {
   UserGroupIcon,
   UsersIcon,
   ArrowLeftOnRectangleIcon,
+  ChartBarSquareIcon,
+  ClipboardDocumentListIcon,
+  CheckBadgeIcon,
+  IdentificationIcon,
+  BanknotesIcon,
+  DocumentCurrencyDollarIcon,
   ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
 
@@ -36,6 +42,42 @@ export default function NavLinks() {
       href: '/CRM/dashboard/delivered',
       icon: ClipboardDocumentCheckIcon,
       roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
+    },
+    {
+      name: 'Estadisticas',
+      href: '/CRM/dashboard/stadistics',
+      icon: ChartBarSquareIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR'],
+    },
+    {
+      name: 'Pre-Aprobados',
+      href: '/CRM/dashboard/preApproved',
+      icon: ClipboardDocumentListIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR'],
+    },
+    {
+      name: 'Aprobados',
+      href: '/CRM/dashboard/approved',
+      icon: CheckBadgeIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'AUXILIAR'],
+    },
+    {
+      name: 'Pagos',
+      href: '/CRM/dashboard/payments',
+      icon: BanknotesIcon,
+      roles: ['SUPER_ADMIN', 'AUXILIAR'],
+    },
+    {
+      name: 'Facturacion',
+      href: '/CRM/dashboard/billing',
+      icon: DocumentCurrencyDollarIcon,
+      roles: ['SUPER_ADMIN', 'AUXILIAR'],
+    },
+    {
+      name: 'Matriculas',
+      href: '/CRM/dashboard/registrations',
+      icon: IdentificationIcon,
+      roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },
   ];
 

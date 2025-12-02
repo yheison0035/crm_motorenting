@@ -73,6 +73,7 @@ export default function NewCustomer() {
         loading={false}
         mode="new"
         usuario={usuario}
+        view="customers"
       />
 
       <AlertModal

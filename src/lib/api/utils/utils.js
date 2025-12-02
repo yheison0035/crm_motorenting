@@ -20,3 +20,31 @@ export function normalizeDateForInput(input) {
 
   return d.toISOString().split('T')[0];
 }
+
+export function formatPesosRealtime(value) {
+  if (value === null || value === undefined) return '';
+
+  const str = String(value);
+
+  const clean = str.replace(/[^\d]/g, '');
+
+  if (clean === '') return '';
+
+  const number = parseInt(clean, 10);
+
+  if (isNaN(number)) return '';
+
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+  }).format(number);
+}
+
+export function pesosToNumber(value) {
+  if (!value) return 0;
+
+  const str = String(value);
+  const clean = str.replace(/[^\d]/g, '');
+  return parseInt(clean || '0', 10);
+}

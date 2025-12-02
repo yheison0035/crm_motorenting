@@ -16,7 +16,8 @@ export default function InputFilters({
       title: 'Asesor',
       show:
         (canViewAll && view === 'customers') ||
-        (view === 'delivered' && rol !== Roles.ASESOR),
+        view === 'delivered' ||
+        (view == 'preApproved' && rol !== Roles.ASESOR),
     },
     { name: 'role', title: 'Rol', show: view === 'advisors' },
     { name: 'name', title: 'Nombre', show: true },
@@ -28,7 +29,11 @@ export default function InputFilters({
     { name: 'plateNumber', title: 'Placa', show: view === 'delivered' },
     { name: 'email', title: 'Correo', show: true },
     { name: 'phone', title: 'Teléfono', show: true },
-    { name: 'state', title: 'Estado', show: view === 'customers' },
+    {
+      name: 'state',
+      title: 'Estado',
+      show: view === 'customers' || view == 'preApproved',
+    },
   ];
 
   return (

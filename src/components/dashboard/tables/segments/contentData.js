@@ -10,6 +10,7 @@ export default function ContentData({
   rol,
   view,
   setSelected,
+  setSelectedState,
   toggleCheckbox,
   selectedIds,
   handleDeleteClick,
@@ -50,11 +51,14 @@ export default function ContentData({
               </td>
             )}
 
-            {canViewAll && (view === 'customers' || view === 'delivered') && (
-              <td className="px-4 py-3">
-                {info.advisor?.name || 'Sin Asignar'}
-              </td>
-            )}
+            {canViewAll &&
+              (view === 'customers' ||
+                view === 'delivered' ||
+                view === 'preApproved') && (
+                <td className="px-4 py-3">
+                  {info.advisor?.name || 'Sin Asignar'}
+                </td>
+              )}
 
             {canViewAll && view === 'advisors' && (
               <td className="px-4 py-3">{info.role}</td>
@@ -88,7 +92,6 @@ export default function ContentData({
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-green-600 hover:underline"
                   >
-                    {/* Ícono de WhatsApp */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -112,6 +115,12 @@ export default function ContentData({
               <td className="px-4 py-3">{info.state?.name}</td>
             )}
 
+            {view === 'preApproved' && (
+              <td className="px-4 py-3">
+                {info.statePre?.name || 'PENDIENTE POR APROBAR'}
+              </td>
+            )}
+
             <td className="px-4 py-3 text-center">
               <Actions
                 isLocked={isLocked}
@@ -119,6 +128,7 @@ export default function ContentData({
                 info={info}
                 view={view}
                 setSelected={setSelected}
+                setSelectedState={setSelectedState}
                 handleDelete={() =>
                   handleDeleteClick(
                     info.id,

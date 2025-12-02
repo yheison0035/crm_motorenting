@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { locations } from '@/lib/api/local/locations';
+import { LOCATIONS_LIST } from '@/lib/api/listData/locations';
 
 export default function DepartaCiudad({
   formData,
@@ -10,7 +10,9 @@ export default function DepartaCiudad({
 
   useEffect(() => {
     if (formData?.department) {
-      const dep = locations.find((d) => d.department === formData.department);
+      const dep = LOCATIONS_LIST.find(
+        (d) => d.department === formData.department
+      );
       setAvailableCities(dep ? dep.city : []);
     } else {
       setAvailableCities([]);
@@ -41,7 +43,7 @@ export default function DepartaCiudad({
           disabled={isLocked}
         >
           <option value="">Seleccione un departamento</option>
-          {locations.map((d) => (
+          {LOCATIONS_LIST.map((d) => (
             <option key={d.id} value={d.department}>
               {d.department}
             </option>

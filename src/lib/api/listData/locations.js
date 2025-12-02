@@ -1,4 +1,4 @@
-export const locations = [
+export const LOCATIONS_LIST = [
   {
     id: 0,
     department: 'Amazonas',
