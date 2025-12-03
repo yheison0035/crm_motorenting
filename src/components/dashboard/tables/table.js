@@ -200,10 +200,22 @@ const Table = ({
 
       const isPrevSinContactar = prevCustomer.state?.name === 'Sin Contactar';
       const hasPrevComment = prevCustomer.comments?.length > 0;
-
       if (isPrevSinContactar && !hasPrevComment) {
         return true;
       }
+    }
+
+    return false;
+  };
+
+  const getCustomerLockStateSale = (view, customer) => {
+    const newData = {
+      ...customer,
+      saleState: { id: 1, name: 'PENDIENTE POR APROBAR', block: false },
+    };
+
+    if (newData?.saleState?.block && view === 'customers') {
+      return true;
     }
 
     return false;
@@ -256,6 +268,7 @@ const Table = ({
           <ContentData
             paginatedData={paginatedData}
             getCustomerLockState={getCustomerLockState}
+            getCustomerLockStateSale={getCustomerLockStateSale}
             rol={rol}
             view={view}
             setSelected={setSelected}

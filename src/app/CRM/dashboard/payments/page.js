@@ -134,7 +134,7 @@ export default function Payments() {
 
             <div className="grid grid-cols-1 gap-4">
               <input
-                placeholder="Número de recibo"
+                placeholder="Número recibo de caja"
                 value={receipt.number}
                 onChange={(e) =>
                   setReceipt({ ...receipt, number: e.target.value })

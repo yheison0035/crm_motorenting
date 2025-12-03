@@ -38,18 +38,6 @@ export default function NavLinks() {
       roles: ['SUPER_ADMIN', 'ADMIN'],
     },
     {
-      name: 'Entregados',
-      href: '/CRM/dashboard/delivered',
-      icon: ClipboardDocumentCheckIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
-    },
-    {
-      name: 'Estadisticas',
-      href: '/CRM/dashboard/stadistics',
-      icon: ChartBarSquareIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR'],
-    },
-    {
       name: 'Pre-Aprobados',
       href: '/CRM/dashboard/preApproved',
       icon: ClipboardDocumentListIcon,
@@ -60,6 +48,18 @@ export default function NavLinks() {
       href: '/CRM/dashboard/approved',
       icon: CheckBadgeIcon,
       roles: ['SUPER_ADMIN', 'ADMIN', 'AUXILIAR'],
+    },
+    {
+      name: 'Entregados',
+      href: '/CRM/dashboard/delivered',
+      icon: ClipboardDocumentCheckIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
+    },
+    {
+      name: 'Estadisticas',
+      href: '/CRM/dashboard/stadistics',
+      icon: ChartBarSquareIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR'],
     },
     {
       name: 'Pagos',

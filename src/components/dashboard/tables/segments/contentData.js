@@ -7,6 +7,7 @@ import usePermissions from '@/hooks/usePermissions';
 export default function ContentData({
   paginatedData,
   getCustomerLockState,
+  getCustomerLockStateSale,
   rol,
   view,
   setSelected,
@@ -27,14 +28,22 @@ export default function ContentData({
     <>
       {paginatedData.map((info, index) => {
         const isLocked = getCustomerLockState(index, info);
+        const isLockedSale = getCustomerLockStateSale(view, info);
         return (
           <tr
             key={info.id}
-            className={`border-b ${
+            className={`border-b 
+            ${
               isLocked
                 ? 'bg-gray-100 opacity-50 cursor-not-allowed'
                 : 'hover:bg-gray-50'
-            }`}
+            }
+            ${
+              isLockedSale
+                ? 'bg-red-200 opacity-50 hover:bg-red-200 cursor-not-allowed'
+                : 'hover:bg-gray-50'
+            }
+            `}
           >
             {canAssign && view === 'customers' && (
               <td className="px-4 py-3 text-center">
@@ -50,11 +59,15 @@ export default function ContentData({
                 )}
               </td>
             )}
+            {view === 'approved' && (
+              <td className="px-4 py-3">{info.orderNumber || 'MRS----'}</td>
+            )}
 
             {canViewAll &&
               (view === 'customers' ||
                 view === 'delivered' ||
-                view === 'preApproved') && (
+                view === 'preApproved' ||
+                view === 'approved') && (
                 <td className="px-4 py-3">
                   {info.advisor?.name || 'Sin Asignar'}
                 </td>
@@ -115,15 +128,16 @@ export default function ContentData({
               <td className="px-4 py-3">{info.state?.name}</td>
             )}
 
-            {view === 'preApproved' && (
+            {(view === 'customers' || view === 'preApproved') && (
               <td className="px-4 py-3">
-                {info.statePre?.name || 'PENDIENTE POR APROBAR'}
+                {info.saleState?.name || 'PENDIENTE POR APROBAR'}
               </td>
             )}
 
             <td className="px-4 py-3 text-center">
               <Actions
                 isLocked={isLocked}
+                isLockedSale={isLockedSale}
                 rol={rol}
                 info={info}
                 view={view}

@@ -12,12 +12,19 @@ export default function InputFilters({
 
   const allFilters = [
     {
+      name: 'orderNumber',
+      title: 'Numero de Orden',
+      show: view === 'approved',
+    },
+    {
       name: 'advisor',
       title: 'Asesor',
       show:
-        (canViewAll && view === 'customers') ||
-        view === 'delivered' ||
-        (view == 'preApproved' && rol !== Roles.ASESOR),
+        ((canViewAll && view === 'customers') ||
+          view === 'delivered' ||
+          view == 'preApproved' ||
+          view == 'approved') &&
+        rol !== Roles.ASESOR,
     },
     { name: 'role', title: 'Rol', show: view === 'advisors' },
     { name: 'name', title: 'Nombre', show: true },
@@ -33,6 +40,11 @@ export default function InputFilters({
       name: 'state',
       title: 'Estado',
       show: view === 'customers' || view == 'preApproved',
+    },
+    {
+      name: 'saleState',
+      title: 'Estado Venta',
+      show: view === 'customers',
     },
   ];
 
