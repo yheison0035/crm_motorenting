@@ -1,6 +1,10 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { FINANCIALS_LIST } from '@/lib/api/listData/financials';
-import { formatPesosRealtime, pesosToNumber } from '@/lib/api/utils/utils';
+import {
+  formatEnumText,
+  formatPesosRealtime,
+  pesosToNumber,
+} from '@/lib/api/utils/utils';
 
 export default function Payments({ addPayment, payments, setPayments }) {
   return (
@@ -35,23 +39,25 @@ export default function Payments({ addPayment, payments, setPayments }) {
           <select
             onChange={(e) => {
               const copy = [...payments];
-              copy[i].financial = e.target.value;
+              copy[i].financialEntity = e.target.value;
               setPayments(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
           >
             <option value="">Financiera</option>
             {FINANCIALS_LIST.map((f) => (
-              <option key={f}>{f}</option>
+              <option key={f} value={f}>
+                {formatEnumText(f, 'uppercase')}
+              </option>
             ))}
           </select>
 
           <input
             placeholder="Total pago"
-            value={formatPesosRealtime(p.total)}
+            value={formatPesosRealtime(p.totalPayment)}
             onChange={(e) => {
               const copy = [...payments];
-              copy[i].total = pesosToNumber(e.target.value);
+              copy[i].totalPayment = pesosToNumber(e.target.value);
               setPayments(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
@@ -70,10 +76,10 @@ export default function Payments({ addPayment, payments, setPayments }) {
 
           <input
             type="date"
-            value={p.date}
+            value={p.approvalDate}
             onChange={(e) => {
               const copy = [...payments];
-              copy[i].date = e.target.value;
+              copy[i].approvalDate = e.target.value;
               setPayments(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"

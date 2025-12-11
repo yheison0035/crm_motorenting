@@ -29,20 +29,20 @@ export default function Purchase({ purchase, errors, setPurchase }) {
 
         <input
           placeholder="Color principal"
-          value={purchase.colorMain}
+          value={purchase.mainColor}
           onChange={(e) =>
-            setPurchase({ ...purchase, colorMain: e.target.value })
+            setPurchase({ ...purchase, mainColor: e.target.value })
           }
           className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.colorMain ? 'border-red-500' : 'border-gray-200'
+            errors.mainColor ? 'border-red-500' : 'border-gray-200'
           }`}
         />
 
         <input
           placeholder="Color opcional"
-          value={purchase.colorOptional}
+          value={purchase.optionalColor}
           onChange={(e) =>
-            setPurchase({ ...purchase, colorOptional: e.target.value })
+            setPurchase({ ...purchase, optionalColor: e.target.value })
           }
           className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
         />
@@ -77,7 +77,7 @@ export default function Purchase({ purchase, errors, setPurchase }) {
 
         <input
           placeholder="Total compra"
-          value={formatPesosRealtime(purchase.total)}
+          value={formatPesosRealtime(purchase.totalValue)}
           readOnly
           className="w-full border border-gray-200 bg-gray-100 rounded-xl px-4 py-2 text-sm shadow-sm cursor-not-allowed"
         />

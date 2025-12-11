@@ -21,6 +21,21 @@ export function normalizeDateForInput(input) {
   return d.toISOString().split('T')[0];
 }
 
+export const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const formatDate = (date) =>
+  date ? new Date(date).toLocaleDateString('es-CO') : 'No disponible';
+
+export const parseLocalDate = (str) => {
+  const [year, month, day] = str.split('-').map(Number);
+  return new Date(year, month - 1, day);
+};
+
 export function formatPesosRealtime(value) {
   if (value === null || value === undefined) return '';
 

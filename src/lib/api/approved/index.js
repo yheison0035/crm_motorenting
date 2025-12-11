@@ -1,60 +1,33 @@
 import apiFetch from '../auth/client';
-import { toFullISO } from '../utils/utils';
 
 export async function getPreApproveds() {
-  return apiFetch('/customers/sale');
+  return apiFetch('/customers/preApproved');
 }
 
 export async function getApproveds() {
-  return apiFetch('/customers');
+  return apiFetch('/customers/approved');
 }
 
-export async function getApprovedById(id) {
-  return apiFetch(`/customers/${id}`);
-}
-
-export async function createApproved(dto) {
-  const body = {
-    ...dto,
-    birthdate: dto.birthdate ? toFullISO(dto.birthdate) : undefined,
-    advisorId: Number(dto.advisorId),
-    stateId: Number(dto.stateId),
-  };
-  return apiFetch('/customers', { method: 'POST', body: JSON.stringify(body) });
-}
-
-export async function updateApproved(id, dto) {
-  const {
-    id: _id,
-    createdAt,
-    updatedAt,
-    assignedAt,
-    advisor,
-    comments,
-    state,
-    ...cleanDto
-  } = dto;
-
-  const body = {
-    ...cleanDto,
-    stateId: Number(cleanDto.stateId) || null,
-    advisorId: Number(cleanDto.advisorId) || null,
-    birthdate: cleanDto.birthdate ? toFullISO(cleanDto.birthdate) : undefined,
-  };
-
-  return apiFetch(`/customers/${id}`, {
-    method: 'PUT',
+export async function createApproved(id, dataApproved) {
+  const body = dataApproved;
+  return apiFetch(`/customers/${id}/approve`, {
+    method: 'POST',
     body: JSON.stringify(body),
   });
 }
 
-export async function deleteApproved(id) {
-  return apiFetch(`/customers/${id}`, { method: 'DELETE' });
-}
-
-export async function addComment(customerId, description) {
-  return apiFetch(`/customers/${customerId}/comments`, {
-    method: 'POST',
-    body: JSON.stringify({ description }),
+export async function exportAllCustomersApproved() {
+  const blob = await apiFetch('/customers/export-approved', {
+    method: 'GET',
+    responseType: 'blob',
   });
+
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `clientes_aprobados_${Date.now()}.xlsx`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
 }

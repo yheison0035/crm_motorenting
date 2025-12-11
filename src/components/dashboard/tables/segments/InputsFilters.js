@@ -14,7 +14,7 @@ export default function InputFilters({
     {
       name: 'orderNumber',
       title: 'Numero de Orden',
-      show: view === 'approved',
+      show: view === 'approved' || view === 'delivered',
     },
     {
       name: 'advisor',

@@ -11,7 +11,7 @@ export default function Thead({ rol, view }) {
           <th className="px-4 py-3">Rol</th>
         )}
 
-        {view === 'approved' && canViewAll && (
+        {(view === 'approved' || view === 'delivered') && canViewAll && (
           <th className="px-4 py-3">Numero de Orden</th>
         )}
 

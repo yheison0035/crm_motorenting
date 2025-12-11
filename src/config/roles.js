@@ -3,4 +3,5 @@ export const Roles = {
   ADMIN: 'ADMIN',
   COORDINADOR: 'COORDINADOR',
   ASESOR: 'ASESOR',
+  AUXILIAR: 'AUXILIAR',
 };

@@ -61,7 +61,7 @@ export default function ContentData({
                 )}
               </td>
             )}
-            {view === 'approved' && (
+            {(view === 'approved' || view === 'delivered') && (
               <td className="px-4 py-3">{info.orderNumber || 'MRS----'}</td>
             )}
 

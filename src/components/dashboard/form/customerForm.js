@@ -43,19 +43,19 @@ export default function CustomerForm({
     }
   }, [getUsers]);
 
-  const fetchStates = async () => {
+  const fetchStates = useCallback(async () => {
     try {
       const data = await getStates();
       setStates(data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [getStates]);
 
   useEffect(() => {
     if (canViewAll) fetchUsers();
     fetchStates();
-  }, [canViewAll]);
+  }, [canViewAll, fetchUsers, fetchStates]);
 
   const handleChange = (e) => {
     let { name, value } = e.target;

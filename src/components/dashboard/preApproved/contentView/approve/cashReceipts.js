@@ -34,7 +34,7 @@ export default function CashReceipts({ addReceipt, receipts, setReceipts }) {
             placeholder="Número de recibo"
             onChange={(e) => {
               const copy = [...receipts];
-              copy[i].number = e.target.value;
+              copy[i].receiptNumber = e.target.value;
               setReceipts(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
@@ -52,10 +52,10 @@ export default function CashReceipts({ addReceipt, receipts, setReceipts }) {
 
           <input
             placeholder="Valor"
-            value={formatPesosRealtime(r.value)}
+            value={formatPesosRealtime(r.amount)}
             onChange={(e) => {
               const copy = [...receipts];
-              copy[i].value = pesosToNumber(e.target.value);
+              copy[i].amount = pesosToNumber(e.target.value);
               setReceipts(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"

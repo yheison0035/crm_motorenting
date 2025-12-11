@@ -7,6 +7,8 @@ import CashReceipts from './approve/cashReceipts';
 import Payments from './approve/payments';
 import Distributor from './approve/distributor';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import useApproved from '@/lib/api/hooks/useApproved';
+import AlertModal from '../../modals/alertModal';
 
 export default function Approve({ data }) {
   const [holders, setHolders] = useState([]);
@@ -16,24 +18,27 @@ export default function Approve({ data }) {
   const [purchase, setPurchase] = useState({
     brand: '',
     reference: '',
-    colorMain: '',
-    colorOptional: '',
+    mainColor: '',
+    optionalColor: '',
     commercialValue: 0,
     processValue: 0,
-    total: 0,
+    totalValue: 0,
   });
 
   const [distributor, setDistributor] = useState('');
   const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ type: '', message: '', url: '' });
+
+  const { createApproved } = useApproved();
 
   useEffect(() => {
-    const total =
+    const totalValue =
       Number(purchase.commercialValue || 0) +
       Number(purchase.processValue || 0);
 
     setPurchase((prev) => ({
       ...prev,
-      total,
+      totalValue,
     }));
   }, [purchase.commercialValue, purchase.processValue]);
 
@@ -41,13 +46,16 @@ export default function Approve({ data }) {
     const e = {};
     if (!purchase.brand) e.brand = true;
     if (!purchase.reference) e.reference = true;
-    if (!purchase.colorMain) e.colorMain = true;
+    if (!purchase.mainColor) e.mainColor = true;
+    if (!purchase.optionalColor) e.optionalColor = true;
     if (!purchase.commercialValue) e.commercialValue = true;
     if (!purchase.processValue) e.processValue = true;
+    if (!distributor) e.distributor = true;
     return e;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const purchaseErrors = validatePurchase();
 
     if (Object.keys(purchaseErrors).length > 0) {
@@ -63,32 +71,43 @@ export default function Approve({ data }) {
       payments,
       receipts,
     };
-
-    console.log(dataApproved);
+    try {
+      await createApproved(Number(data.id), dataApproved);
+      setAlert({
+        type: 'success',
+        message: 'Cliente aprobado correctamente.',
+        url: `/CRM/dashboard/approved`,
+      });
+    } catch (err) {
+      setAlert({
+        type: 'error',
+        message: err.message || 'Error al actualizar cliente',
+      });
+    }
   };
 
   const addHolder = () =>
     setHolders([
       ...holders,
       {
-        name: '',
-        id: '',
+        fullName: '',
+        document: '',
         email: '',
         phone: '',
         address: '',
         city: '',
-        financial: '',
+        financialEntity: '',
       },
     ]);
 
   const addPayment = () =>
     setPayments([
       ...payments,
-      { financial: '', total: '', aval: '', date: '' },
+      { financialEntity: '', totalPayment: '', aval: '', approvalDate: '' },
     ]);
 
   const addReceipt = () =>
-    setReceipts([...receipts, { number: '', date: '', value: '' }]);
+    setReceipts([...receipts, { receiptNumber: '', date: '', amount: '' }]);
 
   return (
     <div className="space-y-8 p-4">
@@ -112,7 +131,11 @@ export default function Approve({ data }) {
         setReceipts={setReceipts}
       />
 
-      <Distributor distributor={distributor} setDistributor={setDistributor} />
+      <Distributor
+        distributor={distributor}
+        errors={errors}
+        setDistributor={setDistributor}
+      />
 
       <section>
         {errors.processValue && (
@@ -129,6 +152,13 @@ export default function Approve({ data }) {
           Guardar y Aprobar
         </button>
       </div>
+
+      <AlertModal
+        type={alert.type}
+        message={alert.message}
+        onClose={() => setAlert({ type: '', message: '' })}
+        url={alert.url}
+      />
     </div>
   );
 }

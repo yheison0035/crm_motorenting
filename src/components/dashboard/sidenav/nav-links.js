@@ -47,7 +47,7 @@ export default function NavLinks() {
       name: 'Aprobados',
       href: '/CRM/dashboard/approved',
       icon: CheckBadgeIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'AUXILIAR'],
+      roles: ['SUPER_ADMIN', 'ADMIN', 'AUXILIAR', 'COORDINADOR'],
     },
     {
       name: 'Entregados',
@@ -69,7 +69,7 @@ export default function NavLinks() {
     },
     {
       name: 'Facturacion',
-      href: '/CRM/dashboard/billing',
+      href: '/CRM/dashboard/invoices',
       icon: DocumentCurrencyDollarIcon,
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },

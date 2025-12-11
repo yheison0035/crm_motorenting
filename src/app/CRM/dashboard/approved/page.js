@@ -13,7 +13,8 @@ export default function Approved() {
   const [approved, setApproved] = useState([]);
   const { usuario } = useAuth();
 
-  const { getApproveds, loading, error } = useApproved();
+  const { getApproveds, exportAllCustomersApproved, loading, error } =
+    useApproved();
   const { canExportApproved } = usePermissions();
 
   const fetchData = useCallback(async () => {
@@ -31,7 +32,7 @@ export default function Approved() {
 
   const handleExport = async () => {
     try {
-      //await exportDeliveredCustomers();
+      await exportAllCustomersApproved();
     } catch (err) {
       alert(err.message || 'Error exportando clientes');
     }

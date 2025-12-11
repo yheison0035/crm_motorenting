@@ -16,7 +16,7 @@ export default function Decline({ data, onClose }) {
       setObservation('');
       setAlert({
         type: 'success',
-        message: 'Comentario agregado correctamente.',
+        message: 'Cliente rechazado correctamente.',
       });
     } catch (err) {
       setAlert({

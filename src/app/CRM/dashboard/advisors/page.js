@@ -8,14 +8,15 @@ import Link from 'next/link';
 import RoleGuard from '@/auth/roleGuard';
 import { useAuth } from '@/context/authContext';
 import MessageEditorModal from '@/components/dashboard/modals/messageEditorModal';
-import { getUsers } from '@/lib/api/users';
 import { Roles } from '@/config/roles';
+import useUsers from '@/lib/api/hooks/useUsers';
 
 export default function Advisors() {
   const [advisors, setAdvisors] = useState([]);
   const [selectedAdvisors, setSelectedAdvisors] = useState(null);
   const [showEditor, setShowEditor] = useState(false);
   const { usuario } = useAuth();
+  const { getUsers } = useUsers();
 
   const fetchAdvisors = useCallback(async () => {
     try {

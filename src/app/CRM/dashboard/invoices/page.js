@@ -4,23 +4,23 @@ import { useState } from 'react';
 import { formatPesosRealtime, pesosToNumber } from '@/lib/api/utils/utils';
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline';
 import AlertModal from '@/components/dashboard/modals/alertModal';
-import useRegistrations from '@/lib/api/hooks/useRegistrations';
+import useInvoices from '@/lib/api/hooks/useInvoices';
 
-export default function Registrations() {
+export default function Invoices() {
   const [orderNumber, setOrderNumber] = useState('');
   const [customerName, setCustomerName] = useState(null);
   const [error, setError] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
   const [openInfo, setOpenInfo] = useState(false);
 
-  const { getRegistrationByOrderNumber, updateRegistrationByOrderNumber } =
-    useRegistrations();
+  const { getInvoiceByOrderNumber, updateInvoiceByOrderNumber } = useInvoices();
 
   const [form, setForm] = useState({
-    plate: '',
+    invoiceNumber: '',
     date: '',
-    soatValue: '',
-    registerValue: '',
+    value: '',
+    chassisNumber: '',
+    engineNumber: '',
   });
 
   const handleSearch = async () => {
@@ -30,16 +30,17 @@ export default function Registrations() {
     }
 
     try {
-      const { data } = await getRegistrationByOrderNumber(orderNumber);
+      const { data } = await getInvoiceByOrderNumber(orderNumber);
       if (!data.customerName) {
         setError('Número de orden sin información');
         setCustomerName(data.customerName ?? '');
         setOpenInfo(true);
         setForm({
-          plate: '',
+          invoiceNumber: '',
           date: '',
-          soatValue: '',
-          registerValue: '',
+          value: '',
+          chassisNumber: '',
+          engineNumber: '',
         });
         return;
       }
@@ -48,10 +49,11 @@ export default function Registrations() {
       setCustomerName(data.customerName ?? '');
 
       setForm({
-        plate: data.plate ?? '',
+        invoiceNumber: data.invoiceNumber ?? '',
         date: data.date ? data.date.split('T')[0] : '',
-        soatValue: data.soatValue ?? '',
-        registerValue: data.registerValue ?? '',
+        value: data.value ?? '',
+        chassisNumber: data.chassisNumber ?? '',
+        engineNumber: data.engineNumber ?? '',
       });
     } catch (err) {
       setError(err.message || 'Error al buscar la orden');
@@ -62,7 +64,13 @@ export default function Registrations() {
   };
 
   const handleSave = async () => {
-    if (!form.plate || !form.date || !form.soatValue || !form.registerValue) {
+    if (
+      !form.invoiceNumber ||
+      !form.date ||
+      !form.value ||
+      !form.chassisNumber ||
+      !form.engineNumber
+    ) {
       setAlert({
         type: 'error',
         message: 'Todos los campos son obligatorios',
@@ -71,25 +79,25 @@ export default function Registrations() {
     }
 
     try {
-      const { data } = await updateRegistrationByOrderNumber(orderNumber, form);
+      const { data } = await updateInvoiceByOrderNumber(orderNumber, form);
 
       if (!data) {
         setAlert({
           type: 'error',
-          message: 'No se pudo registrar la matrícula',
+          message: 'No se pudo registrar la factura',
         });
         return;
       }
 
       setAlert({
         type: 'success',
-        message: 'Matricula realizada correctamente',
+        message: 'Factura registrada correctamente',
       });
     } catch (err) {
       console.error(err);
       setAlert({
         type: 'error',
-        message: 'Error al registrar la matrícula',
+        message: 'Error al registrar la factura',
       });
     }
   };
@@ -98,10 +106,11 @@ export default function Registrations() {
     setOrderNumber('');
     setCustomerName(null);
     setForm({
-      plate: '',
+      invoiceNumber: '',
       date: '',
-      soatValue: '',
-      registerValue: '',
+      value: '',
+      chassisNumber: '',
+      engineNumber: '',
     });
     setError('');
   };
@@ -140,7 +149,7 @@ function Header() {
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <h1 className="text-xl md:text-2xl font-semibold text-gray-800">
-        Realizar Matricula
+        Realizar Facturación
       </h1>
     </div>
   );
@@ -209,7 +218,7 @@ function ResultsTable({
           className="px-5 py-2 ml-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md 
           transition active:scale-95 cursor-pointer"
         >
-          Guardar Matricula
+          Guardar Factura
         </button>
       </div>
     </div>
@@ -220,9 +229,9 @@ function InvoiceForm({ form, setForm }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input
-        placeholder="Placa"
-        value={form.plate}
-        onChange={(e) => setForm({ ...form, plate: e.target.value })}
+        placeholder="Número"
+        value={form.invoiceNumber}
+        onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })}
         className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
         focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
       />
@@ -236,21 +245,27 @@ function InvoiceForm({ form, setForm }) {
       />
 
       <input
-        placeholder="Valor de SOAT"
-        value={formatPesosRealtime(form.soatValue)}
+        placeholder="Valor"
+        value={formatPesosRealtime(form.value)}
         onChange={(e) =>
-          setForm({ ...form, soatValue: pesosToNumber(e.target.value) })
+          setForm({ ...form, value: pesosToNumber(e.target.value) })
         }
         className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
         focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
       />
 
       <input
-        placeholder="Valor de matrícula"
-        value={formatPesosRealtime(form.registerValue)}
-        onChange={(e) =>
-          setForm({ ...form, registerValue: pesosToNumber(e.target.value) })
-        }
+        placeholder="Número de chasis"
+        value={form.chassisNumber}
+        onChange={(e) => setForm({ ...form, chassisNumber: e.target.value })}
+        className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
+        focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+      />
+
+      <input
+        placeholder="Número de motor"
+        value={form.engineNumber}
+        onChange={(e) => setForm({ ...form, engineNumber: e.target.value })}
         className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm 
         focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
       />

@@ -3,11 +3,8 @@ import { useCallback, useState } from 'react';
 import {
   getPreApproveds,
   getApproveds,
-  getApprovedById,
   createApproved,
-  updateApproved,
-  deleteApproved,
-  addComment,
+  exportAllCustomersApproved,
 } from '../approved/index';
 
 export default function useApproved() {
@@ -29,34 +26,20 @@ export default function useApproved() {
 
   const getPreApprovedsFn = useCallback(() => wrap(getPreApproveds), [wrap]);
   const getApprovedsFn = useCallback(() => wrap(getApproveds), [wrap]);
-  const getApprovedByIdFn = useCallback(
-    (id) => wrap(getApprovedById, id),
-    [wrap]
-  );
   const createApprovedFn = useCallback(
-    (dto) => wrap(createApproved, dto),
+    (id, dto) => wrap(createApproved, id, dto),
     [wrap]
   );
-  const updateApprovedFn = useCallback(
-    (id, dto) => wrap(updateApproved, id, dto),
+  const exportAllCustomersApprovedFn = useCallback(
+    () => wrap(exportAllCustomersApproved),
     [wrap]
   );
-  const deleteApprovedFn = useCallback(
-    (id) => wrap(deleteApproved, id),
-    [wrap]
-  );
-  const addCommentFn = useCallback(
-    (id, desc) => wrap(addComment, id, desc),
-    [wrap]
-  );
+
   return {
     getPreApproveds: getPreApprovedsFn,
     getApproveds: getApprovedsFn,
-    getApprovedById: getApprovedByIdFn,
     createApproved: createApprovedFn,
-    updateApproved: updateApprovedFn,
-    deleteApproved: deleteApprovedFn,
-    addComment: addCommentFn,
+    exportAllCustomersApproved: exportAllCustomersApprovedFn,
     loading,
     error,
   };

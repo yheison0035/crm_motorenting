@@ -1,4 +1,5 @@
 import { FINANCIALS_LIST } from '@/lib/api/listData/financials';
+import { formatEnumText } from '@/lib/api/utils/utils';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
@@ -35,7 +36,7 @@ export default function Holders({ addHolder, holders, setHolders }) {
             placeholder="Nombres completos"
             onChange={(e) => {
               const copy = [...holders];
-              copy[i].name = e.target.value;
+              copy[i].fullName = e.target.value;
               setHolders(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
@@ -45,7 +46,7 @@ export default function Holders({ addHolder, holders, setHolders }) {
             placeholder="Cédula"
             onChange={(e) => {
               const copy = [...holders];
-              copy[i].id = e.target.value;
+              copy[i].document = e.target.value;
               setHolders(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
@@ -94,14 +95,16 @@ export default function Holders({ addHolder, holders, setHolders }) {
           <select
             onChange={(e) => {
               const copy = [...holders];
-              copy[i].financial = e.target.value;
+              copy[i].financialEntity = e.target.value;
               setHolders(copy);
             }}
             className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm"
           >
             <option value="">Financiera</option>
             {FINANCIALS_LIST.map((f) => (
-              <option key={f}>{f}</option>
+              <option key={f} value={f}>
+                {formatEnumText(f, 'uppercase')}
+              </option>
             ))}
           </select>
         </div>
