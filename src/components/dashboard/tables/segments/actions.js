@@ -88,7 +88,7 @@ export default function Actions({
         tooltip="Ver detalles"
       />
 
-      {view === 'approved' && canPrinterApproved && (
+      {(view === 'approved' || view === 'delivered') && canPrinterApproved && (
         <ActionButton
           onClick={() => handlePrintOrder(info.id, info.name)}
           disabled={isLocked || isLockedSale}
