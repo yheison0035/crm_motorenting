@@ -82,7 +82,7 @@ export default function NavLinks() {
   ];
 
   return (
-    <nav className="flex flex-col w-full px-6 space-y-4 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
+    <nav className="flex flex-col space-y-2 pb-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
       {links
         .filter((link) => link.roles.includes(usuario.role))
         .map((link) => {

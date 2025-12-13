@@ -24,27 +24,35 @@ export default function SideNavigation() {
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 md:static md:flex`}
       >
-        <div className="w-full flex justify-end px-4 md:hidden">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-white hover:text-red-400 cursor-pointer"
+        <div className="flex-shrink-0 flex flex-col items-center py-6 space-y-2">
+          <div className="w-full flex justify-end px-4 md:hidden">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:text-red-400"
+            >
+              <XMarkIcon className="w-6 h-6" />
+            </button>
+          </div>
+
+          <Avatar perfil={usuario} setPerfil={() => {}} />
+
+          <Link
+            href="/CRM/dashboard/profile/edit"
+            className="text-sm text-white font-semibold underline hover:text-orange-400"
           >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
+            Editar perfil
+          </Link>
+
+          <h6 className="text-sm text-orange-400 font-semibold text-center px-2">
+            {usuario?.role} - {usuario?.name}
+          </h6>
         </div>
 
-        <Avatar perfil={usuario} setPerfil={() => {}} />
-        <Link
-          href="/CRM/dashboard/profile/edit"
-          className="text-sm text-white font-semibold underline hover:underline"
-        >
-          Editar perfil
-        </Link>
-        <h6 className="text-sm text-orange-400 font-semibold text-center">
-          {usuario?.role} - {usuario?.name}
-        </h6>
-        <div className="w-full border-t border-gray-700 my-4"></div>
-        <NavLinks />
+        <div className="border-t border-gray-700 mx-6 my-2" />
+
+        <div className="flex-1 overflow-y-auto px-2">
+          <NavLinks />
+        </div>
       </aside>
     </>
   );
