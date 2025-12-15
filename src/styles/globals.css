@@ -23,3 +23,29 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* ===== SCROLLBAR INVISIBLE PERO FUNCIONAL ===== */
+
+/* Chrome, Edge, Safari */
+.scroll-hidden::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.scroll-hidden::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-hidden::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Firefox */
+.scroll-hidden {
+  scrollbar-width: none;
+}
+
+/* Edge Legacy */
+.scroll-hidden {
+  -ms-overflow-style: none;
+}

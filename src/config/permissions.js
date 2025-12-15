@@ -15,6 +15,7 @@ export const ROLE_PERMISSIONS = {
     canAssign: true,
     canPrinterApproved: true,
     canUpdateApproved: true,
+    canViewRegistrationValues: true,
   },
   ADMIN: {
     canDoEverything: false,
@@ -32,6 +33,7 @@ export const ROLE_PERMISSIONS = {
     canAssign: true,
     canPrinterApproved: true,
     canUpdateApproved: false,
+    canViewRegistrationValues: false,
   },
   COORDINADOR: {
     canDoEverything: false,
@@ -49,6 +51,7 @@ export const ROLE_PERMISSIONS = {
     canAssign: true,
     canPrinterApproved: true,
     canUpdateApproved: false,
+    canViewRegistrationValues: false,
   },
   ASESOR: {
     canDoEverything: false,
@@ -66,6 +69,7 @@ export const ROLE_PERMISSIONS = {
     canAssign: false,
     canPrinterApproved: false,
     canUpdateApproved: false,
+    canViewRegistrationValues: false,
   },
   AUXILIAR: {
     canDoEverything: false,
@@ -83,5 +87,6 @@ export const ROLE_PERMISSIONS = {
     canAssign: false,
     canPrinterApproved: false,
     canUpdateApproved: false,
+    canViewRegistrationValues: true,
   },
 };

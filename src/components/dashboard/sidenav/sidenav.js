@@ -15,16 +15,18 @@ export default function SideNavigation() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden p-2 m-2 text-white bg-gray-900 rounded cursor-pointer"
+        className="md:hidden p-2 m-2 text-white bg-gray-900 rounded"
       >
         <Bars3Icon className="w-6 h-6" />
       </button>
+
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-gray-900 text-white flex flex-col items-center py-8 space-y-3 transform transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:static md:flex`}
+        className={`fixed top-0 left-0 z-40 h-full w-64 bg-gray-900 text-white flex flex-col transform transition-transform duration-300
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0 md:static`}
       >
-        <div className="flex-shrink-0 flex flex-col items-center py-6 space-y-2">
+        {/* HEADER */}
+        <div className="flex flex-col items-center py-6 space-y-2">
           <div className="w-full flex justify-end px-4 md:hidden">
             <button
               onClick={() => setIsOpen(false)}
@@ -50,7 +52,7 @@ export default function SideNavigation() {
 
         <div className="border-t border-gray-700 mx-6 my-2" />
 
-        <div className="flex-1 overflow-y-auto px-2">
+        <div className="flex-1 overflow-y-auto scroll-hidden px-2">
           <NavLinks />
         </div>
       </aside>

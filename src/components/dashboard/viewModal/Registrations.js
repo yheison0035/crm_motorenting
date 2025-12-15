@@ -1,7 +1,9 @@
 import React from 'react';
 import { formatPesosRealtime } from '@/lib/api/utils/utils';
+import usePermissions from '@/hooks/usePermissions';
 
 export default function Registrations({ registration, formatDate }) {
+  const { canViewRegistrationValues } = usePermissions();
   return (
     <details className="group border rounded-xl p-4 border-gray-200">
       <summary className="cursor-pointer font-semibold text-gray-800 text-lg flex justify-between items-center">
@@ -22,14 +24,18 @@ export default function Registrations({ registration, formatDate }) {
                 <p className="font-semibold">Placa</p>
                 <p>{register.plate}</p>
               </div>
-              <div>
-                <p className="font-semibold">Valor de SOAT</p>
-                <p>{formatPesosRealtime(register.soatValue)}</p>
-              </div>
-              <div>
-                <p className="font-semibold">Valor de Matrícula</p>
-                <p>{formatPesosRealtime(register.registerValue)}</p>
-              </div>
+              {canViewRegistrationValues && (
+                <>
+                  <div>
+                    <p className="font-semibold">Valor de SOAT</p>
+                    <p>{formatPesosRealtime(register.soatValue)}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">Valor de Matrícula</p>
+                    <p>{formatPesosRealtime(register.registerValue)}</p>
+                  </div>
+                </>
+              )}
               <div>
                 <p className="font-semibold">Fecha de Matrícula</p>
                 <p>{formatDate(register.date)}</p>

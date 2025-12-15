@@ -13,7 +13,6 @@ import {
   DocumentCurrencyDollarIcon,
   ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -21,8 +20,7 @@ export default function NavLinks() {
   const { usuario, loading, logout } = useAuth();
   const pathname = usePathname();
 
-  if (loading) return null;
-  if (!usuario) return null;
+  if (loading || !usuario) return null;
 
   const links = [
     {
@@ -56,7 +54,7 @@ export default function NavLinks() {
       roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
     },
     {
-      name: 'Estadisticas',
+      name: 'Estadísticas',
       href: '/CRM/dashboard/stadistics',
       icon: ChartBarSquareIcon,
       roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR'],
@@ -68,13 +66,13 @@ export default function NavLinks() {
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },
     {
-      name: 'Facturacion',
+      name: 'Facturación',
       href: '/CRM/dashboard/invoices',
       icon: DocumentCurrencyDollarIcon,
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },
     {
-      name: 'Matriculas',
+      name: 'Matrículas',
       href: '/CRM/dashboard/registrations',
       icon: IdentificationIcon,
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
@@ -82,7 +80,7 @@ export default function NavLinks() {
   ];
 
   return (
-    <nav className="flex flex-col space-y-2 pb-6 scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-900">
+    <nav className="flex flex-col space-y-2 pb-6 scroll-hidden">
       {links
         .filter((link) => link.roles.includes(usuario.role))
         .map((link) => {

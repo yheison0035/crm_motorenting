@@ -30,7 +30,7 @@ function cleanCustomerPayload(customer) {
 }
 
 export async function exportAllCustomersApproved() {
-  const blob = await apiFetch('/customers/export-approved', {
+  const blob = await apiFetch('/customers/approved/export', {
     method: 'GET',
     responseType: 'blob',
   });

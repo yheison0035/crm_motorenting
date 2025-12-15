@@ -97,6 +97,8 @@ export default function Payments() {
         message: 'Pago registrado correctamente',
         url: '',
       });
+
+      handleSearch();
     } catch (err) {
       console.error(err);
       setAlert({ type: 'error', message: 'Error al registrar pago', url: '' });

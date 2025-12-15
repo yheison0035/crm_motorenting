@@ -15,6 +15,7 @@ import ContentData from './segments/contentData';
 import usePermissions from '@/hooks/usePermissions';
 import { Roles } from '@/config/roles';
 import useApproved from '@/lib/api/hooks/useApproved';
+import { de } from 'date-fns/locale';
 
 const Table = ({
   info = [],
@@ -285,7 +286,11 @@ const Table = ({
     try {
       await downloadDeliveryOrder(customerId, nameCustomer);
     } catch (err) {
-      console.error('Error al imprimir la orden:', err);
+      const message = err?.message || 'Error al generar la orden de entrega';
+      setAlert({
+        type: 'warning',
+        message,
+      });
     }
   };
 
