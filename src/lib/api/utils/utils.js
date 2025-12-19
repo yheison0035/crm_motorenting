@@ -85,3 +85,27 @@ export function formatEnumText(value, mode = 'capitalize') {
         .join(' ');
   }
 }
+
+export const normalizePhoneCO = (phone) => {
+  if (!phone) return '';
+
+  let digits = phone.toString().replace(/[^0-9]/g, '');
+
+  if (digits.startsWith('57')) {
+    digits = digits.slice(2);
+  }
+
+  if (digits.startsWith('0')) {
+    digits = digits.slice(1);
+  }
+
+  if (digits.length > 10) {
+    digits = digits.slice(-10);
+  }
+
+  if (digits.length !== 10 || !digits.startsWith('3')) {
+    return '';
+  }
+
+  return digits;
+};
