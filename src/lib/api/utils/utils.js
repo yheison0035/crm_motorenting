@@ -109,3 +109,15 @@ export const normalizePhoneCO = (phone) => {
 
   return digits;
 };
+
+export const normalizePhoneCOInput = (phone) => {
+  if (!phone) return '';
+
+  let digits = phone.toString().replace(/[^0-9]/g, '');
+
+  if (digits.startsWith('57')) {
+    digits = digits.slice(2);
+  }
+
+  return digits.slice(0, 10);
+};

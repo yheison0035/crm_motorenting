@@ -11,7 +11,7 @@ import AddComment from '../comments/addComment';
 import BtnReturn from '../buttons/return';
 import BtnSave from '../buttons/save';
 import { ORIGIN_LIST } from '@/lib/api/listData/origin';
-import { formatEnumText, normalizePhoneCO } from '@/lib/api/utils/utils';
+import { formatEnumText, normalizePhoneCOInput } from '@/lib/api/utils/utils';
 import ContentViewModal from '../preApproved/contentViewModal';
 
 export default function CustomerForm({
@@ -64,7 +64,7 @@ export default function CustomerForm({
 
     if (name === 'plateNumber') value = value.toUpperCase();
 
-    if (name === 'phone') value = normalizePhoneCO(value);
+    if (name === 'phone') value = normalizePhoneCOInput(value);
 
     setFormData((prev) => ({
       ...prev,
@@ -89,9 +89,6 @@ export default function CustomerForm({
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {baseFields.map(([name, label, type = 'text']) => {
-          if (name === 'phone') {
-            formData[name] = normalizePhoneCO(formData[name]);
-          }
           return (
             <div key={name} className="flex flex-col">
               <label className="text-sm font-medium text-gray-700 mb-1">
