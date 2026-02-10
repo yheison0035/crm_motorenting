@@ -82,7 +82,7 @@ export default function Advisors() {
             Listado de Asesores
           </h1>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <Link
               href="/CRM/dashboard/advisors/new"
               className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition"

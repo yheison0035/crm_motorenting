@@ -23,12 +23,14 @@ export default function Layout({ children }) {
 
   return (
     <RoleGuard allowedRoles={Object.values(Roles)}>
-      <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-        <div className="w-full flex-none md:w-64">
-          <SideNavigation />
-        </div>
-        <div className="grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+      <div className="relative flex h-screen overflow-hidden bg-gray-100">
+        <SideNavigation />
+
+        <main className="flex-1 overflow-y-auto p-6 md:p-10 pt-13">
+          {children}
+        </main>
       </div>
+
       {showMotivation && (
         <AlertMotivation onClose={() => setShowMotivation(false)} />
       )}

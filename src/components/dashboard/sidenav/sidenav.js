@@ -1,57 +1,105 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ChevronRightIcon,
+} from '@heroicons/react/24/outline';
 import NavLinks from './nav-links';
 import { useAuth } from '@/context/authContext';
 import Avatar from '../profile/avatar';
 
 export default function SideNavigation() {
-  const [isOpen, setIsOpen] = useState(false);
   const { usuario } = useAuth();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [isHovering, setIsHovering] = useState(false);
+  const hoverTimer = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimer.current = setTimeout(() => {
+      setIsHovering(false);
+    }, 150);
+  };
 
   return (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="md:hidden p-2 m-2 text-white bg-gray-900 rounded"
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed top-4 left-4 z-50 rounded-lg bg-gray-900 p-2 text-white shadow-lg md:hidden"
+        >
+          <Bars3Icon className="h-6 w-6" />
+        </button>
+      )}
+
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm md:hidden"
+        />
+      )}
+
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="fixed left-0 top-0 z-30 hidden h-full w-3 md:block"
       >
-        <Bars3Icon className="w-6 h-6" />
-      </button>
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 rounded-r-lg bg-gray-800 px-1 py-2 shadow-md">
+          <ChevronRightIcon className="h-4 w-4 text-gray-400" />
+        </div>
+      </div>
 
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-gray-900 text-white flex flex-col transform transition-transform duration-300
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`
+          fixed left-0 top-0 z-40 flex h-full w-64 flex-col
+          bg-gray-900 text-white shadow-2xl
+          transform transition-all duration-300
+          ease-[cubic-bezier(0.4,0,0.2,1)]
+
+          /* Mobile */
+          ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}
+
+          /* Desktop */
+          md:${isHovering ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}
+        `}
       >
-        <div className="flex flex-col items-center py-6 space-y-2">
-          <div className="w-full flex justify-end px-4 md:hidden">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-white hover:text-red-400"
-            >
-              <XMarkIcon className="w-6 h-6" />
-            </button>
-          </div>
+        <div className="relative flex flex-col items-center gap-2 border-b border-gray-800 px-4 py-6">
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute right-4 top-4 text-gray-400 hover:text-red-400 md:hidden"
+          >
+            <XMarkIcon className="h-6 w-6" />
+          </button>
 
           <Avatar perfil={usuario} setPerfil={() => {}} />
 
           <Link
             href="/CRM/dashboard/profile/edit"
-            className="text-sm text-white font-semibold underline hover:text-orange-400"
+            className="text-xs font-medium text-gray-300 hover:text-orange-400"
           >
             Editar perfil
           </Link>
 
-          <h6 className="text-sm text-orange-400 font-semibold text-center px-2">
-            {usuario?.role} - {usuario?.name}
-          </h6>
+          <div className="text-center">
+            <p className="text-xs text-gray-400">{usuario?.role}</p>
+            <p className="max-w-[200px] truncate text-sm font-semibold text-orange-400">
+              {usuario?.name}
+            </p>
+          </div>
         </div>
 
-        <div className="border-t border-gray-700 mx-6 my-2" />
-
-        <div className="flex-1 overflow-y-auto scroll-hidden px-2">
+        <div className="flex-1 overflow-y-auto px-2 py-4 scroll-hidden">
           <NavLinks />
         </div>
       </aside>

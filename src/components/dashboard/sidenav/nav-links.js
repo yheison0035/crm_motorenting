@@ -12,6 +12,11 @@ import {
   BanknotesIcon,
   DocumentCurrencyDollarIcon,
   ClipboardDocumentCheckIcon,
+  BuildingStorefrontIcon,
+  TruckIcon,
+  CalendarDaysIcon,
+  ArchiveBoxIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -77,38 +82,93 @@ export default function NavLinks() {
       icon: IdentificationIcon,
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },
+    /* {
+      name: 'Base General',
+      href: '/CRM/dashboard/generalBase',
+      icon: BuildingStorefrontIcon,
+      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'AUXILIAR'],
+    },
+    {
+      name: 'Gestión de Créditos',
+      href: '/CRM/dashboard/creditManagement',
+      icon: ShieldCheckIcon,
+      roles: ['SUPER_ADMIN', 'EJECUTIVO_FINANCIERO'],
+    },
+    {
+      name: 'Moto para Entrega',
+      href: '/CRM/dashboard/motoForDelivery',
+      icon: TruckIcon,
+      roles: ['SUPER_ADMIN', 'EJECUTIVO_FINANCIERO'],
+    },
+    {
+      name: 'Motos Agendadas',
+      href: '/CRM/dashboard/motorcyclesScheduled',
+      icon: CalendarDaysIcon,
+      roles: ['SUPER_ADMIN', 'COORDINADOR_DE_ENTREGA'],
+    },
+    {
+      name: 'Bodega Pre-Aprobados',
+      href: '/CRM/dashboard/preApprovedWarehouse',
+      icon: ArchiveBoxIcon,
+      roles: ['SUPER_ADMIN'],
+    },
+    {
+      name: 'Bodega Aprobados',
+      href: '/CRM/dashboard/approvedWarehouse',
+      icon: ArchiveBoxIcon,
+      roles: ['SUPER_ADMIN'],
+    }, */
   ];
 
   return (
-    <nav className="flex flex-col space-y-2 pb-6 scroll-hidden">
+    <nav className="flex flex-col gap-1 text-sm">
       {links
         .filter((link) => link.roles.includes(usuario.role))
         .map((link) => {
-          const LinkIcon = link.icon;
+          const Icon = link.icon;
           const isActive = pathname.startsWith(link.href);
 
           return (
             <Link
               key={link.name}
               href={link.href}
-              className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition ${
-                isActive
-                  ? 'bg-sky-100 text-gray-800'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
-              }`}
+              className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 transition-all
+                ${
+                  isActive
+                    ? 'bg-sky-100 text-sky-900 font-semibold'
+                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                }`}
             >
-              <LinkIcon className="w-6 h-6" />
-              <p>{link.name}</p>
+              {isActive && (
+                <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r bg-sky-500" />
+              )}
+
+              <div
+                className={`flex h-9 w-9 items-center justify-center rounded-lg
+                  ${
+                    isActive
+                      ? 'bg-sky-200 text-sky-700'
+                      : 'bg-gray-800 text-gray-400 group-hover:text-white'
+                  }`}
+              >
+                <Icon className="h-5 w-5" />
+              </div>
+
+              <span className="truncate">{link.name}</span>
             </Link>
           );
         })}
 
+      <div className="my-4 border-t border-gray-700" />
+
       <button
         onClick={logout}
-        className="flex items-center space-x-3 px-3 py-2 rounded-lg transition text-gray-300 hover:text-white hover:bg-gray-800 cursor-pointer"
+        className="group flex items-center gap-3 rounded-lg px-3 py-2 text-gray-400 transition hover:bg-red-500/10 hover:text-red-500 cursor-pointer"
       >
-        <ArrowLeftOnRectangleIcon className="w-6 h-6" />
-        <p>Cerrar Sesión</p>
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-800 group-hover:bg-red-500/20">
+          <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+        </div>
+        <span>Cerrar Sesión</span>
       </button>
     </nav>
   );
