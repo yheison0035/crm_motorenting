@@ -6,13 +6,13 @@ import useStates from '@/lib/api/hooks/useStates';
 import usePermissions from '@/hooks/usePermissions';
 
 import DepartaCiudad from '@/components/dashboard/select/depart_ciud';
-import CommentsHistory from '../comments/CommentsHistory';
-import AddComment from '../comments/addComment';
+import CommentsHistory from '../comments/commentsHistory';
 import BtnReturn from '../buttons/return';
 import BtnSave from '../buttons/save';
 import { ORIGIN_LIST } from '@/lib/api/listData/origin';
 import { formatEnumText, normalizePhoneCOInput } from '@/lib/api/utils/utils';
 import ContentViewModal from '../preApproved/contentViewModal';
+import CommentsManager from '../comments/commentsManager';
 
 export default function CustomerForm({
   formData,
@@ -20,13 +20,12 @@ export default function CustomerForm({
   setFormData,
   handleReset,
   isLocked = false,
-  newComment,
-  setNewComment,
-  handleAddComment,
   loading,
   mode = 'edit',
   view,
   shouldShowDeliveryState = false,
+  comment,
+  setComment,
 }) {
   const [advisors, setAdvisors] = useState([]);
   const [states, setStates] = useState([]);
@@ -275,11 +274,7 @@ export default function CustomerForm({
 
       {mode === 'edit' && (
         <>
-          <AddComment
-            newComment={newComment}
-            setNewComment={setNewComment}
-            handleAddComment={handleAddComment}
-          />
+          <CommentsManager value={comment} onChange={setComment} />
           <CommentsHistory formData={formData} />
         </>
       )}

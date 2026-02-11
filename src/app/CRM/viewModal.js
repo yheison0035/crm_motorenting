@@ -1,7 +1,7 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import CommentsHistory from '@/components/dashboard/comments/CommentsHistory';
+import CommentsHistory from '@/components/dashboard/comments/commentsHistory';
 import { normalizeDateForInput, formatEnumText } from '@/lib/api/utils/utils';
 import Holders from '@/components/dashboard/viewModal/holders';
 import Payments from '@/components/dashboard/viewModal/payments';

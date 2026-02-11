@@ -40,11 +40,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].fullName = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-fullName`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-fullName`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -55,11 +56,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].document = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-document`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-document`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -70,9 +72,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].email = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-email`] ? 'border-red-500' : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-email`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -83,9 +88,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].phone = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-phone`] ? 'border-red-500' : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-phone`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -96,11 +104,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].address = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-address`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-address`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -111,9 +120,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].city = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-city`] ? 'border-red-500' : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-city`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <select
@@ -123,11 +135,12 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
               copy[i].financialEntity = e.target.value;
               setHolders(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`holder-${i}-financialEntity`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`holder-${i}-financialEntity`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           >
             <option value="">Financiera</option>
             {FINANCIALS_LIST.map((f) => (

@@ -11,9 +11,12 @@ export default function Purchase({ purchase, errors, setPurchase }) {
           placeholder="Marca"
           value={purchase.brand}
           onChange={(e) => setPurchase({ ...purchase, brand: e.target.value })}
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.brand ? 'border-red-500' : 'border-gray-200'
-          }`}
+          className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.brand
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
         />
 
         <input
@@ -22,9 +25,12 @@ export default function Purchase({ purchase, errors, setPurchase }) {
           onChange={(e) =>
             setPurchase({ ...purchase, reference: e.target.value })
           }
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.reference ? 'border-red-500' : 'border-gray-200'
-          }`}
+          className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.reference
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
         />
 
         <input
@@ -33,9 +39,12 @@ export default function Purchase({ purchase, errors, setPurchase }) {
           onChange={(e) =>
             setPurchase({ ...purchase, mainColor: e.target.value })
           }
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.mainColor ? 'border-red-500' : 'border-gray-200'
-          }`}
+          className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.mainColor
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
         />
 
         <input
@@ -44,45 +53,69 @@ export default function Purchase({ purchase, errors, setPurchase }) {
           onChange={(e) =>
             setPurchase({ ...purchase, optionalColor: e.target.value })
           }
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.optionalColor ? 'border-red-500' : 'border-gray-200'
-          }`}
+          className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.optionalColor
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
         />
 
-        <input
-          placeholder="Valor comercial"
-          value={formatPesosRealtime(purchase.commercialValue)}
-          onChange={(e) =>
-            setPurchase({
-              ...purchase,
-              commercialValue: pesosToNumber(e.target.value),
-            })
-          }
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.commercialValue ? 'border-red-500' : 'border-gray-200'
-          }`}
-        />
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-500">
+            Valor comercial
+          </label>
+          <input
+            value={formatPesosRealtime(purchase.commercialValue)}
+            onChange={(e) =>
+              setPurchase({
+                ...purchase,
+                commercialValue: pesosToNumber(e.target.value),
+              })
+            }
+            className={`
+                w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition
+                ${
+                  errors.commercialValue
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }
+              `}
+            placeholder="0"
+          />
+        </div>
 
-        <input
-          placeholder="Valor trámites"
-          value={formatPesosRealtime(purchase.processValue)}
-          onChange={(e) =>
-            setPurchase({
-              ...purchase,
-              processValue: pesosToNumber(e.target.value),
-            })
-          }
-          className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-            errors.processValue ? 'border-red-500' : 'border-gray-200'
-          }`}
-        />
-
-        <input
-          placeholder="Total compra"
-          value={formatPesosRealtime(purchase.totalValue)}
-          readOnly
-          className="w-full border border-gray-200 bg-gray-100 rounded-xl px-4 py-2 text-sm shadow-sm cursor-not-allowed"
-        />
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-500">
+            Valor trámites
+          </label>
+          <input
+            value={formatPesosRealtime(purchase.processValue)}
+            onChange={(e) =>
+              setPurchase({
+                ...purchase,
+                processValue: pesosToNumber(e.target.value),
+              })
+            }
+            className={` w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.processValue
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
+          />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium text-gray-500">
+            Total compra
+          </label>
+          <input
+            value={formatPesosRealtime(purchase.totalValue)}
+            readOnly
+            className="w-full border border-gray-200 bg-gray-100 rounded-xl px-4 py-2 text-sm shadow-sm cursor-not-allowed"
+          />
+        </div>
       </div>
     </section>
   );

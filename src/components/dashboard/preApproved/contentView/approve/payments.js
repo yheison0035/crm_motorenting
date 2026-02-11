@@ -48,11 +48,12 @@ export default function Payments({
               copy[i].financialEntity = e.target.value;
               setPayments(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`payment-${i}-financialEntity`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`payment-${i}-financialEntity`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           >
             <option value="">Financiera</option>
             {FINANCIALS_LIST.map((f) => (
@@ -70,11 +71,12 @@ export default function Payments({
               copy[i].totalPayment = pesosToNumber(e.target.value);
               setPayments(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`payment-${i}-totalPayment`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`payment-${i}-totalPayment`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -85,9 +87,12 @@ export default function Payments({
               copy[i].aval = pesosToNumber(e.target.value);
               setPayments(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`payment-${i}-aval`] ? 'border-red-500' : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`payment-${i}-aval`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -98,11 +103,12 @@ export default function Payments({
               copy[i].approvalDate = e.target.value;
               setPayments(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`payment-${i}-approvalDate`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`payment-${i}-approvalDate`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
         </div>
       ))}

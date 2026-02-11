@@ -47,11 +47,12 @@ export default function CashReceipts({
               copy[i].receiptNumber = e.target.value;
               setReceipts(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`receipt-${i}-receiptNumber`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`receipt-${i}-receiptNumber`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -62,9 +63,12 @@ export default function CashReceipts({
               copy[i].date = e.target.value;
               setReceipts(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`receipt-${i}-date`] ? 'border-red-500' : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`receipt-${i}-date`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
 
           <input
@@ -75,11 +79,12 @@ export default function CashReceipts({
               copy[i].amount = pesosToNumber(e.target.value);
               setReceipts(copy);
             }}
-            className={`w-full border rounded-xl px-4 py-2 text-sm shadow-sm ${
-              errors[`receipt-${i}-amount`]
-                ? 'border-red-500'
-                : 'border-gray-200'
-            }`}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`receipt-${i}-amount`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
           />
         </div>
       ))}

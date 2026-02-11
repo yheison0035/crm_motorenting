@@ -19,10 +19,10 @@ export default function EditCustomerComponent({
     useCustomers();
 
   const [formData, setFormData] = useState({});
-  const [newComment, setNewComment] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
   const [isLocked, setIsLocked] = useState(false);
   const [shouldShowDeliveryState, setShouldShowDeliveryState] = useState(false);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -54,30 +54,24 @@ export default function EditCustomerComponent({
     }
   }, [formData]);
 
-  const handleAddComment = async () => {
-    if (!newComment.trim()) return;
-    try {
-      await addComment(Number(id), newComment.trim());
-      const res = await getCustomerById(Number(id));
-      setFormData(res.data || res);
-
-      setNewComment('');
-      setAlert({
-        type: 'success',
-        message: 'Comentario agregado correctamente.',
-      });
-    } catch (err) {
-      setAlert({
-        type: 'error',
-        message: err.message || 'Error al agregar comentario',
-      });
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!comment.trim()) {
+      setAlert({
+        type: 'info',
+        message: 'Debe agregar un comentario antes de guardar.',
+      });
+      return;
+    }
+
     try {
       await updateCustomer(Number(id), formData);
+
+      if (comment.trim()) {
+        await addComment(Number(id), comment.trim());
+      }
+
       setAlert({
         type: 'success',
         message: 'Cliente actualizado correctamente.',
@@ -112,14 +106,13 @@ export default function EditCustomerComponent({
         setFormData={setFormData}
         handleSubmit={handleSubmit}
         isLocked={isLocked}
-        newComment={newComment}
-        setNewComment={setNewComment}
-        handleAddComment={handleAddComment}
         loading={loading}
         mode="edit"
         usuario={usuario}
         view={href}
         shouldShowDeliveryState={shouldShowDeliveryState}
+        comment={comment}
+        setComment={setComment}
       />
 
       <AlertModal

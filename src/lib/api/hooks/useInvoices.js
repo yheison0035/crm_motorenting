@@ -23,7 +23,7 @@ export default function useInvoices() {
   }, []);
 
   const getInvoiceByOrderNumberFn = useCallback(
-    (orderNumber) => wrap(getInvoiceByOrderNumber, orderNumber),
+    (value) => wrap(getInvoiceByOrderNumber, value),
     [wrap]
   );
 

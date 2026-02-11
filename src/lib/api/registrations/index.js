@@ -1,7 +1,7 @@
 import apiFetch from '../auth/client';
 
-export async function getRegistrationByOrderNumber(orderNumber) {
-  return apiFetch(`/customers/registrations/${orderNumber}`);
+export async function getRegistrationByOrderNumber(value) {
+  return apiFetch(`/customers/registrations/${value}`);
 }
 
 export async function updateRegistrationByOrderNumber(

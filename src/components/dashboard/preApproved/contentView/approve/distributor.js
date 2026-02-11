@@ -8,9 +8,12 @@ export default function Distributor({ distributor, errors, setDistributor }) {
       <select
         value={distributor}
         onChange={(e) => setDistributor(e.target.value)}
-        className={`w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm ${
-          errors.distributor ? 'border-red-500' : 'border-gray-200'
-        }`}
+        className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors.distributor
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
       >
         <option value="">Seleccione un distribuidor</option>
         {DISTRIBUTORS_LIST.map((d) => (

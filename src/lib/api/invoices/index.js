@@ -1,7 +1,7 @@
 import apiFetch from '../auth/client';
 
-export async function getInvoiceByOrderNumber(orderNumber) {
-  return apiFetch(`/customers/invoices/${orderNumber}`);
+export async function getInvoiceByOrderNumber(value) {
+  return apiFetch(`/customers/invoices/${value}`);
 }
 
 export async function updateInvoiceByOrderNumber(orderNumber, dataInvoice) {

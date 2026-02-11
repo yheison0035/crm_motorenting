@@ -9,6 +9,8 @@ import Distributor from './approve/distributor';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import useApproved from '@/lib/api/hooks/useApproved';
 import AlertModal from '../../modals/alertModal';
+import CommentsManager from '../../comments/commentsManager';
+import { addComment } from '@/lib/api/customers';
 
 export default function Approve({ data }) {
   const [holders, setHolders] = useState([]);
@@ -26,6 +28,7 @@ export default function Approve({ data }) {
   const [distributor, setDistributor] = useState('');
   const [errors, setErrors] = useState({});
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
+  const [comment, setComment] = useState('');
 
   const { createApproved } = useApproved();
 
@@ -90,11 +93,18 @@ export default function Approve({ data }) {
 
     try {
       await createApproved(Number(data.id), dataApproved);
+
+      if (comment.trim()) {
+        await addComment(Number(data.id), comment.trim());
+      }
+
       setAlert({
         type: 'success',
         message: 'Cliente aprobado correctamente.',
         url: `/CRM/dashboard/approved`,
       });
+
+      setComment('');
     } catch (err) {
       setAlert({
         type: 'error',
@@ -220,6 +230,14 @@ export default function Approve({ data }) {
           </p>
         )}
       </section>
+
+      <div className="pt-4 border-t border-gray-100">
+        <CommentsManager
+          value={comment}
+          onChange={setComment}
+          label="Observación (opcional)"
+        />
+      </div>
 
       <div className="flex justify-end mt-6 gap-3">
         <button

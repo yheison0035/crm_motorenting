@@ -5,10 +5,15 @@ import { formatPesosRealtime, pesosToNumber } from '@/lib/api/utils/utils';
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline';
 import AlertModal from '@/components/dashboard/modals/alertModal';
 import useInvoices from '@/lib/api/hooks/useInvoices';
+import CommentsManager from '@/components/dashboard/comments/commentsManager';
+import { addComment } from '@/lib/api/customers';
 
 export default function Invoices() {
   const [orderNumber, setOrderNumber] = useState('');
   const [customerName, setCustomerName] = useState(null);
+  const [customerDocument, setCustomerDocument] = useState(null);
+  const [orderNumberFromApi, setOrderNumberFromApi] = useState(null);
+
   const [error, setError] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
   const [openInfo, setOpenInfo] = useState(false);
@@ -22,18 +27,23 @@ export default function Invoices() {
     chassisNumber: '',
     engineNumber: '',
   });
+  const [comment, setComment] = useState('');
 
   const handleSearch = async () => {
     if (!orderNumber.trim()) {
-      setError('El número de orden es obligatorio');
+      setError('El número de orden o documento son obligatorios');
       return;
     }
 
     try {
       const { data } = await getInvoiceByOrderNumber(orderNumber);
+
+      setCustomerName(data.customerName ?? '');
+      setCustomerDocument(data.document ?? '');
+      setOrderNumberFromApi(data.orderNumber ?? orderNumber);
+
       if (!data.customerName) {
         setError('Número de orden sin información');
-        setCustomerName(data.customerName ?? '');
         setOpenInfo(true);
         setForm({
           invoiceNumber: '',
@@ -46,7 +56,7 @@ export default function Invoices() {
       }
 
       setError('');
-      setCustomerName(data.customerName ?? '');
+      setOpenInfo(false);
 
       setForm({
         invoiceNumber: data.invoiceNumber ?? '',
@@ -59,6 +69,8 @@ export default function Invoices() {
       setError(err.message || 'Error al buscar la orden');
       setOpenInfo(false);
       setCustomerName(null);
+      setCustomerDocument(null);
+      setOrderNumberFromApi(null);
       console.error(err);
     }
   };
@@ -79,7 +91,10 @@ export default function Invoices() {
     }
 
     try {
-      const { data } = await updateInvoiceByOrderNumber(orderNumber, form);
+      const { data } = await updateInvoiceByOrderNumber(
+        orderNumberFromApi,
+        form
+      );
 
       if (!data) {
         setAlert({
@@ -89,15 +104,21 @@ export default function Invoices() {
         return;
       }
 
+      if (comment.trim()) {
+        await addComment(data.customerId || data.id, comment.trim());
+      }
+
       setAlert({
         type: 'success',
         message: 'Factura registrada correctamente',
       });
+
+      clearResults();
     } catch (err) {
       console.error(err);
       setAlert({
         type: 'warning',
-        message: `${err || 'Error al registrar la factura'} `,
+        message: `${err || 'Error al registrar la factura'}`,
       });
     }
   };
@@ -105,6 +126,8 @@ export default function Invoices() {
   const clearResults = () => {
     setOrderNumber('');
     setCustomerName(null);
+    setCustomerDocument(null);
+    setOrderNumberFromApi(null);
     setForm({
       invoiceNumber: '',
       date: '',
@@ -112,7 +135,9 @@ export default function Invoices() {
       chassisNumber: '',
       engineNumber: '',
     });
+    setComment('');
     setError('');
+    setOpenInfo(false);
   };
 
   return (
@@ -129,10 +154,14 @@ export default function Invoices() {
       {(customerName || openInfo) && (
         <ResultsTable
           customerName={customerName}
+          document={customerDocument}
+          orderNumber={orderNumberFromApi}
           form={form}
           setForm={setForm}
           handleSave={handleSave}
           clearResults={clearResults}
+          comment={comment}
+          setComment={setComment}
         />
       )}
 
@@ -159,7 +188,7 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
   return (
     <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100">
       <label className="block text-gray-700 font-semibold mb-2">
-        Número de Orden
+        Número de orden o Cédula del cliente
       </label>
 
       <div className="flex gap-3">
@@ -167,7 +196,7 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
           type="text"
           value={orderNumber}
           onChange={(e) => setOrderNumber(e.target.value)}
-          placeholder="Ej: MR0001"
+          placeholder="Ej: MR0001 o 1023456789"
           className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm 
           shadow-sm focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
         />
@@ -189,21 +218,40 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
 
 function ResultsTable({
   customerName,
+  document,
+  orderNumber,
   form,
   setForm,
   handleSave,
   clearResults,
+  comment,
+  setComment,
 }) {
   return (
     <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 space-y-6">
       <div>
-        <p className="text-gray-700 font-semibold">Cliente:</p>
-        <p className="text-gray-900 text-lg font-medium">{customerName}</p>
+        <p className="text-gray-700 text-lg font-semibold">Cliente</p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Documento</span> {document}
+        </p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Nombre</span> {customerName}
+        </p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Numero de Orden</span> {orderNumber}
+        </p>
       </div>
 
       <InvoiceForm form={form} setForm={setForm} />
+      <div className="pt-4 border-t border-gray-100">
+        <CommentsManager
+          value={comment}
+          onChange={setComment}
+          label="Observación (opcional)"
+        />
+      </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
         <button
           onClick={clearResults}
           className="px-5 py-2 bg-orange-500 hover:bg-white border hover:border-orange-500 
@@ -215,7 +263,7 @@ function ResultsTable({
 
         <button
           onClick={handleSave}
-          className="px-5 py-2 ml-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md 
+          className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md 
           transition active:scale-95 cursor-pointer"
         >
           Guardar Factura

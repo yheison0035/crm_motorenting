@@ -23,7 +23,7 @@ export default function useRegistrations() {
   }, []);
 
   const getRegistrationByOrderNumberFn = useCallback(
-    (orderNumber) => wrap(getRegistrationByOrderNumber, orderNumber),
+    (value) => wrap(getRegistrationByOrderNumber, value),
     [wrap]
   );
 

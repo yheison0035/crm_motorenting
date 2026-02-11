@@ -5,10 +5,14 @@ import { formatPesosRealtime, pesosToNumber } from '@/lib/api/utils/utils';
 import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/outline';
 import AlertModal from '@/components/dashboard/modals/alertModal';
 import useRegistrations from '@/lib/api/hooks/useRegistrations';
+import CommentsManager from '@/components/dashboard/comments/commentsManager';
+import { addComment } from '@/lib/api/customers';
 
 export default function Registrations() {
   const [orderNumber, setOrderNumber] = useState('');
   const [customerName, setCustomerName] = useState(null);
+  const [customerDocument, setCustomerDocument] = useState(null);
+  const [orderNumberFromApi, setOrderNumberFromApi] = useState(null);
   const [error, setError] = useState('');
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
   const [openInfo, setOpenInfo] = useState(false);
@@ -22,18 +26,22 @@ export default function Registrations() {
     soatValue: '',
     registerValue: '',
   });
+  const [comment, setComment] = useState('');
 
   const handleSearch = async () => {
     if (!orderNumber.trim()) {
-      setError('El número de orden es obligatorio');
+      setError('El número de orden o documento son obligatorios');
       return;
     }
 
     try {
       const { data } = await getRegistrationByOrderNumber(orderNumber);
+      setCustomerName(data.customerName ?? '');
+      setCustomerDocument(data.document ?? '');
+      setOrderNumberFromApi(data.orderNumber ?? orderNumber);
+
       if (!data.customerName) {
         setError('Número de orden sin información');
-        setCustomerName(data.customerName ?? '');
         setOpenInfo(true);
         setForm({
           plate: '',
@@ -57,6 +65,8 @@ export default function Registrations() {
       setError(err.message || 'Error al buscar la orden');
       setOpenInfo(false);
       setCustomerName(null);
+      setCustomerDocument(null);
+      setOrderNumberFromApi(null);
       console.error(err);
     }
   };
@@ -71,7 +81,10 @@ export default function Registrations() {
     }
 
     try {
-      const { data } = await updateRegistrationByOrderNumber(orderNumber, form);
+      const { data } = await updateRegistrationByOrderNumber(
+        orderNumberFromApi,
+        form
+      );
 
       if (!data) {
         setAlert({
@@ -81,10 +94,15 @@ export default function Registrations() {
         return;
       }
 
+      if (comment.trim()) {
+        await addComment(data.customerId || data.id, comment.trim());
+      }
+
       setAlert({
         type: 'success',
-        message: 'Matricula realizada correctamente',
+        message: 'Matrícula registrada correctamente',
       });
+      clearResults();
     } catch (err) {
       console.error(err);
       setAlert({
@@ -103,6 +121,7 @@ export default function Registrations() {
       soatValue: '',
       registerValue: '',
     });
+    setComment('');
     setError('');
   };
 
@@ -120,10 +139,14 @@ export default function Registrations() {
       {(customerName || openInfo) && (
         <ResultsTable
           customerName={customerName}
+          document={customerDocument}
+          orderNumber={orderNumberFromApi}
           form={form}
           setForm={setForm}
           handleSave={handleSave}
           clearResults={clearResults}
+          comment={comment}
+          setComment={setComment}
         />
       )}
 
@@ -150,7 +173,7 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
   return (
     <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100">
       <label className="block text-gray-700 font-semibold mb-2">
-        Número de Orden
+        Número de orden o Cédula del cliente
       </label>
 
       <div className="flex gap-3">
@@ -158,7 +181,7 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
           type="text"
           value={orderNumber}
           onChange={(e) => setOrderNumber(e.target.value)}
-          placeholder="Ej: MR0001"
+          placeholder="Ej: MR0001 o 1023456789"
           className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm 
           shadow-sm focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
         />
@@ -180,19 +203,38 @@ function SearchOrder({ orderNumber, setOrderNumber, handleSearch, error }) {
 
 function ResultsTable({
   customerName,
+  document,
+  orderNumber,
   form,
   setForm,
   handleSave,
   clearResults,
+  comment,
+  setComment,
 }) {
   return (
     <div className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100 space-y-6">
       <div>
-        <p className="text-gray-700 font-semibold">Cliente:</p>
-        <p className="text-gray-900 text-lg font-medium">{customerName}</p>
+        <p className="text-gray-700 text-lg font-semibold">Cliente</p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Documento</span> {document}
+        </p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Nombre</span> {customerName}
+        </p>
+        <p className="text-gray-900 text-sm font-medium">
+          <span className="font-semibold">Numero de Orden</span> {orderNumber}
+        </p>
       </div>
 
       <InvoiceForm form={form} setForm={setForm} />
+      <div className="pt-4 border-t border-gray-100">
+        <CommentsManager
+          value={comment}
+          onChange={setComment}
+          label="Observación (opcional)"
+        />
+      </div>
 
       <div className="flex justify-end">
         <button
