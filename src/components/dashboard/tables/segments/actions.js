@@ -107,19 +107,21 @@ export default function Actions({
         />
       )}
 
-      {(view === 'customers' ||
-        (view === 'advisors' && canEdit) ||
-        (view === 'delivered' && canDoEverything) ||
-        (view === 'preApproved' && canEditPreApproved) ||
-        (view === 'approved' && canEditApproved)) && (
-        <ActionLink
-          href={`/CRM/dashboard/${view}/edit/${info.id}`}
-          disabled={isLocked || isLockedSale}
-          color="text-green-500 hover:text-green-700"
-          icon={PencilIcon}
-          tooltip="Editar"
-        />
-      )}
+      {view !== 'motorcyclesScheduled' &&
+        ((view === 'customers' &&
+          (info.saleState !== 'APROBADO' || canEditApproved)) ||
+          (view === 'advisors' && canEdit) ||
+          (view === 'delivered' && canDoEverything) ||
+          (view === 'preApproved' && canEditPreApproved) ||
+          (view === 'approved' && canEditApproved)) && (
+          <ActionLink
+            href={`/CRM/dashboard/${view}/edit/${info.id}`}
+            disabled={isLocked || isLockedSale}
+            color="text-green-500 hover:text-green-700"
+            icon={PencilIcon}
+            tooltip="Editar"
+          />
+        )}
 
       {view !== 'creditManagement' &&
         view !== 'motoForDelivery' &&

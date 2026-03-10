@@ -59,7 +59,7 @@ export default function useCustomers() {
     [wrap]
   );
   const addCommentFn = useCallback(
-    (id, desc) => wrap(addComment, id, desc),
+    (id, desc, saleState) => wrap(addComment, id, desc, saleState),
     [wrap]
   );
   const assignAdvisorFn = useCallback(
