@@ -12,6 +12,9 @@ import {
   assignMultipleCustomers,
   importCustomers,
   exportDeliveredCustomers,
+  getArchivedCustomers,
+  updateCustomerWarehouseArchive,
+  updateCustomerWarehouseRestore,
 } from '../customers/index';
 
 export default function useCustomers() {
@@ -76,6 +79,18 @@ export default function useCustomers() {
     () => wrap(exportDeliveredCustomers),
     [wrap]
   );
+  const getArchivedCustomersFn = useCallback(
+    (page, limit) => wrap(getArchivedCustomers, page, limit),
+    [wrap]
+  );
+  const updateCustomerWarehouseArchiveFn = useCallback(
+    (id) => wrap(updateCustomerWarehouseArchive, id),
+    [wrap]
+  );
+  const updateCustomerWarehouseRestoreFn = useCallback(
+    (id) => wrap(updateCustomerWarehouseRestore, id),
+    [wrap]
+  );
 
   return {
     getCustomers: getCustomersFn,
@@ -89,6 +104,9 @@ export default function useCustomers() {
     assignMultipleCustomers: assignMultipleCustomersFn,
     importCustomers: importCustomersFn,
     exportDeliveredCustomers: exportDeliveredCustomersFn,
+    getArchivedCustomers: getArchivedCustomersFn,
+    updateCustomerWarehouseArchive: updateCustomerWarehouseArchiveFn,
+    updateCustomerWarehouseRestore: updateCustomerWarehouseRestoreFn,
     loading,
     error,
   };

@@ -11,11 +11,13 @@ import useApproved from '@/lib/api/hooks/useApproved';
 import AlertModal from '../../modals/alertModal';
 import CommentsManager from '../../comments/commentsManager';
 import { addComment } from '@/lib/api/customers';
+import TradeIns from './approve/tradeIns';
 
-export default function Approve({ data }) {
+export default function Approve({ data, onClose }) {
   const [holders, setHolders] = useState([]);
   const [payments, setPayments] = useState([]);
   const [receipts, setReceipts] = useState([]);
+  const [tradeIns, setTradeIns] = useState([]);
   const [purchase, setPurchase] = useState({
     brand: '',
     reference: '',
@@ -34,10 +36,10 @@ export default function Approve({ data }) {
 
   useEffect(() => {
     if (!data) return;
-
-    setHolders(data.holders ?? []);
-    setPayments(data.payments ?? []);
-    setReceipts(data.receipts ?? []);
+    setHolders([...(data.holders ?? [])]);
+    setPayments([...(data.payments ?? [])]);
+    setReceipts([...(data.receipts ?? [])]);
+    setTradeIns([...(data.tradeIns ?? [])]);
     setDistributor(data.distributor ?? '');
 
     if (data.purchase) {
@@ -69,12 +71,14 @@ export default function Approve({ data }) {
     const holdersErrors = validateHolders();
     const paymentsErrors = validatePayments();
     const receiptsErrors = validateReceipts();
+    const tradeInsErrors = validateTradeIns();
 
     const allErrors = {
       ...purchaseErrors,
       ...holdersErrors,
       ...paymentsErrors,
       ...receiptsErrors,
+      ...tradeInsErrors,
     };
 
     if (Object.keys(allErrors).length > 0) {
@@ -84,11 +88,12 @@ export default function Approve({ data }) {
 
     const dataApproved = {
       saleState: 'APROBADO',
-      distributor,
       holders,
       purchase,
       payments,
+      tradeIns,
       receipts,
+      distributor,
     };
 
     try {
@@ -128,6 +133,10 @@ export default function Approve({ data }) {
       },
     ]);
 
+  const removeHolder = (index) => {
+    setHolders((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const addPayment = () =>
     setPayments([
       ...payments,
@@ -140,11 +149,36 @@ export default function Approve({ data }) {
       },
     ]);
 
+  const removePayment = (index) => {
+    setPayments((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const addReceipt = () =>
     setReceipts([
       ...receipts,
       { receiptNumber: '', date: '', amount: '', isNew: true },
     ]);
+
+  const removeReceipt = (index) => {
+    setReceipts((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addTradeIns = () =>
+    setTradeIns([
+      ...tradeIns,
+      {
+        plate: '',
+        reference: '',
+        brand: '',
+        model: '',
+        value: '',
+        isNew: true,
+      },
+    ]);
+
+  const removeTradeIn = (index) => {
+    setTradeIns((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const validatePurchase = () => {
     const e = {};
@@ -185,6 +219,19 @@ export default function Approve({ data }) {
     return e;
   };
 
+  const validateTradeIns = () => {
+    const e = {};
+    tradeIns.forEach((t, i) => {
+      if (!t.isNew) return;
+      if (!t.plate) e[`tradeIns-${i}-plate`] = true;
+      if (!t.reference) e[`tradeIns-${i}-reference`] = true;
+      if (!t.brand) e[`tradeIns-${i}-brand`] = true;
+      if (!t.model) e[`tradeIns-${i}-model`] = true;
+      if (!t.value) e[`tradeIns-${i}-value`] = true;
+    });
+    return e;
+  };
+
   const validateReceipts = () => {
     const e = {};
     receipts.forEach((r, i) => {
@@ -200,6 +247,7 @@ export default function Approve({ data }) {
     <div className="space-y-8 p-4">
       <Holders
         addHolder={addHolder}
+        removeHolder={removeHolder}
         holders={holders}
         errors={errors}
         setHolders={setHolders}
@@ -207,15 +255,25 @@ export default function Approve({ data }) {
       <Purchase purchase={purchase} errors={errors} setPurchase={setPurchase} />
       <Payments
         addPayment={addPayment}
-        errors={errors}
+        removePayment={removePayment}
         payments={payments}
+        errors={errors}
         setPayments={setPayments}
       />
       <CashReceipts
         addReceipt={addReceipt}
-        errors={errors}
+        removeReceipt={removeReceipt}
+        removePayment={removePayment}
         receipts={receipts}
+        errors={errors}
         setReceipts={setReceipts}
+      />
+      <TradeIns
+        addTradeIns={addTradeIns}
+        removeTradeIn={removeTradeIn}
+        tradeIns={tradeIns}
+        errors={errors}
+        setTradeIns={setTradeIns}
       />
       <Distributor
         distributor={distributor}
@@ -254,7 +312,9 @@ export default function Approve({ data }) {
       <AlertModal
         type={alert.type}
         message={alert.message}
-        onClose={() => setAlert({ type: '', message: '' })}
+        onClose={() =>
+          setAlert({ type: '', message: '', url: '' }, onClose(true))
+        }
         url={alert.url}
       />
     </div>

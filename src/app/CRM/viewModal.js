@@ -7,6 +7,8 @@ import Payments from '@/components/dashboard/viewModal/payments';
 import Receipts from '@/components/dashboard/viewModal/receipts';
 import Purchase from '@/components/dashboard/viewModal/purchase';
 import Invoices from '@/components/dashboard/viewModal/Invoices';
+import TradeInVehicle from '@/components/dashboard/viewModal/tradeInVehicle';
+import DeliverySchedules from '@/components/dashboard/viewModal/deliverySchedules';
 import Registrations from '@/components/dashboard/viewModal/Registrations';
 import CommentsHistory from '@/components/dashboard/comments/CommentsHistory';
 
@@ -60,7 +62,7 @@ export default function ViewModal({ data, type, onClose }) {
               </div>
               <div>
                 <p className="font-semibold">Correo</p>
-                <p>{data.email || 'No disponible'}</p>
+                <p className="break-words">{data.email || 'No disponible'}</p>
               </div>
               <div>
                 <p className="font-semibold">Teléfono</p>
@@ -162,7 +164,7 @@ export default function ViewModal({ data, type, onClose }) {
                     </div>
                     <div>
                       <p className="font-semibold">Placa</p>
-                      <p>{data.plateNumber || 'No aplica'}</p>
+                      <p>{data.registration?.[0]?.plate || '---'}</p>
                     </div>
                   </>
                 )}
@@ -188,6 +190,12 @@ export default function ViewModal({ data, type, onClose }) {
 
           {data?.registration && (
             <Registrations registration={data?.registration} />
+          )}
+
+          {data?.tradeIns && <TradeInVehicle tradeIns={data?.tradeIns} />}
+
+          {data?.deliverySchedules && data?.deliverySchedules.length > 0 && (
+            <DeliverySchedules deliverySchedules={data?.deliverySchedules} />
           )}
 
           {type !== 'advisor' && (

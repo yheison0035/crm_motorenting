@@ -15,11 +15,40 @@ export function toFullISO(input) {
 export function normalizeDateForInput(input) {
   if (!input) return '';
 
-  const d = new Date(input);
-  if (isNaN(d.getTime())) return '';
+  try {
+    const dateOnly = input.split('T')[0]; // Ignora hora
+    const [year, month, day] = dateOnly.split('-');
 
-  return d.toISOString().split('T')[0];
+    if (!year || !month || !day) return '';
+
+    return `${day}/${month}/${year}`;
+  } catch {
+    return '';
+  }
 }
+
+export const formatToInputDate = (dateString) => {
+  if (!dateString) return '';
+
+  // Caso 1: ISO del backend → 2025-12-17T00:00:00.000Z
+  if (dateString.includes('T')) {
+    return dateString.split('T')[0];
+  }
+
+  // Caso 2: ya viene correcto → 2025-12-17
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return dateString;
+  }
+
+  // Caso 3: viene dd/mm/yyyy
+  if (dateString.includes('/')) {
+    const [day, month, year] = dateString.split('/');
+    if (!day || !month || !year) return '';
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+
+  return '';
+};
 
 export const formatLocalDate = (date) => {
   const year = date.getFullYear();
@@ -121,3 +150,38 @@ export const normalizePhoneCOInput = (phone) => {
 
   return digits.slice(0, 10);
 };
+
+export const mapActionToStatus = (action) => {
+  switch (action) {
+    case 'Aprobar':
+      return 'APROBADO';
+
+    case 'Rechazar':
+      return 'RECHAZADO';
+
+    case 'En Curso':
+      return 'EN_CURSO';
+
+    case 'Restaurar':
+      return 'NA';
+
+    default:
+      throw new Error('Acción no válida');
+  }
+};
+
+export function formatToAmPm(time24) {
+  if (!time24) return '';
+
+  const [hourStr, minute] = time24.split(':');
+  let hour = parseInt(hourStr, 10);
+
+  if (isNaN(hour)) return '';
+
+  const period = hour >= 12 ? 'PM' : 'AM';
+
+  hour = hour % 12;
+  hour = hour === 0 ? 12 : hour;
+
+  return `${hour.toString().padStart(2, '0')}:${minute} ${period}`;
+}

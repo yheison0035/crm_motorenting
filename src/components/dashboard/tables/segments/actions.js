@@ -5,6 +5,7 @@ import {
   PencilIcon,
   ArrowPathIcon,
   PrinterIcon,
+  ArchiveBoxIcon,
 } from '@heroicons/react/24/outline';
 
 import Link from 'next/link';
@@ -19,6 +20,7 @@ export default function Actions({
   handleDelete,
   setShowModalChangeAdvisor,
   handlePrintOrder,
+  setHandleStateChange,
 }) {
   const {
     canAssign,
@@ -30,6 +32,9 @@ export default function Actions({
     canEditApproved,
     canDeleteApproved,
     canPrinterApproved,
+    canScheduleMotoDelivery,
+    canMoveArchivedCustomers,
+    canChangeStatusMotorcyclesScheduled,
   } = usePermissions();
 
   const ActionButton = ({ onClick, disabled, color, icon: Icon, tooltip }) => (
@@ -80,13 +85,17 @@ export default function Actions({
         />
       )}
 
-      <ActionButton
-        onClick={() => setSelected(info)}
-        disabled={isLocked || isLockedSale}
-        color="text-blue-500 hover:text-blue-700"
-        icon={EyeIcon}
-        tooltip="Ver detalles"
-      />
+      {view !== 'creditManagement' &&
+        view !== 'motoForDelivery' &&
+        view !== 'motorcyclesScheduled' && (
+          <ActionButton
+            onClick={() => setSelected(info)}
+            disabled={isLocked || isLockedSale}
+            color="text-blue-500 hover:text-blue-700"
+            icon={EyeIcon}
+            tooltip="Ver detalles"
+          />
+        )}
 
       {(view === 'approved' || view === 'delivered') && canPrinterApproved && (
         <ActionButton
@@ -112,15 +121,85 @@ export default function Actions({
         />
       )}
 
-      {((canDelete && view !== 'preApproved') ||
-        (view === 'approved' && canDeleteApproved)) && (
-        <ActionButton
-          onClick={() => handleDelete(info.id, info.name, view)}
+      {view !== 'creditManagement' &&
+        view !== 'motoForDelivery' &&
+        view !== 'motorcyclesScheduled' &&
+        ((canDelete && view !== 'preApproved') ||
+          (view === 'approved' && canDeleteApproved)) && (
+          <ActionButton
+            onClick={() => handleDelete(info.id, info.name, view)}
+            disabled={isLocked || isLockedSale}
+            color="text-red-500 hover:text-red-700"
+            icon={TrashIcon}
+            tooltip="Eliminar"
+          />
+        )}
+
+      {view === 'creditManagement' && (
+        <>
+          <button
+            onClick={() => setSelectedState({ ...info, action: 'En Curso' })}
+            disabled={isLocked || isLockedSale}
+            className="bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700 cursor-pointer whitespace-nowrap"
+          >
+            EN CURSO
+          </button>
+          <button
+            onClick={() => setSelectedState({ ...info, action: 'Aprobar' })}
+            disabled={isLocked || isLockedSale}
+            className="bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700 cursor-pointer"
+          >
+            APROBAR
+          </button>
+
+          <button
+            onClick={() => setSelectedState({ ...info, action: 'Rechazar' })}
+            disabled={isLocked || isLockedSale}
+            className="bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700 cursor-pointer"
+          >
+            RECHAZAR
+          </button>
+        </>
+      )}
+
+      {view === 'motoForDelivery' && (
+        <button
+          onClick={() => setSelectedState({ ...info, action: 'Aprobar' })}
           disabled={isLocked || isLockedSale}
-          color="text-red-500 hover:text-red-700"
-          icon={TrashIcon}
-          tooltip="Eliminar"
-        />
+          className="bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700 cursor-pointer"
+        >
+          APROBAR
+        </button>
+      )}
+
+      {view === 'motorcyclesScheduled' &&
+        canChangeStatusMotorcyclesScheduled && (
+          <>
+            <button
+              onClick={() => setSelectedState({ ...info, action: 'Entregar' })}
+              disabled={isLocked || isLockedSale}
+              className="bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700 cursor-pointer"
+            >
+              ENTREGAR
+            </button>
+            <button
+              onClick={() => setSelectedState({ ...info, action: 'Rechazar' })}
+              disabled={isLocked || isLockedSale}
+              className="bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700 cursor-pointer"
+            >
+              RECHAZAR
+            </button>
+          </>
+        )}
+
+      {view === 'customerWarehouse' && (
+        <button
+          onClick={() => setSelectedState({ ...info, action: 'Restaurar' })}
+          disabled={isLocked || isLockedSale}
+          className="bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700 cursor-pointer whitespace-nowrap"
+        >
+          RESTAURAR CLIENTE
+        </button>
       )}
 
       {view === 'preApproved' && canPreApproved && (
@@ -141,6 +220,54 @@ export default function Actions({
             RECHAZAR
           </button>
         </>
+      )}
+
+      {view === 'approved' &&
+        info.creditManagementStatus === 'APROBADO' &&
+        info.motoForDeliveryStatus === 'APROBADO' &&
+        canScheduleMotoDelivery &&
+        (() => {
+          const latestSchedule =
+            info.deliverySchedules?.[info.deliverySchedules.length - 1];
+
+          const isRejected =
+            latestSchedule?.deliveryScheduleStatus === 'RECHAZADO';
+
+          const isScheduled =
+            latestSchedule &&
+            latestSchedule.deliveryScheduleStatus !== 'RECHAZADO';
+
+          const buttonLabel = isRejected
+            ? 'REAGENDAR'
+            : isScheduled
+              ? 'AGENDADO'
+              : 'PARA AGENDAR';
+
+          const buttonStyle = isScheduled
+            ? 'bg-blue-700 cursor-not-allowed opacity-80'
+            : isRejected
+              ? 'bg-orange-600 hover:bg-orange-700 cursor-pointer'
+              : 'bg-green-600 hover:bg-green-700 cursor-pointer';
+
+          return (
+            <button
+              onClick={() => !isScheduled && setSelectedState(info)}
+              disabled={isLocked || isLockedSale || isScheduled}
+              className={`text-white text-xs px-3 py-1 rounded whitespace-nowrap ${buttonStyle}`}
+            >
+              {buttonLabel}
+            </button>
+          );
+        })()}
+
+      {canMoveArchivedCustomers && view === 'customers' && (
+        <ActionButton
+          onClick={() => setHandleStateChange(info)}
+          disabled={isLocked || isLockedSale}
+          color="text-blue-500 hover:text-blue-700"
+          icon={ArchiveBoxIcon}
+          tooltip="Archivar cliente"
+        />
       )}
     </div>
   );

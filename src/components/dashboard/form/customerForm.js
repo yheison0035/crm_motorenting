@@ -30,7 +30,6 @@ export default function CustomerForm({
   const [advisors, setAdvisors] = useState([]);
   const [states, setStates] = useState([]);
   const [editApproved, setEditApproved] = useState(false);
-
   const { getUsers } = useUsers();
   const { getStates } = useStates();
   const { canViewAll, canAssign, canUpdateApproved } = usePermissions();
@@ -61,7 +60,7 @@ export default function CustomerForm({
   const handleChange = (e) => {
     let { name, value } = e.target;
 
-    if (name === 'plateNumber') value = value.toUpperCase();
+    if (name === 'plate') value = value.toUpperCase();
 
     if (name === 'phone') value = normalizePhoneCOInput(value);
 
@@ -71,9 +70,6 @@ export default function CustomerForm({
       ...(name === 'department' ? { city: '' } : {}),
     }));
   };
-
-  const showPlateFields =
-    shouldShowDeliveryState && formData.deliveryState === 'ENTREGADO';
 
   const baseFields = [
     ['name', 'Nombres y Apellidos'],
@@ -214,44 +210,9 @@ export default function CustomerForm({
                 required
               >
                 <option value="">Seleccione un estado</option>
-                {formData.isReadyForProcess && (
-                  <option value="ENTREGADO">Entregado</option>
-                )}
                 <option value="PENDIENTE_ENTREGA">Pendiente de Entrega</option>
               </select>
             </div>
-
-            {showPlateFields && (
-              <>
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 mb-1">
-                    Número de Placa
-                  </label>
-                  <input
-                    type="text"
-                    name="plateNumber"
-                    value={formData.plateNumber || ''}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 mb-1">
-                    Fecha de Entrega
-                  </label>
-                  <input
-                    type="date"
-                    name="deliveryDate"
-                    value={formData.deliveryDate || ''}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm shadow-sm focus:outline-none transition focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  />
-                </div>
-              </>
-            )}
           </>
         )}
       </div>
@@ -268,6 +229,7 @@ export default function CustomerForm({
       {editApproved && (
         <ContentViewModal
           data={{ ...formData, action: 'approve' }}
+          view="preApproved"
           onClose={() => setEditApproved(false)}
         />
       )}

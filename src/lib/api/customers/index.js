@@ -67,6 +67,12 @@ export async function updateCustomer(id, dto) {
     outstandingBalance,
     creditBalance,
     isReadyForProcess,
+    creditManagementStatus,
+    motoForDeliveryStatus,
+    isArchived,
+    archivedAt,
+    tradeIns,
+    previousStateId,
     ...cleanDto
   } = dto;
 
@@ -131,4 +137,33 @@ export async function exportDeliveredCustomers() {
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
+}
+
+export async function getArchivedCustomers(params = {}) {
+  const { page = 1, limit = 10, ...filters } = params;
+
+  const query = new URLSearchParams();
+
+  query.set('page', String(page));
+  query.set('limit', String(limit));
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== '' && value !== null && value !== undefined) {
+      query.set(key, String(value));
+    }
+  });
+
+  return apiFetch(`/customers/archived?${query.toString()}`);
+}
+
+export async function updateCustomerWarehouseArchive(id) {
+  return apiFetch(`/customers/${id}/archive`, {
+    method: 'POST',
+  });
+}
+
+export async function updateCustomerWarehouseRestore(id) {
+  return apiFetch(`/customers/${id}/restore`, {
+    method: 'POST',
+  });
 }

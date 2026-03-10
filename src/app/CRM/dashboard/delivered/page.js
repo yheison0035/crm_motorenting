@@ -35,7 +35,7 @@ export default function Delivered() {
     name: '',
     document: '',
     deliveryDate: '',
-    plateNumber: '',
+    plate: '',
     email: '',
     phone: '',
     city: '',

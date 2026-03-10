@@ -25,6 +25,7 @@ const Table = ({
   fetchData,
   filters,
   handleFilterChange,
+  setHandleStateChange,
   loading,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -213,6 +214,7 @@ const Table = ({
             setShowModalChangeAdvisor={setShowModalChangeAdvisor}
             handlePrintOrder={handlePrintOrder}
             loading={loading}
+            setHandleStateChange={setHandleStateChange}
           />
         </tbody>
       </table>

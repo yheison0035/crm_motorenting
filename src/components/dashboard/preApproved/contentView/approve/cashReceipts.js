@@ -1,12 +1,13 @@
 import {
-  normalizeDateForInput,
+  formatToInputDate,
   formatPesosRealtime,
   pesosToNumber,
 } from '@/lib/api/utils/utils';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 export default function CashReceipts({
   addReceipt,
+  removeReceipt,
   errors,
   receipts,
   setReceipts,
@@ -37,8 +38,15 @@ export default function CashReceipts({
       {receipts.map((r, i) => (
         <div
           key={i}
-          className="border border-gray-200 p-4 rounded mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="relative border border-gray-200 p-4 pr-8 rounded mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
         >
+          <button
+            type="button"
+            onClick={() => removeReceipt(i)}
+            className="absolute top-3 right-1 text-red-500 hover:text-red-700 cursor-pointer"
+          >
+            <TrashIcon className="w-5 h-5" />
+          </button>
           <input
             value={r.receiptNumber}
             placeholder="Número de recibo"
@@ -56,7 +64,7 @@ export default function CashReceipts({
           />
 
           <input
-            value={normalizeDateForInput(r.date)}
+            value={formatToInputDate(r.date)}
             type="date"
             onChange={(e) => {
               const copy = [...receipts];

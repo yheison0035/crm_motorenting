@@ -1,25 +1,20 @@
+import { formatPesosRealtime, pesosToNumber } from '@/lib/api/utils/utils';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { FINANCIALS_LIST } from '@/lib/api/listData/financials';
-import {
-  formatToInputDate,
-  formatEnumText,
-  formatPesosRealtime,
-  pesosToNumber,
-} from '@/lib/api/utils/utils';
+import React from 'react';
 
-export default function Payments({
-  addPayment,
-  removePayment,
+export default function TradeIns({
+  addTradeIns,
+  removeTradeIn,
+  tradeIns,
   errors,
-  payments,
-  setPayments,
+  setTradeIns,
 }) {
   return (
     <section>
       <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-semibold">Datos de pagos</h2>
+        <h2 className="text-lg font-semibold">Retoma Vehículo</h2>
         <p
-          onClick={addPayment}
+          onClick={addTradeIns}
           className="
             flex items-center gap-2
             text-orange-700 hover:bg-orange-700 hover:text-white border
@@ -33,91 +28,107 @@ export default function Payments({
           "
         >
           <PlusIcon className="w-5 h-5" />
-          Agregar pago
+          Agregar retoma
         </p>
       </div>
 
-      {payments.map((p, i) => (
+      {tradeIns.map((vehicle, i) => (
         <div
           key={i}
           className="relative border border-gray-200 p-4 pr-8 rounded mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <button
             type="button"
-            onClick={() => removePayment(i)}
+            onClick={() => removeTradeIn(i)}
             className="absolute top-3 right-1 text-red-500 hover:text-red-700 cursor-pointer"
           >
             <TrashIcon className="w-5 h-5" />
           </button>
-          <select
-            value={p.financialEntity}
-            onChange={(e) => {
-              const copy = [...payments];
-              copy[i].financialEntity = e.target.value;
-              setPayments(copy);
-            }}
-            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
-                focus:outline-none focus:ring-2 transition ${
-                  errors[`payment-${i}-financialEntity`]
-                    ? 'border-red-500 focus:ring-red-400'
-                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
-                }`}
-          >
-            <option value="">Financiera</option>
-            {FINANCIALS_LIST.map((f) => (
-              <option key={f} value={f}>
-                {formatEnumText(f, 'uppercase')}
-              </option>
-            ))}
-          </select>
-
           <input
-            placeholder="Total pago"
-            value={formatPesosRealtime(p.totalPayment)}
+            placeholder="Placa"
+            value={vehicle.plate}
             onChange={(e) => {
-              const copy = [...payments];
-              copy[i].totalPayment = pesosToNumber(e.target.value);
-              setPayments(copy);
+              const copy = [...tradeIns];
+              copy[i].plate = e.target.value;
+              setTradeIns(copy);
             }}
             className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
                 focus:outline-none focus:ring-2 transition ${
-                  errors[`payment-${i}-totalPayment`]
+                  errors[`tradeIns-${i}-plate`]
                     ? 'border-red-500 focus:ring-red-400'
                     : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
                 }`}
           />
 
           <input
-            placeholder="Aval"
-            value={formatPesosRealtime(p.aval)}
+            placeholder="Referencia"
+            value={vehicle.reference}
             onChange={(e) => {
-              const copy = [...payments];
-              copy[i].aval = pesosToNumber(e.target.value);
-              setPayments(copy);
+              const copy = [...tradeIns];
+              copy[i].reference = e.target.value;
+              setTradeIns(copy);
             }}
             className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
                 focus:outline-none focus:ring-2 transition ${
-                  errors[`payment-${i}-aval`]
+                  errors[`tradeIns-${i}-reference`]
                     ? 'border-red-500 focus:ring-red-400'
                     : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
                 }`}
           />
 
           <input
-            type="date"
-            value={formatToInputDate(p.approvalDate)}
+            placeholder="Marca"
+            value={vehicle.brand}
             onChange={(e) => {
-              const copy = [...payments];
-              copy[i].approvalDate = e.target.value;
-              setPayments(copy);
+              const copy = [...tradeIns];
+              copy[i].brand = e.target.value;
+              setTradeIns(copy);
             }}
             className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
                 focus:outline-none focus:ring-2 transition ${
-                  errors[`payment-${i}-approvalDate`]
+                  errors[`tradeIns-${i}-brand`]
                     ? 'border-red-500 focus:ring-red-400'
                     : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
                 }`}
           />
+
+          <input
+            placeholder="Modelo"
+            value={vehicle.model}
+            onChange={(e) => {
+              const copy = [...tradeIns];
+              copy[i].model = e.target.value;
+              setTradeIns(copy);
+            }}
+            className={`w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition ${
+                  errors[`tradeIns-${i}-model`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }`}
+          />
+
+          <div className="flex flex-col space-y-1">
+            <label className="text-sm font-medium text-gray-500">Valor</label>
+            <input
+              value={formatPesosRealtime(vehicle.value)}
+              onChange={(e) => {
+                const copy = [...tradeIns];
+                copy[i].value = pesosToNumber(e.target.value);
+                setTradeIns(copy);
+              }}
+              className={`
+                w-full px-4 py-2 rounded-xl border text-sm shadow-sm
+                focus:outline-none focus:ring-2 transition
+                ${
+                  errors[`tradeIns-${i}-value`]
+                    ? 'border-red-500 focus:ring-red-400'
+                    : 'border-gray-200 focus:ring-orange-500 focus:border-orange-500'
+                }
+              `}
+              placeholder="0"
+            />
+          </div>
         </div>
       ))}
     </section>

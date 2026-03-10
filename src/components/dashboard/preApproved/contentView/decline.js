@@ -1,18 +1,30 @@
 'use client';
 import React, { useState } from 'react';
-import { addComment } from '@/lib/api/customers';
 import AlertModal from '../../modals/alertModal';
+import useCustomers from '@/lib/api/hooks/useCustomers';
+import useMotoForDelivery from '@/lib/api/hooks/useMotoForDelivery';
 
-export default function Decline({ data, onClose }) {
+export default function Decline({ data, onClose, view }) {
   const [observation, setObservation] = useState('');
   const [touched, setTouched] = useState(false);
   const [alert, setAlert] = useState({ type: '', message: '', url: '' });
+
+  const { addComment } = useCustomers();
+  const { updateDeliveryStatus } = useMotoForDelivery();
 
   const handleAddComment = async () => {
     setTouched(true);
     if (!observation.trim()) return;
     try {
-      await addComment(Number(data.id), observation.trim(), 'RECHAZADO');
+      if (view === 'preApproved') {
+        await addComment(Number(data.id), observation.trim(), 'RECHAZADO');
+      } else if (view === 'motorcyclesScheduled') {
+        await addComment(Number(data.id), observation.trim());
+        await updateDeliveryStatus(data.id, 'RECHAZADO');
+      } else {
+        return;
+      }
+
       setObservation('');
       setAlert({
         type: 'success',
@@ -55,13 +67,13 @@ export default function Decline({ data, onClose }) {
         onClick={handleAddComment}
         className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
       >
-        Rechazar venta
+        Guardar Rechazo
       </button>
 
       <AlertModal
         type={alert.type}
         message={alert.message}
-        onClose={() => setAlert({ type: '', message: '' }, onClose())}
+        onClose={() => setAlert({ type: '', message: '' }, onClose(true))}
         url={alert.url}
       />
     </div>

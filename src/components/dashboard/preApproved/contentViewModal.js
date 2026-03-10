@@ -2,8 +2,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import Approve from './contentView/approve';
 import Decline from './contentView/decline';
+import CManagementObservation from './contentView/cManagementObservation';
+import MScheduledImg from './contentView/mScheduledImg';
+import ApprovedScheduled from './contentView/approvedScheduled';
 
-export default function ContentViewModal({ data, type, onClose }) {
+export default function ContentViewModal({ view, data, type, onClose }) {
   if (!data) return null;
 
   return (
@@ -14,18 +17,49 @@ export default function ContentViewModal({ data, type, onClose }) {
         }`}
       >
         <button
-          onClick={onClose}
+          onClick={() => onClose(false)}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-200 transition cursor-pointer"
         >
           <XMarkIcon className="w-6 h-6" />
         </button>
 
         <div className="p-6 max-h-[85vh] overflow-y-auto">
-          {data.action === 'approve' && (
-            <Approve data={data} onClose={onClose} />
+          {(view === 'creditManagement' || view === 'motoForDelivery') && (
+            <CManagementObservation data={data} onClose={onClose} view={view} />
           )}
-          {data.action === 'decline' && (
-            <Decline data={data} onClose={onClose} />
+          {view === 'preApproved' && (
+            <>
+              {data.action === 'approve' && (
+                <Approve data={data} onClose={onClose} />
+              )}
+              {data.action === 'decline' && (
+                <Decline data={data} onClose={onClose} view={view} />
+              )}
+            </>
+          )}
+          {view === 'motorcyclesScheduled' && (
+            <>
+              {data.action === 'Entregar' && (
+                <MScheduledImg data={data} onClose={onClose} />
+              )}
+              {data.action === 'Rechazar' && (
+                <Decline data={data} onClose={onClose} view={view} />
+              )}
+            </>
+          )}
+          {view === 'customerWarehouse' && (
+            <>
+              <CManagementObservation
+                data={data}
+                onClose={onClose}
+                view={view}
+              />
+            </>
+          )}
+          {view === 'approved' && (
+            <>
+              <ApprovedScheduled data={data} onClose={onClose} />
+            </>
           )}
         </div>
       </div>

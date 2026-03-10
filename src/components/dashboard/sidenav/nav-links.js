@@ -82,7 +82,7 @@ export default function NavLinks() {
       icon: IdentificationIcon,
       roles: ['SUPER_ADMIN', 'AUXILIAR'],
     },
-    /* {
+    {
       name: 'Base General',
       href: '/CRM/dashboard/generalBase',
       icon: BuildingStorefrontIcon,
@@ -95,7 +95,7 @@ export default function NavLinks() {
       roles: ['SUPER_ADMIN', 'EJECUTIVO_FINANCIERO'],
     },
     {
-      name: 'Moto para Entrega',
+      name: 'Motos para Entrega',
       href: '/CRM/dashboard/motoForDelivery',
       icon: TruckIcon,
       roles: ['SUPER_ADMIN', 'EJECUTIVO_FINANCIERO'],
@@ -104,20 +104,22 @@ export default function NavLinks() {
       name: 'Motos Agendadas',
       href: '/CRM/dashboard/motorcyclesScheduled',
       icon: CalendarDaysIcon,
-      roles: ['SUPER_ADMIN', 'COORDINADOR_DE_ENTREGA'],
+      roles: [
+        'SUPER_ADMIN',
+        'ADMIN',
+        'AUXILIAR',
+        'COORDINADOR',
+        'ASESOR',
+        'EJECUTIVO_FINANCIERO',
+        'COORDINADOR_DE_ENTREGA',
+      ],
     },
     {
-      name: 'Bodega Pre-Aprobados',
-      href: '/CRM/dashboard/preApprovedWarehouse',
+      name: 'Bodega Clientes',
+      href: '/CRM/dashboard/customerWarehouse',
       icon: ArchiveBoxIcon,
       roles: ['SUPER_ADMIN'],
     },
-    {
-      name: 'Bodega Aprobados',
-      href: '/CRM/dashboard/approvedWarehouse',
-      icon: ArchiveBoxIcon,
-      roles: ['SUPER_ADMIN'],
-    }, */
   ];
 
   return (

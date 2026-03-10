@@ -113,9 +113,12 @@ export default function PreApproved() {
       {selectedState && (
         <ContentViewModal
           data={selectedState}
-          onClose={() => {
+          view="preApproved"
+          onClose={(shouldReload) => {
             setSelectedState(null);
-            fetchData();
+            if (shouldReload) {
+              fetchData();
+            }
           }}
         />
       )}

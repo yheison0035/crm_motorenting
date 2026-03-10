@@ -10,6 +10,7 @@ import {
 import NavLinks from './nav-links';
 import { useAuth } from '@/context/authContext';
 import Avatar from '../profile/avatar';
+import { formatEnumText } from '@/lib/api/utils/utils';
 
 export default function SideNavigation() {
   const { usuario } = useAuth();
@@ -106,9 +107,11 @@ export default function SideNavigation() {
           </Link>
 
           <div className="text-center">
-            <p className="text-xs text-gray-400">{usuario?.role}</p>
+            <p className="text-xs text-gray-400">
+              {formatEnumText(usuario?.role, 'uppercase')}
+            </p>
             <p className="max-w-[200px] truncate text-sm font-semibold text-orange-400">
-              {usuario?.name}
+              {formatEnumText(usuario?.name, 'uppercase')}
             </p>
           </div>
         </div>

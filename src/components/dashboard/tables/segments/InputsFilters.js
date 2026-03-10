@@ -14,7 +14,12 @@ export default function InputFilters({
     {
       name: 'orderNumber',
       title: 'Numero de Orden',
-      show: view === 'approved' || view === 'delivered',
+      show:
+        view === 'approved' ||
+        view === 'delivered' ||
+        view === 'creditManagement' ||
+        view === 'motoForDelivery' ||
+        view === 'motorcyclesScheduled',
     },
     {
       name: 'advisor',
@@ -23,21 +28,102 @@ export default function InputFilters({
         ((canViewAll && view === 'customers') ||
           view === 'delivered' ||
           view === 'preApproved' ||
-          view === 'approved') &&
+          view === 'approved' ||
+          view === 'creditManagement' ||
+          view === 'motoForDelivery' ||
+          view === 'motorcyclesScheduled' ||
+          view === 'customerWarehouse') &&
         rol !== Roles.ASESOR,
     },
     { name: 'role', title: 'Rol', show: view === 'advisors' },
     { name: 'name', title: 'Nombre', show: true },
-    { name: 'document', title: 'Documento', show: true },
+    {
+      name: 'document',
+      title: 'Documento',
+      show: view !== 'motorcyclesScheduled',
+    },
     {
       name: 'deliveryDate',
       title: 'Fecha de Entrega',
       show: view === 'delivered',
     },
-    { name: 'plateNumber', title: 'Placa', show: view === 'delivered' },
-    { name: 'email', title: 'Correo', show: true },
+    { name: 'plate', title: 'Placa', show: view === 'delivered' },
+    {
+      name: 'email',
+      title: 'Correo',
+      show:
+        view !== 'creditManagement' &&
+        view !== 'motoForDelivery' &&
+        view !== 'motorcyclesScheduled' &&
+        view !== 'approved',
+    },
     { name: 'phone', title: 'Teléfono', show: true },
-    { name: 'city', title: 'Ciudad', show: true },
+    {
+      name: 'city',
+      title: 'Ciudad',
+      show:
+        view !== 'creditManagement' &&
+        view !== 'motoForDelivery' &&
+        view !== 'motorcyclesScheduled' &&
+        view !== 'approved',
+    },
+    {
+      name: 'distributor',
+      title: 'Distribuidor',
+      show:
+        view === 'creditManagement' ||
+        view === 'motoForDelivery' ||
+        view === 'motorcyclesScheduled' ||
+        view === 'approved',
+    },
+    {
+      name: 'financialEntity',
+      title: 'Financiera',
+      show:
+        view === 'creditManagement' ||
+        view === 'motoForDelivery' ||
+        view === 'approved',
+    },
+    {
+      name: 'creditManagementStatus',
+      title: 'Estado de Gestión de Crédito',
+      show: view === 'creditManagement',
+    },
+    {
+      name: 'reference',
+      title: 'Referencia',
+      show: view === 'motoForDelivery' || view === 'motorcyclesScheduled',
+    },
+    {
+      name: 'approvalDate',
+      title: 'Fecha de Aprobación',
+      show: view === 'approved',
+    },
+    {
+      name: 'creditManagement',
+      title: 'Gestión de crédito',
+      show: view === 'approved',
+    },
+    {
+      name: 'plate',
+      title: 'Placa',
+      show: view === 'motorcyclesScheduled',
+    },
+    {
+      name: 'scheduledDate',
+      title: 'Fecha Agendada',
+      show: view === 'motorcyclesScheduled',
+    },
+    {
+      name: 'scheduledTime',
+      title: 'Hora Entrega',
+      show: view === 'motorcyclesScheduled',
+    },
+    {
+      name: 'address',
+      title: 'Direccion Entrega',
+      show: view === 'motorcyclesScheduled',
+    },
     {
       name: 'state',
       title: 'Estado',
@@ -46,7 +132,10 @@ export default function InputFilters({
     {
       name: 'saleState',
       title: 'Estado Venta',
-      show: view === 'customers' || view === 'preApproved',
+      show:
+        view === 'customers' ||
+        view === 'preApproved' ||
+        view === 'customerWarehouse',
       type: 'select',
       options: [
         { label: 'Pendiente por aprobar', value: 'PENDIENTE_POR_APROBAR' },

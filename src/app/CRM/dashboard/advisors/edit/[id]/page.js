@@ -23,7 +23,7 @@ export default function EditAdvisor() {
         url: '/CRM/dashboard/advisors',
       });
     }
-  }, [id]);
+  }, [getUserById, id]);
 
   useEffect(() => {
     if (id) fetchAdvisor();

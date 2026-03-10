@@ -39,20 +39,20 @@ export default function EditCustomerComponent({
           router.push(`/CRM/dashboard/${href}`);
         });
     }
-  }, [id, router]);
+  }, [getCustomerById, id, router, href]);
 
   useEffect(() => {
     if (usuario.role === Roles.ASESOR) {
       setIsLocked(true);
     }
 
-    if (Number(formData.stateId) === 19) {
+    if (Number(formData.stateId) === 19 || Number(formData.stateId) === 21) {
       setIsLocked(false);
       setShouldShowDeliveryState(true);
     } else {
       setShouldShowDeliveryState(false);
     }
-  }, [formData]);
+  }, [formData, usuario.role]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

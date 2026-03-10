@@ -21,6 +21,13 @@ export default function Login() {
       const loggedUser = await login(email, password);
       if (loggedUser && loggedUser.role === Roles.AUXILIAR) {
         router.push('/CRM/dashboard/approved');
+      } else if (loggedUser && loggedUser.role === Roles.EJECUTIVO_FINANCIERO) {
+        router.push('/CRM/dashboard/creditManagement');
+      } else if (
+        loggedUser &&
+        loggedUser.role === Roles.COORDINADOR_DE_ENTREGA
+      ) {
+        router.push('/CRM/dashboard/motorcyclesScheduled');
       } else {
         router.push('/CRM/dashboard/customers');
       }

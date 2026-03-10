@@ -1,9 +1,15 @@
 import { FINANCIALS_LIST } from '@/lib/api/listData/financials';
 import { formatEnumText } from '@/lib/api/utils/utils';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
-export default function Holders({ addHolder, errors, holders, setHolders }) {
+export default function Holders({
+  addHolder,
+  removeHolder,
+  errors,
+  holders,
+  setHolders,
+}) {
   return (
     <section>
       <div className="flex justify-between items-center mb-2">
@@ -30,8 +36,15 @@ export default function Holders({ addHolder, errors, holders, setHolders }) {
       {holders.map((holder, i) => (
         <div
           key={i}
-          className="border border-gray-200 p-4 rounded mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="relative border border-gray-200 p-4 pr-8 rounded mb-4 grid grid-cols-1 md:grid-cols-2 gap-4"
         >
+          <button
+            type="button"
+            onClick={() => removeHolder(i)}
+            className="absolute top-3 right-1 text-red-500 hover:text-red-700 cursor-pointer"
+          >
+            <TrashIcon className="w-5 h-5" />
+          </button>
           <input
             placeholder="Nombres completos"
             value={holder.fullName}

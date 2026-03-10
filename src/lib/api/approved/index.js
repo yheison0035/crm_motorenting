@@ -45,13 +45,16 @@ export async function createApproved(id, dataApproved) {
 // Limpia los campos innecesarios antes de enviar el payload
 function cleanCustomerPayload(customer) {
   const cleanArray = (arr) =>
-    arr?.map(({ id, customerId, createdAt, isNew, ...rest }) => rest) || [];
+    arr?.map(
+      ({ id, customerId, createdAt, updatedAt, isNew, ...rest }) => rest
+    ) || [];
 
   return {
     ...customer,
     holders: cleanArray(customer.holders),
     payments: cleanArray(customer.payments),
     receipts: cleanArray(customer.receipts),
+    tradeIns: cleanArray(customer.tradeIns),
   };
 }
 
@@ -85,4 +88,11 @@ export async function downloadDeliveryOrder(customerId, nameCustomer) {
   a.click();
   a.remove();
   window.URL.revokeObjectURL(url);
+}
+
+export async function createScheduleDelivery(id, dto) {
+  return apiFetch(`/schedule-delivery/${id}`, {
+    method: 'POST',
+    body: JSON.stringify(dto),
+  });
 }

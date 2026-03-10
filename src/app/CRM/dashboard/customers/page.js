@@ -12,6 +12,7 @@ import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import useColumnFilters from '@/components/dashboard/tables/hooks/useColumnFilters';
 import { useDebounce } from '@/components/dashboard/tables/hooks/useDebounce';
 import { useDragScroll } from '@/hooks/useDragScroll';
+import ConfirmChangeWarehouseModal from '@/components/dashboard/modals/confirmChangeWarehouseModal';
 
 export default function Customers() {
   const { usuario } = useAuth();
@@ -27,6 +28,7 @@ export default function Customers() {
 
   const [archivo, setArchivo] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [handleStateChange, setHandleStateChange] = useState(null);
 
   const [alert, setAlert] = useState({
     type: '',
@@ -140,6 +142,7 @@ export default function Customers() {
               handleFilterChange={handleFilterChange}
               setSelected={setSelectedCustomer}
               fetchData={fetchCustomers}
+              setHandleStateChange={setHandleStateChange}
             />
           </div>
         </div>
@@ -159,6 +162,20 @@ export default function Customers() {
           data={selectedCustomer}
           type="customer"
           onClose={() => setSelectedCustomer(null)}
+        />
+      )}
+
+      {handleStateChange && (
+        <ConfirmChangeWarehouseModal
+          data={handleStateChange}
+          onClose={(shouldReload) => {
+            setHandleStateChange(null);
+            if (shouldReload) {
+              fetchCustomers();
+            }
+          }}
+          loading={loading}
+          view="customers"
         />
       )}
 

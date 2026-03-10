@@ -24,6 +24,7 @@ import {
   FunnelIcon,
   CheckCircleIcon,
   Squares2X2Icon,
+  DocumentChartBarIcon,
 } from '@heroicons/react/24/outline';
 
 import useStatistics from '@/lib/api/hooks/useStatistics';
@@ -93,7 +94,7 @@ export default function Stadistics() {
   useEffect(() => {
     getUsers({ all: true }).then((r) => setAdvisors(r.data));
     getStates().then((r) => setStates(r));
-  }, []);
+  }, [getUsers, getStates]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -299,8 +300,15 @@ export default function Stadistics() {
         <div className="flex items-end">
           <button
             onClick={handleGenerateChart}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl shadow-lg transition cursor-pointer"
+            className="w-full md:w-auto inline-flex items-center justify-center gap-2 
+                px-5 py-2.5 text-sm font-semibold rounded-xl
+                bg-orange-500 text-white 
+                hover:bg-orange-600 
+                transition-all duration-200 
+                shadow-md hover:shadow-lg 
+                disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
           >
+            <DocumentChartBarIcon className="w-4 h-4" />
             Generar Reporte
           </button>
         </div>

@@ -10,6 +10,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { Roles } from '@/config/roles';
 import { useAuth } from '@/context/authContext';
 import usePermissions from '@/hooks/usePermissions';
+import { formatEnumText } from '@/lib/api/utils/utils';
 
 export default function AdvisorForm({
   initialData,
@@ -56,8 +57,8 @@ export default function AdvisorForm({
         message: profile
           ? 'Perfil actualizado correctamente.'
           : mode === 'create'
-          ? 'Asesor creado correctamente.'
-          : 'Asesor actualizado correctamente.',
+            ? 'Asesor creado correctamente.'
+            : 'Asesor actualizado correctamente.',
         url: !profile ? '/CRM/dashboard/advisors' : '',
         onClose: () => setAlert({ type: '', message: '', url: '' }),
       });
@@ -83,16 +84,16 @@ export default function AdvisorForm({
         {profile
           ? 'Perfil de Usuario'
           : mode === 'create'
-          ? 'Crear Asesor Nuevo'
-          : 'Editar Asesor'}
+            ? 'Crear Asesor Nuevo'
+            : 'Editar Asesor'}
       </h2>
 
       <p className="text-sm text-gray-500 mb-6">
         {profile
           ? 'Actualice su información personal y de contacto.'
           : mode === 'create'
-          ? 'Ingrese la información personal y de contacto para registrar un nuevo asesor.'
-          : 'Actualice la información personal y de contacto del asesor.'}
+            ? 'Ingrese la información personal y de contacto para registrar un nuevo asesor.'
+            : 'Actualice la información personal y de contacto del asesor.'}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-8">
@@ -143,7 +144,7 @@ export default function AdvisorForm({
                 <option value="">Selecciona un rol</option>
                 {getRoleOptions().map((rol) => (
                   <option key={rol} value={rol}>
-                    {rol}
+                    {formatEnumText(rol, 'uppercase') || rol}
                   </option>
                 ))}
               </select>
@@ -164,8 +165,8 @@ export default function AdvisorForm({
                 required
               >
                 <option value="">Selecciona un estado</option>
-                <option value="ACTIVE">Activo</option>
-                <option value="INACTIVE">Inactivo</option>
+                <option value="ACTIVE">ACTIVO</option>
+                <option value="INACTIVE">INACTIVO</option>
               </select>
             </div>
           )}
