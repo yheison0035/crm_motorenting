@@ -25,7 +25,6 @@ export default function MScheduledImg({ data, onSuccess, onClose }) {
     date: '',
   });
   const [plateInput, setPlateInput] = useState('');
-  const [plateValid, setPlateValid] = useState(false);
 
   const latestSchedule = useMemo(() => {
     if (!data?.deliverySchedules?.length) return null;

@@ -12,12 +12,14 @@ import AlertModal from '../../modals/alertModal';
 import CommentsManager from '../../comments/commentsManager';
 import { addComment } from '@/lib/api/customers';
 import TradeIns from './approve/tradeIns';
+import OtherPurchases from './approve/otherPurchases';
 
 export default function Approve({ data, onClose }) {
   const [holders, setHolders] = useState([]);
   const [payments, setPayments] = useState([]);
   const [receipts, setReceipts] = useState([]);
   const [tradeIns, setTradeIns] = useState([]);
+  const [otherPurchases, setOtherPurchases] = useState([]);
   const [purchase, setPurchase] = useState({
     brand: '',
     reference: '',
@@ -40,6 +42,7 @@ export default function Approve({ data, onClose }) {
     setPayments([...(data.payments ?? [])]);
     setReceipts([...(data.receipts ?? [])]);
     setTradeIns([...(data.tradeIns ?? [])]);
+    setOtherPurchases([...(data.otherPurchases ?? [])]);
     setDistributor(data.distributor ?? '');
 
     if (data.purchase) {
@@ -72,6 +75,7 @@ export default function Approve({ data, onClose }) {
     const paymentsErrors = validatePayments();
     const receiptsErrors = validateReceipts();
     const tradeInsErrors = validateTradeIns();
+    const otherPurchasesErrors = validateOtherPurchases();
 
     const allErrors = {
       ...purchaseErrors,
@@ -79,6 +83,7 @@ export default function Approve({ data, onClose }) {
       ...paymentsErrors,
       ...receiptsErrors,
       ...tradeInsErrors,
+      ...otherPurchasesErrors,
     };
 
     if (Object.keys(allErrors).length > 0) {
@@ -92,6 +97,7 @@ export default function Approve({ data, onClose }) {
       purchase,
       payments,
       tradeIns,
+      otherPurchases,
       receipts,
       distributor,
     };
@@ -180,6 +186,20 @@ export default function Approve({ data, onClose }) {
     setTradeIns((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const addOtherPurchases = () =>
+    setOtherPurchases([
+      ...otherPurchases,
+      {
+        description: '',
+        value: '',
+        isNew: true,
+      },
+    ]);
+
+  const removeOtherPurchases = (index) => {
+    setOtherPurchases((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const validatePurchase = () => {
     const e = {};
     if (!purchase.brand) e.brand = true;
@@ -232,6 +252,16 @@ export default function Approve({ data, onClose }) {
     return e;
   };
 
+  const validateOtherPurchases = () => {
+    const e = {};
+    otherPurchases.forEach((t, i) => {
+      if (!t.isNew) return;
+      if (!t.description) e[`otherPurchases-${i}-description`] = true;
+      if (!t.value) e[`otherPurchases-${i}-value`] = true;
+    });
+    return e;
+  };
+
   const validateReceipts = () => {
     const e = {};
     receipts.forEach((r, i) => {
@@ -274,6 +304,13 @@ export default function Approve({ data, onClose }) {
         tradeIns={tradeIns}
         errors={errors}
         setTradeIns={setTradeIns}
+      />
+      <OtherPurchases
+        addOtherPurchases={addOtherPurchases}
+        removeOtherPurchases={removeOtherPurchases}
+        otherPurchases={otherPurchases}
+        errors={errors}
+        setOtherPurchases={setOtherPurchases}
       />
       <Distributor
         distributor={distributor}

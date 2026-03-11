@@ -73,6 +73,7 @@ export async function updateCustomer(id, dto) {
     archivedAt,
     tradeIns,
     previousStateId,
+    otherPurchases,
     ...cleanDto
   } = dto;
 

@@ -55,6 +55,7 @@ function cleanCustomerPayload(customer) {
     payments: cleanArray(customer.payments),
     receipts: cleanArray(customer.receipts),
     tradeIns: cleanArray(customer.tradeIns),
+    otherPurchases: cleanArray(customer.otherPurchases),
   };
 }
 

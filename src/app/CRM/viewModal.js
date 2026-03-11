@@ -11,6 +11,7 @@ import TradeInVehicle from '@/components/dashboard/viewModal/tradeInVehicle';
 import DeliverySchedules from '@/components/dashboard/viewModal/deliverySchedules';
 import Registrations from '@/components/dashboard/viewModal/Registrations';
 import CommentsHistory from '@/components/dashboard/comments/CommentsHistory';
+import OtherPurchases from '@/components/dashboard/viewModal/otherPurchases';
 
 export default function ViewModal({ data, type, onClose }) {
   if (!data) return null;
@@ -196,6 +197,10 @@ export default function ViewModal({ data, type, onClose }) {
 
           {data?.deliverySchedules && data?.deliverySchedules.length > 0 && (
             <DeliverySchedules deliverySchedules={data?.deliverySchedules} />
+          )}
+
+          {data?.otherPurchases && (
+            <OtherPurchases otherPurchases={data?.otherPurchases} />
           )}
 
           {type !== 'advisor' && (
