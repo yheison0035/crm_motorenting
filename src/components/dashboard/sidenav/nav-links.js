@@ -50,13 +50,26 @@ export default function NavLinks() {
       name: 'Aprobados',
       href: '/CRM/dashboard/approved',
       icon: CheckBadgeIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'AUXILIAR', 'COORDINADOR', 'ASESOR'],
+      roles: [
+        'SUPER_ADMIN',
+        'ADMIN',
+        'AUXILIAR',
+        'COORDINADOR',
+        'ASESOR',
+        'EJECUTIVO_FINANCIERO',
+      ],
     },
     {
       name: 'Entregados',
       href: '/CRM/dashboard/delivered',
       icon: ClipboardDocumentCheckIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'ASESOR'],
+      roles: [
+        'SUPER_ADMIN',
+        'ADMIN',
+        'COORDINADOR',
+        'ASESOR',
+        'EJECUTIVO_FINANCIERO',
+      ],
     },
     {
       name: 'Estadísticas',
