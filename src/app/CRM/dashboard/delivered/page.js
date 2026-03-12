@@ -39,6 +39,7 @@ export default function Delivered() {
     email: '',
     phone: '',
     city: '',
+    terminationStatus: '',
   });
 
   const debouncedFilters = useDebounce(filters, 200);

@@ -144,6 +144,11 @@ export default function InputFilters({
         { label: 'No aplica', value: 'NA' },
       ],
     },
+    {
+      name: 'terminationStatus',
+      title: 'Finalizado',
+      show: view === 'delivered',
+    },
   ];
 
   return (

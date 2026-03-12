@@ -30,6 +30,7 @@ export default function ContentData({
   setShowModalChangeAdvisor,
   handlePrintOrder,
   setHandleStateChange,
+  setSelectedStateTermination,
 }) {
   const { canAssign, canViewAll } = usePermissions();
 
@@ -239,6 +240,10 @@ export default function ContentData({
               </td>
             )}
 
+            {view === 'delivered' && (
+              <td className="px-4 py-3">{info?.terminationStatus || '---'}</td>
+            )}
+
             <td className="px-4 py-3 text-center">
               <Actions
                 isLocked={isLocked}
@@ -260,6 +265,7 @@ export default function ContentData({
                 setShowModalChangeAdvisor={setShowModalChangeAdvisor}
                 handlePrintOrder={handlePrintOrder}
                 setHandleStateChange={setHandleStateChange}
+                setSelectedStateTermination={setSelectedStateTermination}
               />
 
               {showDeleteModal && (

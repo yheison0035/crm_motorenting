@@ -16,12 +16,14 @@ export function normalizeDateForInput(input) {
   if (!input) return '';
 
   try {
-    const dateOnly = input.split('T')[0]; // Ignora hora
-    const [year, month, day] = dateOnly.split('-');
+    const date = new Date(input);
 
-    if (!year || !month || !day) return '';
-
-    return `${day}/${month}/${year}`;
+    return date.toLocaleDateString('es-CO', {
+      timeZone: 'America/Bogota',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   } catch {
     return '';
   }

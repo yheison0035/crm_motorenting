@@ -115,6 +115,12 @@ export default function Thead({ rol, view }) {
 
         {view === 'customers' && <th className="px-4 py-3">Estado Venta</th>}
 
+        {view === 'delivered' && (
+          <>
+            <th className="px-4 py-3">Finalizado</th>
+          </>
+        )}
+
         {canChangeStatusMotorcyclesScheduled ? (
           <th className="px-4 py-3 text-center">Acciones</th>
         ) : (

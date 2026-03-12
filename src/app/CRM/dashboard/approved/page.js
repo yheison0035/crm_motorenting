@@ -13,6 +13,7 @@ import { useDebounce } from '@/components/dashboard/tables/hooks/useDebounce';
 import { useDragScroll } from '@/hooks/useDragScroll';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import ContentViewModal from '@/components/dashboard/preApproved/contentViewModal';
+import ContentViewModalTermination from '@/components/dashboard/modals/contentViewModalTermination';
 
 export default function Approved() {
   const { usuario } = useAuth();
@@ -27,6 +28,8 @@ export default function Approved() {
   const [meta, setMeta] = useState(null);
   const [selectedApproved, setSelectedApproved] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [selectedStateTermination, setSelectedStateTermination] =
+    useState(null);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -89,7 +92,6 @@ export default function Approved() {
           </button>
         )}
       </div>
-
       <div ref={tableRef} className="bg-white rounded-lg shadow relative">
         <LoadingOverlay show={loading} text="Cargando clientes aprobados..." />
 
@@ -113,6 +115,7 @@ export default function Approved() {
               setSelected={setSelectedApproved}
               setSelectedState={setSelectedState}
               fetchData={fetchData}
+              setSelectedStateTermination={setSelectedStateTermination}
             />
           </div>
         </div>
@@ -127,7 +130,6 @@ export default function Approved() {
           />
         )}
       </div>
-
       {selectedApproved && (
         <ViewModal
           data={selectedApproved}
@@ -135,13 +137,24 @@ export default function Approved() {
           onClose={() => setSelectedApproved(null)}
         />
       )}
-
       {selectedState && (
         <ContentViewModal
           data={selectedState}
           view="approved"
           onClose={(shouldReload) => {
             setSelectedState(null);
+            if (shouldReload) {
+              fetchData();
+            }
+          }}
+        />
+      )}
+
+      {selectedStateTermination && (
+        <ContentViewModalTermination
+          data={selectedStateTermination}
+          onClose={(shouldReload) => {
+            setSelectedStateTermination(null);
             if (shouldReload) {
               fetchData();
             }

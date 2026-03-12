@@ -15,6 +15,7 @@ import {
   getArchivedCustomers,
   updateCustomerWarehouseArchive,
   updateCustomerWarehouseRestore,
+  finalizeCustomer,
 } from '../customers/index';
 
 export default function useCustomers() {
@@ -92,6 +93,11 @@ export default function useCustomers() {
     [wrap]
   );
 
+  const finalizeCustomerFn = useCallback(
+    (id, dto) => wrap(finalizeCustomer, id, dto),
+    [wrap]
+  );
+
   return {
     getCustomers: getCustomersFn,
     getDeliveredCustomers: getDeliveredCustomersFn,
@@ -107,6 +113,7 @@ export default function useCustomers() {
     getArchivedCustomers: getArchivedCustomersFn,
     updateCustomerWarehouseArchive: updateCustomerWarehouseArchiveFn,
     updateCustomerWarehouseRestore: updateCustomerWarehouseRestoreFn,
+    finalizeCustomer: finalizeCustomerFn,
     loading,
     error,
   };

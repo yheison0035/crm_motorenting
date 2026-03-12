@@ -74,6 +74,9 @@ export async function updateCustomer(id, dto) {
     tradeIns,
     previousStateId,
     otherPurchases,
+    terminationStatus,
+    terminationValue,
+    terminationDate,
     ...cleanDto
   } = dto;
 
@@ -166,5 +169,12 @@ export async function updateCustomerWarehouseArchive(id) {
 export async function updateCustomerWarehouseRestore(id) {
   return apiFetch(`/customers/${id}/restore`, {
     method: 'POST',
+  });
+}
+
+export async function finalizeCustomer(id, dto) {
+  return apiFetch(`/customers/${id}/termination`, {
+    method: 'POST',
+    body: JSON.stringify(dto),
   });
 }

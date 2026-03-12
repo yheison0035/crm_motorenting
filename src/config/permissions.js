@@ -19,6 +19,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: true,
     canMoveArchivedCustomers: true,
     canChangeStatusMotorcyclesScheduled: true,
+    canChangeCustomerTermination: true,
   },
   ADMIN: {
     canDoEverything: false,
@@ -40,6 +41,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: false,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: false,
+    canChangeCustomerTermination: false,
   },
   COORDINADOR: {
     canDoEverything: false,
@@ -61,6 +63,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: false,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: false,
+    canChangeCustomerTermination: false,
   },
   ASESOR: {
     canDoEverything: false,
@@ -82,6 +85,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: false,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: false,
+    canChangeCustomerTermination: false,
   },
   AUXILIAR: {
     canDoEverything: false,
@@ -103,6 +107,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: true,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: false,
+    canChangeCustomerTermination: false,
   },
   COORDINADOR_DE_ENTREGA: {
     canDoEverything: false,
@@ -124,6 +129,7 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: false,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: true,
+    canChangeCustomerTermination: false,
   },
   EJECUTIVO_FINANCIERO: {
     canDoEverything: false,
@@ -145,5 +151,6 @@ export const ROLE_PERMISSIONS = {
     canScheduleMotoDelivery: false,
     canMoveArchivedCustomers: false,
     canChangeStatusMotorcyclesScheduled: false,
+    canChangeCustomerTermination: false,
   },
 };

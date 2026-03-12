@@ -27,6 +27,7 @@ const Table = ({
   handleFilterChange,
   setHandleStateChange,
   loading,
+  setSelectedStateTermination,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedAdvisor, setSelectedAdvisor] = useState('');
@@ -215,6 +216,7 @@ const Table = ({
             handlePrintOrder={handlePrintOrder}
             loading={loading}
             setHandleStateChange={setHandleStateChange}
+            setSelectedStateTermination={setSelectedStateTermination}
           />
         </tbody>
       </table>

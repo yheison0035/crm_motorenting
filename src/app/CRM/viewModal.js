@@ -1,7 +1,11 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { normalizeDateForInput, formatEnumText } from '@/lib/api/utils/utils';
+import {
+  normalizeDateForInput,
+  formatEnumText,
+  formatPesosRealtime,
+} from '@/lib/api/utils/utils';
 import Holders from '@/components/dashboard/viewModal/holders';
 import Payments from '@/components/dashboard/viewModal/payments';
 import Receipts from '@/components/dashboard/viewModal/receipts';
@@ -161,11 +165,27 @@ export default function ViewModal({ data, type, onClose }) {
                   <>
                     <div>
                       <p className="font-semibold">Fecha de Entrega</p>
-                      <p>{normalizeDateForInput(data.deliveryDate)}</p>
+                      <p>{normalizeDateForInput(data.deliveryDate) || '---'}</p>
                     </div>
                     <div>
                       <p className="font-semibold">Placa</p>
                       <p>{data.registration?.[0]?.plate || '---'}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Finalizado</p>
+                      <p>{data?.terminationStatus || '---'}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Fecha Finalizado</p>
+                      <p>
+                        {normalizeDateForInput(data.terminationDate) || '---'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Valor Clausula</p>
+                      <p>
+                        {formatPesosRealtime(data.terminationValue) || '---'}
+                      </p>
                     </div>
                   </>
                 )}

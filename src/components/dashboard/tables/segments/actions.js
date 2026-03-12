@@ -21,6 +21,7 @@ export default function Actions({
   setShowModalChangeAdvisor,
   handlePrintOrder,
   setHandleStateChange,
+  setSelectedStateTermination,
 }) {
   const {
     canAssign,
@@ -35,6 +36,7 @@ export default function Actions({
     canScheduleMotoDelivery,
     canMoveArchivedCustomers,
     canChangeStatusMotorcyclesScheduled,
+    canChangeCustomerTermination,
   } = usePermissions();
 
   const ActionButton = ({ onClick, disabled, color, icon: Icon, tooltip }) => (
@@ -261,6 +263,16 @@ export default function Actions({
             </button>
           );
         })()}
+
+      {view === 'approved' && canChangeCustomerTermination && (
+        <button
+          onClick={() => setSelectedStateTermination(info)}
+          disabled={isLocked || isLockedSale}
+          className="bg-red-600 text-white text-xs px-3 py-1 rounded hover:bg-red-700 cursor-pointer"
+        >
+          FINALIZAR
+        </button>
+      )}
 
       {canMoveArchivedCustomers && view === 'customers' && (
         <ActionButton
