@@ -86,7 +86,13 @@ export default function NavLinks() {
       name: 'Base General',
       href: '/CRM/dashboard/generalBase',
       icon: BuildingStorefrontIcon,
-      roles: ['SUPER_ADMIN', 'ADMIN', 'COORDINADOR', 'AUXILIAR'],
+      roles: [
+        'SUPER_ADMIN',
+        'ADMIN',
+        'COORDINADOR',
+        'AUXILIAR',
+        'EJECUTIVO_FINANCIERO',
+      ],
     },
     {
       name: 'Gestión de Créditos',
