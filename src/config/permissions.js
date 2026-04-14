@@ -46,7 +46,7 @@ export const ROLE_PERMISSIONS = {
   COORDINADOR: {
     canDoEverything: false,
     canViewAll: true,
-    canCreate: false,
+    canCreate: true,
     canEdit: true,
     canEditPreApproved: false,
     canPreApproved: true,
