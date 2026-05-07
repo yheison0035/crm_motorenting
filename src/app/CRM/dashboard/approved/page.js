@@ -38,10 +38,11 @@ export default function Approved() {
     orderNumber: '',
     advisor: '',
     name: '',
-    document: '',
     email: '',
+    document: '',
     phone: '',
-    city: '',
+    distributor: '',
+    financialEntity: '',
     approvalDate: '',
     creditManagement: '',
   });
